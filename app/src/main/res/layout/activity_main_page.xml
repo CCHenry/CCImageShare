@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".C.main.MainPageActivity">
+
+
+    <com.example.henryzheng.ccimageshare.V.MyViewPage
+    android:id="@+id/mainViewPager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    ></com.example.henryzheng.ccimageshare.V.MyViewPage>
+<fragment
+    android:id="@+id/switch_fg"
+    android:name="com.example.henryzheng.ccimageshare.V.SwitchButtonFragment"
+
+    android:layout_width="35dip"
+    android:layout_height="35dip"
+    android:layout_margin="10dp"
+    />
+</FrameLayout>

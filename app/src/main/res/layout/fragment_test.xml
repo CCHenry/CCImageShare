@@ -1,0 +1,14 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/menu_back_group"
+    tools:context="com.example.henryzheng.ccimageshare.test.TestFragment">
+    <Button
+        android:layout_width="19dip"
+        android:layout_height="19dip"
+        android:background="@drawable/set"
+        android:layout_margin="6dp"
+        android:layout_centerInParent="true"
+        />
+</RelativeLayout>
