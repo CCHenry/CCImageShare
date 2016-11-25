@@ -10,12 +10,12 @@ import android.widget.RelativeLayout;
 
 import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
 import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
+import com.example.henryzheng.ccimageshare.C.ImageSortType.fragment.ImageSortFragment;
+import com.example.henryzheng.ccimageshare.M.common.CCLog;
 import com.example.henryzheng.ccimageshare.R;
 import com.example.henryzheng.ccimageshare.V.MyScroll;
 import com.example.henryzheng.ccimageshare.V.MyViewPage;
 import com.example.henryzheng.ccimageshare.V.SwitchButtonFragment;
-import com.example.henryzheng.ccimageshare.C.ImageSortType.fragment.ImageSortFragment;
-import com.example.henryzheng.ccimageshare.M.common.CCLog;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -26,18 +26,19 @@ import java.util.List;
 
 @ContentView(R.layout.activity_main_page)
 public class MainPageActivity extends BaseActivity {
+    int viewSwitch = -1;
     private List<BaseFragment> _fragments;
     @ViewInject(R.id.mainViewPager)
     private MyViewPage mainViewPager;
     @ViewInject(R.id.rl)
     private RelativeLayout rl;
-    int viewSwitch=-1;
     @ViewInject(R.id.switch_fg)
     private SwitchButtonFragment switchButtonFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         initFragment();
         MainPageAdapt mainPageAdapt=new MainPageAdapt(getSupportFragmentManager(), _fragments);
         mainViewPager.setAdapter(mainPageAdapt);
@@ -70,6 +71,23 @@ public class MainPageActivity extends BaseActivity {
         ft.commit();
     }
 
+    private void setViewPagerScrollSpeed(ViewPager viewPager, int i) {
+        try {
+            Field mScroller = null;
+            mScroller = ViewPager.class.getDeclaredField("mScroller");
+            mScroller.setAccessible(true);
+            MyScroll scroller = new MyScroll(viewPager.getContext());
+            scroller.setmDuration(i);
+            mScroller.set(viewPager, scroller);
+        } catch (NoSuchFieldException e) {
+
+        } catch (IllegalArgumentException e) {
+
+        } catch (IllegalAccessException e) {
+
+        }
+    }
+
     private class MainPageAdapt extends FragmentPagerAdapter {
         private List<BaseFragment> _fragments;
         private boolean isCanScroll = true;
@@ -89,22 +107,6 @@ public class MainPageActivity extends BaseActivity {
         }
         public void setScanScroll(boolean isCanScroll) {
             this.isCanScroll = isCanScroll;
-        }
-    }
-    private void setViewPagerScrollSpeed(ViewPager viewPager, int i){
-        try {
-            Field mScroller = null;
-            mScroller = ViewPager.class.getDeclaredField("mScroller");
-            mScroller.setAccessible(true);
-            MyScroll scroller = new MyScroll( viewPager.getContext( ) );
-            scroller.setmDuration(i);
-            mScroller.set( viewPager, scroller);
-        }catch(NoSuchFieldException e){
-
-        }catch (IllegalArgumentException e){
-
-        }catch (IllegalAccessException e){
-
         }
     }
 }

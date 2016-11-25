@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,16 +16,14 @@ import android.widget.RelativeLayout;
 import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
 import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
 import com.example.henryzheng.ccimageshare.C.ImageList.ImageListFragment;
-import com.example.henryzheng.ccimageshare.M.Contants.MyContonts;
-import com.example.henryzheng.ccimageshare.M.data.ImageModel;
-import com.example.henryzheng.ccimageshare.M.MyHelp.MyHelp;
-import com.example.henryzheng.ccimageshare.M.common.CCPictureUtil;
-import com.example.henryzheng.ccimageshare.R;
-import com.example.henryzheng.ccimageshare.V.NavigationFragment;
 import com.example.henryzheng.ccimageshare.C.ImageShowRecycle.RecyclerImageFrament;
 import com.example.henryzheng.ccimageshare.C.ImageSortType.fragment.ImageSortFragment;
+import com.example.henryzheng.ccimageshare.M.Contants.MyContonts;
+import com.example.henryzheng.ccimageshare.M.common.CCFileUtil;
 import com.example.henryzheng.ccimageshare.M.common.CCLog;
-import com.example.henryzheng.ccimageshare.M.data.JumpContans;
+import com.example.henryzheng.ccimageshare.M.data.ImageModel;
+import com.example.henryzheng.ccimageshare.R;
+import com.example.henryzheng.ccimageshare.V.NavigationFragment;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -41,12 +40,12 @@ import cn.bmob.v3.listener.UploadFileListener;
 
 @ContentView(R.layout.fragment_main)
 public class MainFragment extends BaseFragment {
+    private static final int TO_CROP = 0x01;
+    BaseActivity context;
     @ViewInject(R.id.mainPage)
     private ViewPager mainPager;
-
     @ViewInject(R.id.rl0)
     private RelativeLayout rl0;
-
     private List<BaseFragment> _fragments;
 
     @Override
@@ -54,8 +53,10 @@ public class MainFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         initFragment();
         mainPager.setAdapter(new MainPageAdapt(getActivity().getSupportFragmentManager(), _fragments));
+        context = (BaseActivity) getActivity();
 
     }
+
 
     @Override
     public void onResume() {
@@ -63,7 +64,6 @@ public class MainFragment extends BaseFragment {
         MainFragment mainFragment = (MainFragment) getActivity().getSupportFragmentManager().findFragmentByTag("mainFragment");
         NavigationFragment navigationFragment = (NavigationFragment) mainFragment.getChildFragmentManager().findFragmentById(R.id.fm);
         navigationFragment.setMainPage(mainPager);
-
     }
 
     private void initFragment() {
@@ -74,49 +74,34 @@ public class MainFragment extends BaseFragment {
         _fragments.add(new ImageSortFragment());
     }
 
-    private class MainPageAdapt extends FragmentPagerAdapter {
-        private List<BaseFragment> _fragments;
-
-        public MainPageAdapt(FragmentManager fm, List<BaseFragment> fragment) {
-            super(fm);
-            _fragments = fragment;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return _fragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return _fragments.size();
-        }
-    }
-
     @Event(value = R.id.rl0, type = View.OnClickListener.class)
     private void OnClick(View view) {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_GALLERY
-        startActivityForResult(intent, JumpContans.tag);
+//        Intent intent = new Intent(Intent.ACTION_PICK);
+//        intent.setType("image/*");
+//        // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_GALLERY
+//        startActivityForResult(intent, JumpContans.tag);
+        startPhotoCrop(CCFileUtil.getHandleFilePath(MyContonts.tempSubmitFile), TO_CROP);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == JumpContans.tag) {
             // 从相册返回的数据
+        if (requestCode == TO_CROP) {
+
             if (data != null) {
                 // 得到图片的全路径
                 Uri uri = data.getData();
-                Bitmap smallBitmap = CCPictureUtil.getSmallBitmap((BaseActivity) getActivity(), uri);
-                CCPictureUtil.saveBitmap(smallBitmap, MyContonts.smallImageCacheDir, MyContonts.smallImageName);
-                final BmobFile bigImageFile = new BmobFile(new File(MyHelp.getRealFilePath(getActivity(), uri)));
-                final BmobFile smallImageFile = new BmobFile(new File(MyContonts.smallImageCacheDir + "/" + MyContonts.smallImageName));
-                uploadPicture(bigImageFile, smallImageFile);
+                CCLog.print("onActivityResult:" + uri.getPath());
+//                    Bitmap smallBitmap = CCPictureUtil.getSmallBitmap((BaseActivity) getActivity(), uri);
+//                    CCPictureUtil.saveBitmap(smallBitmap, MyContonts.smallImageCacheDir, MyContonts.smallImageName);
+//                    final BmobFile bigImageFile = new BmobFile(new File(MyHelp.getRealFilePath(getActivity(), uri)));
+//                    final BmobFile smallImageFile = new BmobFile(new File(MyContonts.smallImageCacheDir + "/" + MyContonts.smallImageName));
+//                    uploadPicture(bigImageFile, smallImageFile);
             }
-
         }
+
+
     }
 
     /**
@@ -145,10 +130,10 @@ public class MainFragment extends BaseFragment {
 
     }
 
-
     /**
      * /保存图片到服务端的表
-     *@param bigImageFile
+     *
+     * @param bigImageFile
      * @param smallImageFile
      */
     private void savePictureToServer(BmobFile bigImageFile, BmobFile smallImageFile) {
@@ -166,5 +151,48 @@ public class MainFragment extends BaseFragment {
             }
         });
     }
+
+    /**
+     * 裁剪图片
+     *
+     * @param filePath 保存的文件路径
+     */
+    public void startPhotoCrop(String filePath, int tag) {
+        Uri uri = Uri.fromFile(new File(filePath));
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
+        intent.setType("image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 2);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 600);
+        intent.putExtra("outputY", 300);
+        intent.putExtra("scale", true);
+        intent.putExtra("return-data", false);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true); // no face detection
+        startActivityForResult(intent, tag);
+
+    }
+
+    private class MainPageAdapt extends FragmentPagerAdapter {
+        private List<BaseFragment> _fragments;
+
+        public MainPageAdapt(FragmentManager fm, List<BaseFragment> fragment) {
+            super(fm);
+            _fragments = fragment;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return _fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return _fragments.size();
+        }
+    }
+
 
 }

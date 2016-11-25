@@ -3,7 +3,6 @@ package com.example.henryzheng.ccimageshare.C.Base;
 import android.app.Application;
 import android.content.Context;
 
-
 import com.tencent.tauth.Tencent;
 
 import org.xutils.x;
@@ -24,6 +23,7 @@ public class MyApplication extends Application {
         super.onCreate();
         x.Ext.init(this);
         Bmob.initialize(this, "e17abe6223cb8a16d02b559e972724f4");
+        _context = getApplicationContext();
 //        x.Ext.setDebug(BuildConfig.DEBUG); // 开启debug会影响性能
         mTencent = Tencent.createInstance("1105732414", this.getApplicationContext());
         if (BmobUser.getCurrentUser() == null)
