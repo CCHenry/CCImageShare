@@ -44,9 +44,12 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
         recycleAdapter.setOnItemClickListener(this);
 //        recyclerView.addItemDecoration(new RecycleItemDecoration(15));
         recyclerView.setAdapter(recycleAdapter); // 设置Adapter
+        
 //        loadData();
 //        loadRecentBmobData();
         loadListData();
+        CCLog.print("onViewCreated");
+
     }
 
     public void loadRecentBmobData() {
@@ -100,8 +103,9 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
     @Override
     public void onResume() {
         super.onResume();
-        loadRecentBmobData();
-        recycleAdapter.clear();
+//        loadRecentBmobData();
+//        recycleAdapter.clear();
+        CCLog.print("onResume");
 
     }
 
@@ -111,8 +115,8 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
                     public void onSuccess(ZuiMeiTotayListResponse result) {
                         super.onSuccess(result);
                         CCLog.print(result.toString());
-                        loadData(result.getData().getImages(), new LinearLayoutManager(getActivity()));
                         transImageUrl(result);
+                        loadData(result.getData().getImages(), new LinearLayoutManager(getActivity()));
                     }
 
 
@@ -127,6 +131,12 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
 
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        CCLog.print("onDestroyView");
+    }
+
     private void transImageUrl(ZuiMeiTotayListResponse response) {
         String baseurl = "http://wpstatic.zuimeia.com/";
         Iterator<Image> iterator = response.getData().getImages().iterator();
@@ -136,5 +146,6 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
             image.setOriginImageUrl(baseurl + image.getOriginImageUrl());
             this.images = response.getData().getImages();
         }
+
     }
 }

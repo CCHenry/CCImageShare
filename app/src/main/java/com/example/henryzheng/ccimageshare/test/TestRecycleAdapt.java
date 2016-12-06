@@ -1,4 +1,4 @@
-package com.example.henryzheng.ccimageshare.C.ImageList;
+package com.example.henryzheng.ccimageshare.test;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -27,14 +27,14 @@ import java.util.List;
 /**
  * Created by henryzheng on 2016/9/27.
  */
-public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHolder> {
+public class TestRecycleAdapt extends RecyclerView.Adapter<TestRecycleAdapt.MyViewHolder> {
     private final ImageOptions _imageOptions;
     Context _context;
     List<Image> urls;
     LayoutInflater _mLayoutInflater;
     MyItemClickListener myItemClickListener;
 
-    public MyRecycleAdapt(Context context) {
+    public TestRecycleAdapt(Context context) {
         _context = context;
         _mLayoutInflater = LayoutInflater.from(context);
         urls = new ArrayList<>();
@@ -55,6 +55,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
                 .setFadeIn(true)
 
                 .build();
+
     }
 
     /**
@@ -192,10 +193,9 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
         }
     }
 
-    @Override
-    public long getItemId(int position) {
-        CCLog.print("getItemId:"+position);
-        return super.getItemId(position);
-    }
-
+//    @Override
+//    public long getItemId(int position) {
+//        CCLog
+//        return super.getItemId(position);
+//    }
 }

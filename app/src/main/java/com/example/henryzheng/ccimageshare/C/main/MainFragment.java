@@ -9,8 +9,10 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
@@ -56,6 +58,7 @@ public class MainFragment extends BaseFragment {
         context = (BaseActivity) getActivity();
 
     }
+
 
 
     @Override
@@ -192,7 +195,17 @@ public class MainFragment extends BaseFragment {
         public int getCount() {
             return _fragments.size();
         }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+//            super.destroyItem(container, position, object);
+            CCLog.print("perform to delete fragment"+position);
+        }
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mainPager.removeAllViews();
+    }
 }

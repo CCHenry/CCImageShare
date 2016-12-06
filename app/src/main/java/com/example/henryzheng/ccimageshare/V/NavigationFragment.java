@@ -52,7 +52,7 @@ public class NavigationFragment extends BaseFragment {
         final int[] location = new int[2];
         lin0.getLocationOnScreen(location);
         instanceX = location[0];
-        CCLog.print("titleWidth:" + titleWidth + " instanceX:" + instanceX);
+//        CCLog.print("titleWidth:" + titleWidth + " instanceX:" + instanceX);
 
     }
 
@@ -109,7 +109,7 @@ public class NavigationFragment extends BaseFragment {
 //                Message message=new Message();
 //                message.what=layoutParams.leftMargin;
 //                getHandler().sendMessage(message);
-                CCLog.print("layoutParams.leftMargin:" + testLayoutParams.leftMargin);
+//                CCLog.print("layoutParams.leftMargin:" + testLayoutParams.leftMargin);
 
 //                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) lin.getLayoutParams();
 //                layoutParams.leftMargin = 30 + layoutParams.leftMargin;
