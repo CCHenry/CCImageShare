@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
 import com.example.henryzheng.ccimageshare.M.Interface.MyItemClickListener;
-import com.example.henryzheng.ccimageshare.M.data.ImageModel;
+import com.example.henryzheng.ccimageshare.M.ZuiMeiModel.Image;
 import com.example.henryzheng.ccimageshare.R;
 
 import org.xutils.common.Callback;
@@ -29,7 +29,7 @@ import java.util.List;
 public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHolder> {
     private final ImageOptions _imageOptions;
     Context _context;
-    List<ImageModel> urls;
+    List<Image> urls;
     LayoutInflater _mLayoutInflater;
     MyItemClickListener myItemClickListener;
 
@@ -39,7 +39,8 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
         urls = new ArrayList<>();
         //设置imageload的加载属性
         _imageOptions = new ImageOptions.Builder()
-                .setSize(DensityUtil.dip2px(DensityUtil.getScreenWidth()/2), DensityUtil.dip2px(DensityUtil.getScreenHeight()/2))
+//                .setSize(0,0)
+//                .setSize(DensityUtil.dip2px(DensityUtil.getScreenWidth()), DensityUtil.dip2px(DensityUtil.getScreenWidth()*2/3))
                 .setRadius(DensityUtil.dip2px(5))
                 // 如果ImageView的大小不是定义为wrap_content, 不要crop.
                 .setCrop(true) // 很多时候设置了合适的scaleType也不需要它.
@@ -47,8 +48,9 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
 //                .setPlaceholderScaleType(ImageView.ScaleType.MATRIX)
 //                .setCircular(true)
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-                .setLoadingDrawableId(R.mipmap.ic_launcher)
+                .setLoadingDrawableId(R.drawable.list_bg2)
                 .setFailureDrawableId(R.mipmap.ic_launcher)
+
                 .setFadeIn(true)
 
                 .build();
@@ -56,10 +58,10 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
 
     /**
      * 增加url的列表
-     * @param imageInfos
+     * @param images
      */
-    public void addSrc(List<ImageModel> imageInfos) {
-        this.urls.addAll(imageInfos);
+    public void addSrc(List<Image> images) {
+        this.urls.addAll(images);
     }
 
     /**
@@ -83,11 +85,11 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         //下载图片和展示
-        x.image().bind(holder.iv, urls.get(position).getSmallPicUrl(), _imageOptions, new CustomBitmapLoadCallBack(holder));
+        x.image().bind(holder.iv, urls.get(position).getImageUrl(), _imageOptions, new CustomBitmapLoadCallBack(holder));
 //        if (holder.iv.getWidth() > holder.iv.getHeight())
         int width = ((BaseActivity) _context).getWidth() ;
 //        int height=(int)(width*3/4+Math.random()*(width*7/4-width*3/4+1));
-        holder.iv.setLayoutParams(new RelativeLayout.LayoutParams(width, width));
+        holder.iv.setLayoutParams(new RelativeLayout.LayoutParams(width, width*3/4));
     }
 
     @Override
@@ -120,10 +122,10 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
 
     /**
      * 加载图片
-     * @param imageModels 图片url的集合
+     * @param images 图片url的集合
      */
-    public void loadImageList(List<ImageModel> imageModels) {
-        addSrc(imageModels);
+    public void loadImageList(List<Image> images) {
+        addSrc(images);
         notifyDataSetChanged();//通知listview更新数据
     }
 
@@ -143,7 +145,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
      * 返回url的缓存列表
      * @return
      */
-    public List<ImageModel> getUrls() {
+    public List<Image> getUrls() {
         return urls;
     }
 
