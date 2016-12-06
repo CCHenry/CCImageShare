@@ -1,5 +1,6 @@
 package com.example.henryzheng.ccimageshare.C.ImageList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -8,13 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
+import com.example.henryzheng.ccimageshare.C.BigImageShow.BigImageShowActivity;
 import com.example.henryzheng.ccimageshare.M.CallBack.MyCallBack;
 import com.example.henryzheng.ccimageshare.M.Interface.MyItemClickListener;
 import com.example.henryzheng.ccimageshare.M.NetWork.NetWorkUtil;
 import com.example.henryzheng.ccimageshare.M.ZuiMeiModel.Image;
 import com.example.henryzheng.ccimageshare.M.ZuiMeiModel.ZuiMeiTotayListResponse;
 import com.example.henryzheng.ccimageshare.M.common.CCLog;
-import com.example.henryzheng.ccimageshare.M.data.ImageInfo;
 import com.example.henryzheng.ccimageshare.R;
 
 import org.xutils.view.annotation.ContentView;
@@ -25,11 +26,11 @@ import java.util.List;
 
 
 @ContentView(R.layout.fragment_image_list)
-public class ImageListFragment extends BaseFragment implements MyItemClickListener  {
-    String url="http://lab.zuimeia.com/photo/userpicture/list/?appVersion=2.6.3&channel=wallpaper&imsi=460012202301362&systemVersion=23&resolution=1080x1920&platform=android&package_name=com.brixd.wallpager&page=1&tag=0&lang=zh-cn&openUDID=862258036210848&page_size=30&timestamp=1480672294308";
+public class ImageListFragment extends BaseFragment implements MyItemClickListener {
+    String url = "http://lab.zuimeia.com/photo/userpicture/list/?appVersion=2.6.3&channel=wallpaper&imsi=460012202301362&systemVersion=23&resolution=1080x1920&platform=android&package_name=com.brixd.wallpager&page=1&tag=0&lang=zh-cn&openUDID=862258036210848&page_size=30&timestamp=1480672294308";
     @ViewInject(R.id.recycleView)
     private RecyclerView recyclerView;// recycle组件
-    private List<ImageInfo> _imageInfos;// 图片集合
+    private List<Image> images;// 图片集合
     private MyRecycleAdapt recycleAdapter;// recycle组件的适配器
     RecyclerView.LayoutManager _layoutManager;// recycleView的展示状态
 
@@ -86,7 +87,9 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
 
     @Override
     public void onItemClick(View view, int postion) {
-
+        Intent intent = new Intent(getActivity(), BigImageShowActivity.class);
+        intent.putExtra("url", images.get(postion).getImageUrl());
+        startActivity(intent);
     }
 
     @Override
@@ -102,36 +105,36 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
 
     }
 
-    public void loadListData(){
-        NetWorkUtil.Get(url,null,new MyCallBack<ZuiMeiTotayListResponse>()
-        {
-            @Override
-            public void onSuccess(ZuiMeiTotayListResponse result) {
-                super.onSuccess(result);
-                CCLog.print(result.toString());
-                loadData(result.getData().getImages(), new LinearLayoutManager(getActivity()));
-                transImageUrl(result);
-            }
+    public void loadListData() {
+        NetWorkUtil.Get(url, null, new MyCallBack<ZuiMeiTotayListResponse>() {
+                    @Override
+                    public void onSuccess(ZuiMeiTotayListResponse result) {
+                        super.onSuccess(result);
+                        CCLog.print(result.toString());
+                        loadData(result.getData().getImages(), new LinearLayoutManager(getActivity()));
+                        transImageUrl(result);
+                    }
 
 
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        super.onError(ex, isOnCallback);
+                        CCLog.print("ex:" + ex.getMessage() + ",isOnCallback:" + isOnCallback);
 
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                super.onError(ex, isOnCallback);
-                CCLog.print("ex:"+ex.getMessage()+",isOnCallback:"+isOnCallback);
-
-            }
-        }
+                    }
+                }
         );
 
     }
+
     private void transImageUrl(ZuiMeiTotayListResponse response) {
-        String baseurl="http://wpstatic.zuimeia.com/";
-        Iterator<Image> iterator=response.getData().getImages().iterator();
-        while(iterator.hasNext()){
-            Image image=iterator.next();
-            image.setImageUrl(baseurl+image.getImageUrl()+"?imageMogr/v2/auto-orient/thumbnail/800x600/quality/80");
-            image.setOriginImageUrl(baseurl+image.getOriginImageUrl());
+        String baseurl = "http://wpstatic.zuimeia.com/";
+        Iterator<Image> iterator = response.getData().getImages().iterator();
+        while (iterator.hasNext()) {
+            Image image = iterator.next();
+            image.setImageUrl(baseurl + image.getImageUrl() + "?imageMogr/v2/auto-orient/thumbnail/800x600/quality/80");
+            image.setOriginImageUrl(baseurl + image.getOriginImageUrl());
+            this.images = response.getData().getImages();
         }
     }
 }
