@@ -28,6 +28,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dip"
                     android:layout_marginRight="5dip"
+                    android:textSize="14sp"
                     android:text="今日最美" />
 
             </RelativeLayout>
@@ -42,6 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dip"
                     android:layout_marginRight="5dip"
+                    android:textSize="14sp"
                     android:text="热门投稿" />
             </RelativeLayout>
 
@@ -55,6 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dip"
                     android:layout_marginRight="5dip"
+                    android:textSize="14sp"
                     android:text="最美精品" />
             </RelativeLayout>
 
