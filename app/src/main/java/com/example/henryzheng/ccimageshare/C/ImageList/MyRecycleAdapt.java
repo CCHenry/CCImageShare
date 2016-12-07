@@ -62,7 +62,11 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
      * @param images
      */
     public void addSrc(List<Image> images) {
-        this.urls.addAll(images);
+//        this.urls.addAll(images);
+        for(int i= 0; i < images.size(); i++){
+        urls.add(images.get(i));
+        }
+
     }
 
     /**
@@ -127,7 +131,11 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
      */
     public void loadImageList(List<Image> images) {
         addSrc(images);
-        notifyDataSetChanged();//通知listview更新数据
+//        notifyItemInserted(urls.size());//通知listview更新数据
+//        notifyItemRangeInserted(urls.size()-30, urls.size());
+
+        notifyDataSetChanged();
+        CCLog.print("loadImageList:"+urls.size());
     }
 
 
@@ -197,5 +205,6 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
         CCLog.print("getItemId:"+position);
         return super.getItemId(position);
     }
+
 
 }

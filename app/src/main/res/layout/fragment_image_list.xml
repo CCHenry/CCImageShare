@@ -4,10 +4,12 @@
     android:layout_height="match_parent"
     tools:context="com.example.henryzheng.ccimageshare.C.ImageList.ImageListFragment">
 
-    <android.support.v7.widget.RecyclerView
+    <com.example.henryzheng.ccimageshare.V.MyRecycleView
         android:id="@id/recycleView"
         android:dividerHeight="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        ></android.support.v7.widget.RecyclerView>
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        ></com.example.henryzheng.ccimageshare.V.MyRecycleView>
 </FrameLayout>

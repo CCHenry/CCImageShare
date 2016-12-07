@@ -2,6 +2,7 @@ package com.example.henryzheng.ccimageshare.C.ImageList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import com.example.henryzheng.ccimageshare.M.ZuiMeiModel.Image;
 import com.example.henryzheng.ccimageshare.M.ZuiMeiModel.ZuiMeiTotayListResponse;
 import com.example.henryzheng.ccimageshare.M.common.CCLog;
 import com.example.henryzheng.ccimageshare.R;
+import com.example.henryzheng.ccimageshare.V.MyRecycleView;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -27,24 +29,38 @@ import java.util.List;
 
 @ContentView(R.layout.fragment_image_list)
 public class ImageListFragment extends BaseFragment implements MyItemClickListener {
-    String url = "http://lab.zuimeia.com/photo/userpicture/list/?appVersion=2.6.3&channel=wallpaper&imsi=460012202301362&systemVersion=23&resolution=1080x1920&platform=android&package_name=com.brixd.wallpager&page=1&tag=0&lang=zh-cn&openUDID=862258036210848&page_size=30&timestamp=1480672294308";
+    String url = "http://lab.zuimeia.com/photo/userpicture/list/?appVersion=2.6.3&channel=wallpaper&imsi=460012202301362&systemVersion=23&resolution=1080x1920&platform=android&package_name=com.brixd.wallpager&page=%d&tag=0&lang=zh-cn&openUDID=862258036210848&page_size=30&timestamp=1480672294308";
     @ViewInject(R.id.recycleView)
-    private RecyclerView recyclerView;// recycle组件
+    private MyRecycleView recyclerView;// recycle组件
     private List<Image> images;// 图片集合
     private MyRecycleAdapt recycleAdapter;// recycle组件的适配器
     RecyclerView.LayoutManager _layoutManager;// recycleView的展示状态
-
+    LinearLayoutManager lin;
+    int page = 1;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            recyclerView.notifyMoreFinish(true);
+        }
+    };
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recycleAdapter = new MyRecycleAdapt(getActivity());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        lin = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(lin);
         recyclerView.setItemAnimator(new DefaultItemAnimator());// 设置增加或删除条目的动画
         recycleAdapter.setOnItemClickListener(this);
 //        recyclerView.addItemDecoration(new RecycleItemDecoration(15));
         recyclerView.setAdapter(recycleAdapter); // 设置Adapter
-        
+        recyclerView.setIsFooterEnable(true);
+        recyclerView.setLoadMoreListener(new MyRecycleView.LoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                loadListData();
+            }
+        });
 //        loadData();
 //        loadRecentBmobData();
         loadListData();
@@ -52,41 +68,6 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
 
     }
 
-    public void loadRecentBmobData() {
-//        BmobQuery<ImageModel> query = new BmobQuery<ImageModel>();
-//        //查询playerName叫“比目”的数据
-////        query.add("playerName", "比目");
-//        //返回50条数据，如果不加上这条语句，默认返回10条数据
-//        query.setLimit(50);
-//        //执行查询方法
-//        query.findObjects(new FindListener<ImageModel>() {
-//            @Override
-//            public void done(List<ImageModel> object, BmobException e) {
-//                if (e == null) {
-//                    CCLog.print("查询成功：共" + object.size() + "条数据。");
-//                    for (ImageModel gameScore : object) {
-//                        CCLog.print(gameScore.getBigPicUrl());
-//                        //获得playerName的信息
-//                        gameScore.getUsername();
-//                        //获得数据的objectId信息
-//                        gameScore.getObjectId();
-//                        //获得createdAt数据创建时间（注意是：createdAt，不是createAt）
-//                        gameScore.getCreatedAt();
-//
-//                    }
-//                    loadData(object, new LinearLayoutManager(getActivity()));
-//                } else {
-//                    CCLog.print("失败：" + e.getMessage() + "," + e.getErrorCode());
-//                }
-//            }
-//        });
-    }
-
-    public void loadData(List<Image> images, RecyclerView.LayoutManager layoutManager) {
-        _layoutManager = layoutManager;
-        recyclerView.setLayoutManager(_layoutManager);
-        recycleAdapter.loadImageList(images);
-    }
 
     @Override
     public void onItemClick(View view, int postion) {
@@ -109,16 +90,22 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
 
     }
 
+    /**
+     * 网络请求数据
+     */
     public void loadListData() {
-        NetWorkUtil.Get(url, null, new MyCallBack<ZuiMeiTotayListResponse>() {
+        String realRequestUrl = String.format(url, page);
+        NetWorkUtil.Get(realRequestUrl, null, new MyCallBack<ZuiMeiTotayListResponse>() {
                     @Override
                     public void onSuccess(ZuiMeiTotayListResponse result) {
                         super.onSuccess(result);
-                        CCLog.print(result.toString());
-                        transImageUrl(result);
-                        loadData(result.getData().getImages(), new LinearLayoutManager(getActivity()));
-                    }
+//                        CCLog.print(result.toString());
+                        if (result.getData().getImages().size() == 30) {
+                            transImageUrl(result);
+                            loadData(result.getData().getImages());
+                        }
 
+                    }
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
@@ -128,6 +115,18 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
                     }
                 }
         );
+
+    }
+    /**
+     * 加载数据
+     */
+    public void loadData(List<Image> images) {
+
+//        recyclerView.setLayoutManager(lin);
+        recycleAdapter.loadImageList(images);
+        recyclerView.setLoadingMore(false);
+
+        page++;
 
     }
 

@@ -5,8 +5,6 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import com.example.henryzheng.ccimageshare.M.common.CCLog;
-
 /**
  * Created by henryzheng on 2016/10/9.
  */
@@ -38,7 +36,6 @@ public class MyViewPage extends ViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent arg0) {
-        CCLog.print("父viewpage：enter onTouchEvent");
         if (noScroll)
             return false;
         else

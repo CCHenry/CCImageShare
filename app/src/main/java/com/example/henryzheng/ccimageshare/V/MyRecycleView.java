@@ -13,6 +13,7 @@ import com.example.henryzheng.ccimageshare.C.ImageList.MyRecycleAdapt;
  * Created by zzf on 16/12/7.
  */
 public class MyRecycleView extends RecyclerView {
+
     /**
      * item 类型
      */
@@ -31,7 +32,7 @@ public class MyRecycleView extends RecyclerView {
     /**
      * 标记是否正在加载更多，防止再次调用加载更多接口
      */
-    private boolean mIsLoadingMore;
+    private boolean mIsLoadingMore=false;
     /**
      * 标记加载更多的position
      */
@@ -75,7 +76,8 @@ public class MyRecycleView extends RecyclerView {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
+
+                 super.onScrolled(recyclerView, dx, dy);
                 if (null != mListener && mIsFooterEnable && !mIsLoadingMore && dy > 0) {
                     int lastVisiblePosition = getLastVisiblePosition();
                     if (lastVisiblePosition + 1 == adapt.getItemCount()) {
@@ -156,5 +158,15 @@ public class MyRecycleView extends RecyclerView {
     public void setAdapter(Adapter adapter) {
         super.setAdapter(adapter);
         this.adapt = (MyRecycleAdapt) adapter;
+    }
+
+    public void setIsFooterEnable(boolean mIsFooterEnable) {
+        this.mIsFooterEnable = mIsFooterEnable;
+    }
+    public void notifyMoreFinish(boolean hasMore) {
+//        setAutoLoadMoreEnable(hasMore);
+
+        getAdapter().notifyItemRemoved(mLoadMorePosition);
+        mIsLoadingMore = false;
     }
 }
