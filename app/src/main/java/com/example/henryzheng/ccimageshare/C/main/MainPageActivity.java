@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ContentView(R.layout.activity_main_page)
-public class MainPageActivity extends BaseActivity {
+public class MainPageActivity extends BaseActivity{
     int viewSwitch = -1;
     private List<BaseFragment> _fragments;
     @ViewInject(R.id.mainViewPager)
@@ -40,19 +40,20 @@ public class MainPageActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         initFragment();
-        MainPageAdapt mainPageAdapt=new MainPageAdapt(getSupportFragmentManager(), _fragments);
+        MainPageAdapt mainPageAdapt = new MainPageAdapt(getSupportFragmentManager(), _fragments);
         mainViewPager.setAdapter(mainPageAdapt);
         mainViewPager.setCurrentItem(0);
         SwitchButtonFragment.setOnSwitchClickListener(new SwitchButtonFragment.OnSwitchClickListner() {
-            int change=-1;
+            int change = -1;
+
             @Override
             public void onClick() {
-                change=-change;
-                if (change==-1)
+                change = -change;
+                if (change == -1)
                     mainViewPager.setCurrentItem(0);
                 else
                     mainViewPager.setCurrentItem(1);
-                CCLog.print("change"+change);
+                CCLog.print("change" + change);
             }
         });
     }
@@ -63,11 +64,14 @@ public class MainPageActivity extends BaseActivity {
     private void initFragment() {
         _fragments = new ArrayList<>();
         _fragments.add(new ImageSortFragment());
-        _fragments.add(new MainFragment());
-        BaseFragment fragment0=new ImageSortFragment();
-        BaseFragment fragment1=new MainFragment();
+        MainFragment m=new MainFragment();
+        _fragments.add(m);
+
+
+        BaseFragment fragment0 = new ImageSortFragment();
+        BaseFragment fragment1 = new MainFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(fragment1,"mainFragment");
+        ft.add(fragment1, "mainFragment");
         ft.commit();
     }
 
@@ -88,9 +92,27 @@ public class MainPageActivity extends BaseActivity {
         }
     }
 
+//    @Override
+//    public boolean onTouch(View v, MotionEvent event) {
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_MOVE:
+//                mainViewPager.requestDisallowInterceptTouchEvent(true);
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                break;
+//            case MotionEvent.ACTION_CANCEL:
+//                mainViewPager.requestDisallowInterceptTouchEvent(false);
+//                break;
+//            default:
+//                break;
+//        }
+//        return super.onTouchEvent(event);
+//    }
+
     private class MainPageAdapt extends FragmentPagerAdapter {
         private List<BaseFragment> _fragments;
         private boolean isCanScroll = true;
+
         public MainPageAdapt(FragmentManager fm, List<BaseFragment> fragment) {
             super(fm);
             _fragments = fragment;
@@ -105,6 +127,7 @@ public class MainPageActivity extends BaseActivity {
         public int getCount() {
             return _fragments.size();
         }
+
         public void setScanScroll(boolean isCanScroll) {
             this.isCanScroll = isCanScroll;
         }

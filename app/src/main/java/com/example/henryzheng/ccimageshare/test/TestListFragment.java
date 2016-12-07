@@ -1,9 +1,8 @@
 package com.example.henryzheng.ccimageshare.test;
 
-import android.support.v4.app.Fragment;
+import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
 
 
-
-public class TestListFragment extends Fragment {
+public class TestListFragment extends BaseFragment {
 
 }

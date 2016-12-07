@@ -9,8 +9,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -26,6 +24,7 @@ import com.example.henryzheng.ccimageshare.M.common.CCLog;
 import com.example.henryzheng.ccimageshare.M.data.ImageModel;
 import com.example.henryzheng.ccimageshare.R;
 import com.example.henryzheng.ccimageshare.V.NavigationFragment;
+import com.example.henryzheng.ccimageshare.test.MyViewPage2;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -45,15 +44,16 @@ public class MainFragment extends BaseFragment {
     private static final int TO_CROP = 0x01;
     BaseActivity context;
     @ViewInject(R.id.mainPage)
-    private ViewPager mainPager;
+    private MyViewPage2 mainPager;
     @ViewInject(R.id.rl0)
     private RelativeLayout rl0;
     private List<BaseFragment> _fragments;
-
+    int currentIndex=0;//当前的fragment Index
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initFragment();
+
         mainPager.setAdapter(new MainPageAdapt(getActivity().getSupportFragmentManager(), _fragments));
         context = (BaseActivity) getActivity();
 
@@ -201,6 +201,7 @@ public class MainFragment extends BaseFragment {
 //            super.destroyItem(container, position, object);
             CCLog.print("perform to delete fragment"+position);
         }
+
     }
 
     @Override
@@ -208,4 +209,8 @@ public class MainFragment extends BaseFragment {
         super.onDestroy();
         mainPager.removeAllViews();
     }
+
+//    public int getCurrentItem() {
+//        return mainPager.getCurrentItem();
+//    }
 }

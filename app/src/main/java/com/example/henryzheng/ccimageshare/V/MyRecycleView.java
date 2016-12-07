@@ -1,14 +1,13 @@
 package com.example.henryzheng.ccimageshare.V;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
-import android.view.View;
+
+import com.example.henryzheng.ccimageshare.C.ImageList.MyRecycleAdapt;
 
 /**
  * Created by zzf on 16/12/7.
@@ -28,7 +27,7 @@ public class MyRecycleView extends RecyclerView {
     /**
      * 自定义实现了头部和底部加载更多的adapter
      */
-    private AutoLoadAdapter mAutoLoadAdapter;
+    private MyRecycleAdapt adapt;
     /**
      * 标记是否正在加载更多，防止再次调用加载更多接口
      */
@@ -42,17 +41,17 @@ public class MyRecycleView extends RecyclerView {
      */
     private LoadMoreListener mListener;
 
-    public LoadMoreRecyclerView(Context context) {
+    public MyRecycleView(Context context) {
         super(context);
         init();
     }
 
-    public LoadMoreRecyclerView(Context context, AttributeSet attrs) {
+    public MyRecycleView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public LoadMoreRecyclerView(Context context, AttributeSet attrs, int defStyle) {
+    public MyRecycleView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
@@ -79,7 +78,7 @@ public class MyRecycleView extends RecyclerView {
                 super.onScrolled(recyclerView, dx, dy);
                 if (null != mListener && mIsFooterEnable && !mIsLoadingMore && dy > 0) {
                     int lastVisiblePosition = getLastVisiblePosition();
-                    if (lastVisiblePosition + 1 == mAutoLoadAdapter.getItemCount()) {
+                    if (lastVisiblePosition + 1 == adapt.getItemCount()) {
                         setLoadingMore(true);
                         mLoadMorePosition = lastVisiblePosition;
                         mListener.onLoadMore();
@@ -115,5 +114,47 @@ public class MyRecycleView extends RecyclerView {
          * 加载更多
          */
         void onLoadMore();
+    }
+
+    /**
+     * 获取最后一条展示的位置
+     *
+     * @return
+     */
+    private int getLastVisiblePosition() {
+        int position;
+        if (getLayoutManager() instanceof LinearLayoutManager) {
+            position = ((LinearLayoutManager) getLayoutManager()).findLastVisibleItemPosition();
+        } else if (getLayoutManager() instanceof GridLayoutManager) {
+            position = ((GridLayoutManager) getLayoutManager()).findLastVisibleItemPosition();
+        } else if (getLayoutManager() instanceof StaggeredGridLayoutManager) {
+            StaggeredGridLayoutManager layoutManager = (StaggeredGridLayoutManager) getLayoutManager();
+            int[] lastPositions = layoutManager.findLastVisibleItemPositions(new int[layoutManager.getSpanCount()]);
+            position = getMaxPosition(lastPositions);
+        } else {
+            position = getLayoutManager().getItemCount() - 1;
+        }
+        return position;
+    }
+
+    /**
+     * 获得最大的位置
+     *
+     * @param positions
+     * @return
+     */
+    private int getMaxPosition(int[] positions) {
+        int size = positions.length;
+        int maxPosition = Integer.MIN_VALUE;
+        for (int i = 0; i < size; i++) {
+            maxPosition = Math.max(maxPosition, positions[i]);
+        }
+        return maxPosition;
+    }
+
+    @Override
+    public void setAdapter(Adapter adapter) {
+        super.setAdapter(adapter);
+        this.adapt = (MyRecycleAdapt) adapter;
     }
 }
