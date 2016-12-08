@@ -18,13 +18,11 @@ import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
 import com.example.henryzheng.ccimageshare.C.ImageList.ImageListFragment;
 import com.example.henryzheng.ccimageshare.C.ImageShowRecycle.RecyclerImageFrament;
 import com.example.henryzheng.ccimageshare.C.ImageSortType.fragment.ImageSortFragment;
-import com.example.henryzheng.ccimageshare.M.Contants.MyContonts;
-import com.example.henryzheng.ccimageshare.M.common.CCFileUtil;
 import com.example.henryzheng.ccimageshare.M.common.CCLog;
 import com.example.henryzheng.ccimageshare.M.data.ImageModel;
 import com.example.henryzheng.ccimageshare.R;
+import com.example.henryzheng.ccimageshare.V.MyViewPage;
 import com.example.henryzheng.ccimageshare.V.NavigationFragment;
-import com.example.henryzheng.ccimageshare.test.MyViewPage2;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -44,7 +42,7 @@ public class MainFragment extends BaseFragment {
     private static final int TO_CROP = 0x01;
     BaseActivity context;
     @ViewInject(R.id.mainPage)
-    private MyViewPage2 mainPager;
+    private MyViewPage mainPager;
     @ViewInject(R.id.rl0)
     private RelativeLayout rl0;
     private List<BaseFragment> _fragments;
@@ -53,13 +51,9 @@ public class MainFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initFragment();
-
         mainPager.setAdapter(new MainPageAdapt(getActivity().getSupportFragmentManager(), _fragments));
         context = (BaseActivity) getActivity();
-
     }
-
-
 
     @Override
     public void onResume() {
@@ -79,11 +73,12 @@ public class MainFragment extends BaseFragment {
 
     @Event(value = R.id.rl0, type = View.OnClickListener.class)
     private void OnClick(View view) {
-//        Intent intent = new Intent(Intent.ACTION_PICK);
-//        intent.setType("image/*");
-//        // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_GALLERY
-//        startActivityForResult(intent, JumpContans.tag);
-        startPhotoCrop(CCFileUtil.getHandleFilePath(MyContonts.tempSubmitFile), TO_CROP);
+
+        /**
+         * 查找图片
+         */
+//        startPhotoCrop(CCFileUtil.getHandleFilePath(MyContonts.tempSubmitFile), TO_CROP);
+
     }
 
     @Override

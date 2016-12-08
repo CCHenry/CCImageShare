@@ -4,8 +4,8 @@ package com.example.henryzheng.ccimageshare.V;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
-import android.util.TypedValue;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,7 +36,7 @@ public class NavigationFragment extends BaseFragment {
     @ViewInject(R.id.tv2)
     TextView tv2;
 
-
+    float mPositionOffset=0;
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -72,68 +72,41 @@ public class NavigationFragment extends BaseFragment {
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             int position = 0;
             Boolean isIni=false;
-            LinearLayout testLin;
-            RelativeLayout.LayoutParams testLayoutParams;
+            LinearLayout bottomLin;
+            RelativeLayout.LayoutParams linLayoutParams;
             TextView tv0;
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                /**
+                 * 第一次会默认加载，此时这个fragment还没完全绘制好，故做初始化判断屏蔽
+                 */
                 if (!isIni){
                     isIni=true;
                     return;
                 }else
                 {
-                    testLin = (LinearLayout) getActivity().findViewById(R.id.lin5);
-                    testLayoutParams = (RelativeLayout.LayoutParams) lin.getLayoutParams();
+                    bottomLin = (LinearLayout) getActivity().findViewById(R.id.lin5);
+                    linLayoutParams = (RelativeLayout.LayoutParams) lin.getLayoutParams();
                     tv0= (TextView) getActivity().findViewById(R.id.tv0);
                 }
+                mPositionOffset=positionOffset;
                 switch (position) {
                     case 0:
-                        testLayoutParams.leftMargin = (int) (titleWidth * positionOffset);
-                        testLin.setLayoutParams(testLayoutParams);
-//                        tv0.setTextSize(TypedValue.COMPLEX_UNIT_PX, 19);
-//                        tv1.setTextSize(TypedValue.COMPLEX_UNIT_PX, 14);
-//                        tv2.setTextSize(TypedValue.COMPLEX_UNIT_PX, 14);
-                        testLin.requestLayout();
-//                        tv0.requestLayout();
-//                        tv1.requestLayout();
-//                        tv2.requestLayout();
-//                        tv0.postInvalidate();
-//                        tv1.postInvalidate();
-//                        tv2.postInvalidate();
-//                        lin0.requestLayout();
-                        tv1.setText("sadasdas");
-                        tv0.setText("asdasdas");
+                        linLayoutParams.leftMargin = (int) (titleWidth * positionOffset);
+                        bottomLin.setLayoutParams(linLayoutParams);
+                        bottomLin.requestLayout();
+
                         break;
                     case 1:
-                        testLayoutParams.leftMargin = titleWidth + (int) (titleWidth * positionOffset);
-                        testLin.setLayoutParams(testLayoutParams);
-                        tv1.setTextSize(TypedValue.COMPLEX_UNIT_PX, 19);
-                        tv0.setTextSize(TypedValue.COMPLEX_UNIT_PX, 14);
-                        tv2.setTextSize(TypedValue.COMPLEX_UNIT_PX, 14);
-                        testLin.requestLayout();
-                        tv0.requestLayout();
-                        tv1.requestLayout();
-                        tv2.requestLayout();
-                        tv0.postInvalidate();
-                        tv1.postInvalidate();
-                        tv2.postInvalidate();
-                        tv1.setText("asddddddddddddddddd");
-                        lin0.requestLayout();
+                        linLayoutParams.leftMargin = titleWidth + (int) (titleWidth * positionOffset);
+                        bottomLin.setLayoutParams(linLayoutParams);
+                        bottomLin.requestLayout();
                         break;
                     case 2:
-                        testLayoutParams.leftMargin = titleWidth * 2 + (int) (titleWidth * positionOffset);
-                        testLin.setLayoutParams(testLayoutParams);
-                        tv2.setTextSize(TypedValue.COMPLEX_UNIT_PX, 19);
-                        tv1.setTextSize(TypedValue.COMPLEX_UNIT_PX, 14);
-                        tv0.setTextSize(TypedValue.COMPLEX_UNIT_PX, 14);
-                        testLin.requestLayout();
-                        tv0.requestLayout();
-                        tv1.requestLayout();
-                        tv2.requestLayout();
-                        tv0.postInvalidate();
-                        tv1.postInvalidate();
-                        tv2.postInvalidate();
-                        lin0.requestLayout();
+                        linLayoutParams.leftMargin = titleWidth * 2 + (int) (titleWidth * positionOffset);
+                        bottomLin.setLayoutParams(linLayoutParams);
+                        bottomLin.requestLayout();
 
                         break;
                 }
@@ -153,10 +126,6 @@ public class NavigationFragment extends BaseFragment {
 
     }
 
-    @Event(value = R.id.btn)
-    private void onclick(View view) {
-
-    }
 
     @Override
     public void OnHandlerListener(Message msg) {

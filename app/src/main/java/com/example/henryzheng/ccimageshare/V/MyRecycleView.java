@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.widget.TextView;
 
 import com.example.henryzheng.ccimageshare.C.ImageList.MyRecycleAdapt;
 
@@ -22,13 +24,13 @@ public class MyRecycleView extends RecyclerView {
     public final static int TYPE_FOOTER = 2;//底部--往往是loading_more
     public final static int TYPE_LIST = 3;//代表item展示的模式是list模式
     public final static int TYPE_STAGGER = 4;//代码item展示模式是网格模式
-
+Context context;
     private boolean mIsFooterEnable = false;//是否允许加载更多
 
     /**
      * 自定义实现了头部和底部加载更多的adapter
      */
-    private MyRecycleAdapt adapt;
+    private RecyclerView.Adapter adapt;
     /**
      * 标记是否正在加载更多，防止再次调用加载更多接口
      */
@@ -44,17 +46,18 @@ public class MyRecycleView extends RecyclerView {
 
     public MyRecycleView(Context context) {
         super(context);
-        init();
+
+        init(context);
     }
 
     public MyRecycleView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public MyRecycleView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
+        init(context);
     }
 
     /**
@@ -66,7 +69,8 @@ public class MyRecycleView extends RecyclerView {
      *    2、目前没有在加载，正在上拉（dy>0），当前最后一条可见的view是否是当前数据列表的最好一条--及加载更多
      * </pre>
      */
-    private void init() {
+    private void init(Context context) {
+    this.context=context;
         super.addOnScrollListener(new OnScrollListener() {
 
             @Override
@@ -168,5 +172,13 @@ public class MyRecycleView extends RecyclerView {
 
         getAdapter().notifyItemRemoved(mLoadMorePosition);
         mIsLoadingMore = false;
+    }
+    public void addHead(){
+
+        TextView textView =new TextView(context);
+        textView.setText("asdasda");
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,40);
+        getAdapter().notifyItemInserted (0);
+        getAdapter().notifyItemChanged(1,"sadas");
     }
 }

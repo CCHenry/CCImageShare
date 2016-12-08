@@ -2,7 +2,6 @@ package com.example.henryzheng.ccimageshare.C.ImageList;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,12 +36,7 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
     RecyclerView.LayoutManager _layoutManager;// recycleView的展示状态
     LinearLayoutManager lin;
     int page = 1;
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            recyclerView.notifyMoreFinish(true);
-        }
-    };
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -55,15 +49,13 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
 //        recyclerView.addItemDecoration(new RecycleItemDecoration(15));
         recyclerView.setAdapter(recycleAdapter); // 设置Adapter
         recyclerView.setIsFooterEnable(true);
+        loadListData();
         recyclerView.setLoadMoreListener(new MyRecycleView.LoadMoreListener() {
             @Override
             public void onLoadMore() {
                 loadListData();
             }
         });
-//        loadData();
-//        loadRecentBmobData();
-        loadListData();
         CCLog.print("onViewCreated");
 
     }
@@ -125,7 +117,6 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
 //        recyclerView.setLayoutManager(lin);
         recycleAdapter.loadImageList(images);
         recyclerView.setLoadingMore(false);
-
         page++;
 
     }

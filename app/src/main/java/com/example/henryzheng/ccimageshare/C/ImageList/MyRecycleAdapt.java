@@ -28,6 +28,10 @@ import java.util.List;
  * Created by henryzheng on 2016/9/27.
  */
 public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHolder> {
+    private static final int HEAD_TYPE = 0;
+    private static final int DATA_TYPE = 1;
+    private static final int FOOT_TYPE = 2;
+
     private final ImageOptions _imageOptions;
     Context _context;
     List<Image> urls;
@@ -51,55 +55,73 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .setLoadingDrawableId(R.drawable.list_bg2)
                 .setFailureDrawableId(R.mipmap.ic_launcher)
-
                 .setFadeIn(true)
-
                 .build();
     }
 
     /**
      * 增加url的列表
+     *
      * @param images
      */
     public void addSrc(List<Image> images) {
 //        this.urls.addAll(images);
-        for(int i= 0; i < images.size(); i++){
-        urls.add(images.get(i));
+        for (int i = 0; i < images.size(); i++) {
+            urls.add(images.get(i));
         }
 
     }
 
     /**
      * adapt创建
+     *
      * @param parent
      * @param viewType
      * @return
      */
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = _mLayoutInflater.inflate(R.layout.recycle_list_item, parent, false);
-        MyViewHolder holder = new MyViewHolder(view, myItemClickListener);
-        return holder;
+        if (viewType == HEAD_TYPE) {
+            View view = _mLayoutInflater.inflate(R.layout.layout_recycle_head, parent, false);
+            MyViewHolder holder = new MyViewHolder(HEAD_TYPE, view, myItemClickListener);
+            return holder;
+        } else if (viewType == FOOT_TYPE) {
+            View view = _mLayoutInflater.inflate(R.layout.layout_recycle_foot, parent, false);
+            MyViewHolder holder = new MyViewHolder(FOOT_TYPE, view, myItemClickListener);
+            return holder;
+        } else {
+            View view = _mLayoutInflater.inflate(R.layout.recycle_list_item, parent, false);
+            MyViewHolder holder = new MyViewHolder(DATA_TYPE, view, myItemClickListener);
+            return holder;
+        }
     }
 
     /**
      * 数据绑定
+     *
      * @param holder
      * @param position
      */
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         //下载图片和展示
-        x.image().bind(holder.iv, urls.get(position).getImageUrl(), _imageOptions, new CustomBitmapLoadCallBack(holder));
+        if (urls.size() > 0) {
+            if (position > 0 &&position <getItemCount()-1) {
+                x.image().bind(holder.iv, urls.get(position - 1).getImageUrl(), _imageOptions, new CustomBitmapLoadCallBack(holder));
 //        if (holder.iv.getWidth() > holder.iv.getHeight())
-        int width = ((BaseActivity) _context).getWidth() ;
+                int width = ((BaseActivity) _context).getWidth();
 //        int height=(int)(width*3/4+Math.random()*(width*7/4-width*3/4+1));
-        holder.iv.setLayoutParams(new RelativeLayout.LayoutParams(width, width*3/4));
+                holder.iv.setLayoutParams(new RelativeLayout.LayoutParams(width, width * 3 / 4));
+            }
+        }
     }
 
     @Override
     public int getItemCount() {
-        return urls.size();
+        if (urls.size()>0){
+        return urls.size() + 2;}
+        else
+            return urls.size();
     }
 
     /**
@@ -110,12 +132,19 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
         ProgressBar pb;
         MyItemClickListener _mItemClickListener;
 
-        public MyViewHolder(final View view, MyItemClickListener _mItemClickListener) {
+        public MyViewHolder(int viewType, final View view, MyItemClickListener _mItemClickListener) {
             super(view);
-            iv = (ImageView) view.findViewById(R.id.iv);
-            pb = (ProgressBar) view.findViewById(R.id.pb);
-            view.setOnClickListener(this);
-            this._mItemClickListener = _mItemClickListener;
+            if (viewType == HEAD_TYPE) {
+
+            } else if (viewType == FOOT_TYPE) {
+
+            } else {
+                iv = (ImageView) view.findViewById(R.id.iv);
+                pb = (ProgressBar) view.findViewById(R.id.pb);
+                view.setOnClickListener(this);
+                this._mItemClickListener = _mItemClickListener;
+            }
+
         }
 
         @Override
@@ -127,15 +156,13 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
 
     /**
      * 加载图片
+     *
      * @param images 图片url的集合
      */
     public void loadImageList(List<Image> images) {
         addSrc(images);
-//        notifyItemInserted(urls.size());//通知listview更新数据
-//        notifyItemRangeInserted(urls.size()-30, urls.size());
-
         notifyDataSetChanged();
-        CCLog.print("loadImageList:"+urls.size());
+        CCLog.print("loadImageList:" + urls.size());
     }
 
 
@@ -152,6 +179,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
 
     /**
      * 返回url的缓存列表
+     *
      * @return
      */
     public List<Image> getUrls() {
@@ -202,9 +230,22 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
 
     @Override
     public long getItemId(int position) {
-        CCLog.print("getItemId:"+position);
+        CCLog.print("getItemId:" + position);
         return super.getItemId(position);
     }
 
-
-}
+    @Override
+    public int getItemViewType(int position) {
+        if (urls.size() > 0) {
+            if (position == 0) {
+                return HEAD_TYPE;
+            } else if (position == getItemCount()-1) {
+                return FOOT_TYPE;
+            } else {
+                return DATA_TYPE;
+            }
+        } else {
+            return DATA_TYPE;
+        }
+    }
+    }
