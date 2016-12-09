@@ -1,13 +1,29 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.henryzheng.ccimageshare.test.TestListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    tools:context="com.example.henryzheng.ccimageshare.test.TestFragment">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@id/btn"
+        android:text="加载数据"/>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_below="@id/btn"
+        android:id="@id/swipeRefreshLayout0"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:scrollbars="vertical">
 
-</FrameLayout>
+        <com.example.henryzheng.ccimageshare.test.TestRecycleView
+            android:id="@id/recycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+        </com.example.henryzheng.ccimageshare.test.TestRecycleView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>

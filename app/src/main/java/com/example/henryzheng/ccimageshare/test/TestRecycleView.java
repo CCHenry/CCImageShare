@@ -1,4 +1,4 @@
-package com.example.henryzheng.ccimageshare.V;
+package com.example.henryzheng.ccimageshare.test;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
@@ -7,12 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 
-import com.example.henryzheng.ccimageshare.C.ImageList.MyRecycleAdapt;
 
 /**
  * Created by zzf on 16/12/7.
  */
-public class MyRecycleView extends RecyclerView {
+public class TestRecycleView extends RecyclerView {
 
     /**
      * item 类型
@@ -28,7 +27,7 @@ Context context;
     /**
      * 自定义实现了头部和底部加载更多的adapter
      */
-    private RecyclerView.Adapter adapt;
+    private Adapter adapt;
     /**
      * 标记是否正在加载更多，防止再次调用加载更多接口
      */
@@ -42,18 +41,18 @@ Context context;
      */
     private LoadMoreListener mListener;
 
-    public MyRecycleView(Context context) {
+    public TestRecycleView(Context context) {
         super(context);
 
         init(context);
     }
 
-    public MyRecycleView(Context context, AttributeSet attrs) {
+    public TestRecycleView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public MyRecycleView(Context context, AttributeSet attrs, int defStyle) {
+    public TestRecycleView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
     }
@@ -159,17 +158,8 @@ Context context;
     @Override
     public void setAdapter(Adapter adapter) {
         super.setAdapter(adapter);
-        this.adapt = (MyRecycleAdapt) adapter;
     }
 
-    public void setIsFooterEnable(boolean mIsFooterEnable) {
-        this.mIsFooterEnable = mIsFooterEnable;
-    }
-    public void notifyMoreFinish(boolean hasMore) {
-//        setAutoLoadMoreEnable(hasMore);
 
-        getAdapter().notifyItemRemoved(mLoadMorePosition);
-        mIsLoadingMore = false;
-    }
 
 }

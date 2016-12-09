@@ -105,7 +105,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         //下载图片和展示
-        if (urls.size() > 0) {
+        if (getItemCount() > 0) {
             if (position > 0 &&position <getItemCount()-1) {
                 x.image().bind(holder.iv, urls.get(position - 1).getImageUrl(), _imageOptions, new CustomBitmapLoadCallBack(holder));
 //        if (holder.iv.getWidth() > holder.iv.getHeight())
@@ -121,7 +121,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
         if (urls.size()>0){
         return urls.size() + 2;}
         else
-            return urls.size();
+            return 0;
     }
 
     /**

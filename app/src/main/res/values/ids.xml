@@ -76,5 +76,6 @@
     <item name="lv7" type="id">false</item>
     <item name="pb" type="id">false</item>
     <item name="recycleView" type="id">false</item>
+    <item name="swipeRefreshLayout0" type="id">false</item>
 
 </resources>

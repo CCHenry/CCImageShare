@@ -2,14 +2,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray"
     tools:context="com.example.henryzheng.ccimageshare.C.ImageList.ImageListFragment">
 
-    <com.example.henryzheng.ccimageshare.V.MyRecycleView
-        android:id="@id/recycleView"
-        android:dividerHeight="10dp"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@id/swipeRefreshLayout0"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        ></com.example.henryzheng.ccimageshare.V.MyRecycleView>
+        android:scrollbars="vertical">
+
+        <com.example.henryzheng.ccimageshare.V.MyRecycleView
+            android:id="@id/recycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"></com.example.henryzheng.ccimageshare.V.MyRecycleView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </FrameLayout>

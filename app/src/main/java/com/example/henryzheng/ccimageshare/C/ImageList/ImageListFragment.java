@@ -3,6 +3,7 @@ package com.example.henryzheng.ccimageshare.C.ImageList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,12 +32,14 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
     String url = "http://lab.zuimeia.com/photo/userpicture/list/?appVersion=2.6.3&channel=wallpaper&imsi=460012202301362&systemVersion=23&resolution=1080x1920&platform=android&package_name=com.brixd.wallpager&page=%d&tag=0&lang=zh-cn&openUDID=862258036210848&page_size=30&timestamp=1480672294308";
     @ViewInject(R.id.recycleView)
     private MyRecycleView recyclerView;// recycle组件
+    @ViewInject(R.id.swipeRefreshLayout0)
+    private SwipeRefreshLayout swipeRefreshLayout;
     private List<Image> images;// 图片集合
     private MyRecycleAdapt recycleAdapter;// recycle组件的适配器
     RecyclerView.LayoutManager _layoutManager;// recycleView的展示状态
     LinearLayoutManager lin;
     int page = 1;
-
+    
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -49,15 +52,25 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
 //        recyclerView.addItemDecoration(new RecycleItemDecoration(15));
         recyclerView.setAdapter(recycleAdapter); // 设置Adapter
         recyclerView.setIsFooterEnable(true);
-        loadListData();
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                page=1;
+//                recycleAdapter.notifyItemMoved(0,recycleAdapter.getUrls().size());
+                recycleAdapter.getUrls().clear();
+                loadListData();
+
+            }
+        });
+//        loadListData();
         recyclerView.setLoadMoreListener(new MyRecycleView.LoadMoreListener() {
             @Override
             public void onLoadMore() {
+
                 loadListData();
             }
         });
         CCLog.print("onViewCreated");
-
     }
 
 
@@ -76,10 +89,7 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
     @Override
     public void onResume() {
         super.onResume();
-//        loadRecentBmobData();
-//        recycleAdapter.clear();
         CCLog.print("onResume");
-
     }
 
     /**
@@ -96,7 +106,6 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
                             transImageUrl(result);
                             loadData(result.getData().getImages());
                         }
-
                     }
 
                     @Override
@@ -113,8 +122,8 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
      * 加载数据
      */
     public void loadData(List<Image> images) {
+        swipeRefreshLayout.setRefreshing(false);
 
-//        recyclerView.setLayoutManager(lin);
         recycleAdapter.loadImageList(images);
         recyclerView.setLoadingMore(false);
         page++;
@@ -136,6 +145,5 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
             image.setOriginImageUrl(baseurl + image.getOriginImageUrl());
             this.images = response.getData().getImages();
         }
-
     }
 }
