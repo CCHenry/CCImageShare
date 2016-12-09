@@ -155,14 +155,29 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
 
 
     /**
-     * 加载图片
+     * 上拉加载图片
      *
      * @param images 图片url的集合
      */
-    public void loadImageList(List<Image> images) {
+    public void loadMoreData(List<Image> images) {
         addSrc(images);
         notifyDataSetChanged();
-        CCLog.print("loadImageList:" + urls.size());
+        CCLog.print("loadMoreData:" + urls.size());
+    }
+
+    /**
+     * 下拉刷新图片
+     *
+     * @param images 图片url的集合
+     */
+    public void refreshData(List<Image> images) {
+        urls.clear();
+        notifyDataSetChanged();
+        for (int i=images.size()-1;i>=0;i--){
+            urls.add(0,images.get(i));
+            notifyItemInserted(0);
+        }
+
     }
 
 

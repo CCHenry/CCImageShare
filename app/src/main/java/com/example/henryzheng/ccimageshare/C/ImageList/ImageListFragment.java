@@ -29,7 +29,11 @@ import java.util.List;
 
 @ContentView(R.layout.fragment_image_list)
 public class ImageListFragment extends BaseFragment implements MyItemClickListener {
-    String url = "http://lab.zuimeia.com/photo/userpicture/list/?appVersion=2.6.3&channel=wallpaper&imsi=460012202301362&systemVersion=23&resolution=1080x1920&platform=android&package_name=com.brixd.wallpager&page=%d&tag=0&lang=zh-cn&openUDID=862258036210848&page_size=30&timestamp=1480672294308";
+    String url = "http://lab.zuimeia.com/photo/userpicture/list/?appVersion=2.6" +
+            ".3&channel=wallpaper&imsi=460012202301362&systemVersion=23&resolution=1080x1920" +
+            "&platform=android&package_name=com.brixd" +
+            ".wallpager&page=%d&tag=0&lang=zh-cn&openUDID=862258036210848&page_size=30&timestamp" +
+            "=1480672294308";
     @ViewInject(R.id.recycleView)
     private MyRecycleView recyclerView;// recycle组件
     @ViewInject(R.id.swipeRefreshLayout0)
@@ -39,11 +43,13 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
     RecyclerView.LayoutManager _layoutManager;// recycleView的展示状态
     LinearLayoutManager lin;
     int page = 1;
-    
+    private static int LOAD_MORE_TYPE = 0;
+    private static int REFRESH_DATA_TYPE = 1;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         recycleAdapter = new MyRecycleAdapt(getActivity());
         lin = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(lin);
@@ -55,19 +61,16 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                page=1;
-//                recycleAdapter.notifyItemMoved(0,recycleAdapter.getUrls().size());
-                recycleAdapter.getUrls().clear();
-                loadListData();
+                page = 1;
+//                loadListData(REFRESH_DATA_TYPE);
+                testRequest();
 
             }
         });
-//        loadListData();
         recyclerView.setLoadMoreListener(new MyRecycleView.LoadMoreListener() {
             @Override
             public void onLoadMore() {
-
-                loadListData();
+                loadListData(LOAD_MORE_TYPE);
             }
         });
         CCLog.print("onViewCreated");
@@ -77,7 +80,7 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
     @Override
     public void onItemClick(View view, int postion) {
         Intent intent = new Intent(getActivity(), BigImageShowActivity.class);
-        intent.putExtra("url", recycleAdapter.getUrls().get(postion+1).getImageUrl());
+        intent.putExtra("url", recycleAdapter.getUrls().get(postion - 1).getImageUrl());
         startActivity(intent);
     }
 
@@ -94,17 +97,19 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
 
     /**
      * 网络请求数据
+     *
+     * @param load_data_type
      */
-    public void loadListData() {
+    public void loadListData(final int load_data_type) {
         String realRequestUrl = String.format(url, page);
         NetWorkUtil.Get(realRequestUrl, null, new MyCallBack<ZuiMeiTotayListResponse>() {
                     @Override
                     public void onSuccess(ZuiMeiTotayListResponse result) {
                         super.onSuccess(result);
 //                        CCLog.print(result.toString());
-                        if (result.getData().getImages().size() == 30) {
+                        if (result.getData().getImages().size() > 0) {
                             transImageUrl(result);
-                            loadData(result.getData().getImages());
+                            loadData(load_data_type, result.getData().getImages());
                         }
                     }
 
@@ -118,14 +123,18 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
         );
 
     }
+
     /**
      * 加载数据
      */
-    public void loadData(List<Image> images) {
+    public void loadData(int load_data_type, List<Image> images) {
         swipeRefreshLayout.setRefreshing(false);
-
-        recycleAdapter.loadImageList(images);
-        recyclerView.setLoadingMore(false);
+        if (load_data_type == LOAD_MORE_TYPE) {
+            recycleAdapter.loadMoreData(images);
+            recyclerView.setLoadingMore(false);
+        } else if (load_data_type == REFRESH_DATA_TYPE) {
+            recycleAdapter.refreshData(images);
+        }
         page++;
 
     }
@@ -136,14 +145,61 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
         CCLog.print("onDestroyView");
     }
 
+    /**
+     * 转化
+     * @param response
+     */
     private void transImageUrl(ZuiMeiTotayListResponse response) {
         String baseurl = "http://wpstatic.zuimeia.com/";
         Iterator<Image> iterator = response.getData().getImages().iterator();
         while (iterator.hasNext()) {
             Image image = iterator.next();
-            image.setImageUrl(baseurl + image.getImageUrl() + "?imageMogr/v2/auto-orient/thumbnail/800x600/quality/80");
+            image.setImageUrl(baseurl + image.getImageUrl() +
+                    "?imageMogr/v2/auto-orient/thumbnail/800x600/quality/80");
             image.setOriginImageUrl(baseurl + image.getOriginImageUrl());
             this.images = response.getData().getImages();
         }
+    }
+
+    /**
+     * 测试url
+     */
+    public void testRequest() {
+        String todayFormatUrltest = "http://lab.zuimeia.com/wallpaper/category/1/?appVersion=2.6" +
+                ".3&channel=wallpaper&imsi=460012202301362&systemVersion=23&resolution=1080x1920" +
+                "&platform=android&req_version_code=2&package_name=com.brixd" +
+                ".wallpager&time=1456329600&lang=zh-cn&openUDID=862258036210848&page_size=30";
+        String todayFormatUrl = "http://lab.zuimeia.com/wallpaper/category/1/?appVersion=2.6" +
+                ".3&channel=wallpaper&imsi=460012202301362&systemVersion=23&resolution=1080x1920" +
+                "&platform=android&req_version_code=2&package_name=com.brixd" +
+                ".wallpager&time=%s&lang=zh-cn&openUDID=862258036210848&page_size=30";
+
+//        String todayUrl = String.format(todayFormatUrl, System.currentTimeMillis() / 1000);
+                String todayUrl = String.format(todayFormatUrl,System.currentTimeMillis() / 1000-86400*3);
+
+        CCLog.print("loadurl:" + todayUrl);
+        NetWorkUtil.Get(todayUrl, null, new MyCallBack<ZuiMeiTotayListResponse>() {
+                    @Override
+                    public void onSuccess(ZuiMeiTotayListResponse result) {
+                        super.onSuccess(result);
+//                        CCLog.print(result.toString());
+                        CCLog.print("success");
+                        if (result.getData().getImages().size() > 0) {
+//                            transImageUrl(result);
+//                            loadData(load_data_type,result.getData().getImages());
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        super.onError(ex, isOnCallback);
+                        CCLog.print("error");
+                        CCLog.print("ex:" + ex.getMessage() + ",isOnCallback:" + isOnCallback);
+                        swipeRefreshLayout.setRefreshing(false);
+
+                    }
+                }
+        );
     }
 }
