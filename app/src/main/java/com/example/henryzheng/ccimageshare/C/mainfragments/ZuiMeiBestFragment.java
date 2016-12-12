@@ -1,4 +1,4 @@
-package com.example.henryzheng.ccimageshare.C.ImageList;
+package com.example.henryzheng.ccimageshare.C.mainfragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,8 +28,8 @@ import java.util.List;
 
 
 @ContentView(R.layout.fragment_image_list)
-public class ImageListFragment extends BaseFragment implements MyItemClickListener {
-    String url = "http://lab.zuimeia.com/photo/userpicture/list/?appVersion=2.6" +
+public class ZuiMeiBestFragment extends BaseFragment implements MyItemClickListener {
+    String url = "http://lab.zuimeia.com/photo/photography/list/?appVersion=2.6" +
             ".3&channel=wallpaper&imsi=460012202301362&systemVersion=23&resolution=1080x1920" +
             "&platform=android&package_name=com.brixd" +
             ".wallpager&page=%d&tag=0&lang=zh-cn&openUDID=862258036210848&page_size=30&timestamp" +
@@ -62,8 +62,8 @@ public class ImageListFragment extends BaseFragment implements MyItemClickListen
             @Override
             public void onRefresh() {
                 page = 1;
-//                loadListData(REFRESH_DATA_TYPE);
-                testRequest();
+                loadListData(REFRESH_DATA_TYPE);
+//                testRequest();
 
             }
         });

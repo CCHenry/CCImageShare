@@ -15,9 +15,10 @@ import android.widget.RelativeLayout;
 
 import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
 import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
-import com.example.henryzheng.ccimageshare.C.ImageList.ImageListFragment;
-import com.example.henryzheng.ccimageshare.C.ImageShowRecycle.RecyclerImageFrament;
+import com.example.henryzheng.ccimageshare.C.mainfragments.HotContributorFragment;
 import com.example.henryzheng.ccimageshare.C.ImageSortType.fragment.ImageSortFragment;
+import com.example.henryzheng.ccimageshare.C.mainfragments.TodayZuiMeiFragment;
+import com.example.henryzheng.ccimageshare.C.mainfragments.ZuiMeiBestFragment;
 import com.example.henryzheng.ccimageshare.M.common.CCLog;
 import com.example.henryzheng.ccimageshare.M.data.ImageModel;
 import com.example.henryzheng.ccimageshare.R;
@@ -65,10 +66,14 @@ public class MainFragment extends BaseFragment {
 
     private void initFragment() {
         _fragments = new ArrayList<>();
+        _fragments.add(new TodayZuiMeiFragment());
+
 //        _fragments.add(new TestFragment());
-        _fragments.add(new ImageListFragment());
-        _fragments.add(new RecyclerImageFrament());
-        _fragments.add(new ImageSortFragment());
+        _fragments.add(new HotContributorFragment());
+//        _fragments.add(new RecyclerImageFrament());
+        _fragments.add(new ZuiMeiBestFragment());
+
+//        _fragments.add(new ImageSortFragment());
     }
 
     @Event(value = R.id.rl0, type = View.OnClickListener.class)

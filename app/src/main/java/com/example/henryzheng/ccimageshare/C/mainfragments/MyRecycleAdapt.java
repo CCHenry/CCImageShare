@@ -1,4 +1,4 @@
-package com.example.henryzheng.ccimageshare.C.ImageList;
+package com.example.henryzheng.ccimageshare.C.mainfragments;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

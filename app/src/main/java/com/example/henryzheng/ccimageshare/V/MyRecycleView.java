@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 
-import com.example.henryzheng.ccimageshare.C.ImageList.MyRecycleAdapt;
+import com.example.henryzheng.ccimageshare.C.mainfragments.MyRecycleAdapt;
 
 /**
  * Created by zzf on 16/12/7.
