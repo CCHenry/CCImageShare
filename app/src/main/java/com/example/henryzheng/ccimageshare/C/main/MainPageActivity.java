@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.widget.RelativeLayout;
 
@@ -13,8 +12,8 @@ import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
 import com.example.henryzheng.ccimageshare.C.ImageSortType.fragment.ImageSortFragment;
 import com.example.henryzheng.ccimageshare.M.common.CCLog;
 import com.example.henryzheng.ccimageshare.R;
-import com.example.henryzheng.ccimageshare.V.MyScroll;
 import com.example.henryzheng.ccimageshare.V.BaseViewPage;
+import com.example.henryzheng.ccimageshare.V.MyScroll;
 import com.example.henryzheng.ccimageshare.V.SwitchButtonFragment;
 
 import org.xutils.view.annotation.ContentView;
@@ -64,15 +63,15 @@ public class MainPageActivity extends BaseActivity{
     private void initFragment() {
         _fragments = new ArrayList<>();
         _fragments.add(new ImageSortFragment());
-        MainFragment m=new MainFragment();
-        _fragments.add(m);
+//        MainFragment m=
+        _fragments.add(new MainFragment());
 
 
-        BaseFragment fragment0 = new ImageSortFragment();
-        BaseFragment fragment1 = new MainFragment();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(fragment1, "mainFragment");
-        ft.commit();
+//        BaseFragment fragment0 = new ImageSortFragment();
+//        BaseFragment fragment1 = new MainFragment();
+//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//        ft.add(fragment1, "mainFragment");
+//        ft.commit();
     }
 
     private void setViewPagerScrollSpeed(ViewPager viewPager, int i) {

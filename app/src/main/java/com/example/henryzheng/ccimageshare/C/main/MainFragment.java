@@ -21,8 +21,8 @@ import com.example.henryzheng.ccimageshare.C.mainfragments.ZuiMeiBestFragment;
 import com.example.henryzheng.ccimageshare.M.common.CCLog;
 import com.example.henryzheng.ccimageshare.M.data.ImageModel;
 import com.example.henryzheng.ccimageshare.R;
-import com.example.henryzheng.ccimageshare.V.MainActivityViewPage;
-import com.example.henryzheng.ccimageshare.V.NavigationFragment;
+import com.example.henryzheng.ccimageshare.V.MainFragmentViewPage;
+import com.example.henryzheng.ccimageshare.V.NavigationView;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -42,37 +42,37 @@ public class MainFragment extends BaseFragment {
     private static final int TO_CROP = 0x01;
     BaseActivity context;
     @ViewInject(R.id.mainPage)
-    private MainActivityViewPage mainPager;
+    private MainFragmentViewPage mainPager;
     @ViewInject(R.id.rl0)
     private RelativeLayout rl0;
+    @ViewInject(R.id.nv)
+    private NavigationView nv;
     private List<BaseFragment> _fragments;
-    int currentIndex=0;//当前的fragment Index
+    int currentIndex = 0;//当前的fragment Index
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initFragment();
-        mainPager.setAdapter(new MainPageAdapt(getActivity().getSupportFragmentManager(), _fragments));
+        mainPager.setAdapter(new MainPageAdapt(getActivity().getSupportFragmentManager(),
+                _fragments));
         context = (BaseActivity) getActivity();
+        nv.setMainPage(mainPager);
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        MainFragment mainFragment = (MainFragment) getActivity().getSupportFragmentManager().findFragmentByTag("mainFragment");
-        NavigationFragment navigationFragment = (NavigationFragment) mainFragment.getChildFragmentManager().findFragmentById(R.id.fm);
-        navigationFragment.setMainPage(mainPager);
+
+
     }
 
     private void initFragment() {
         _fragments = new ArrayList<>();
         _fragments.add(new TodayZuiMeiFragment());
-
-//        _fragments.add(new TestFragment());
         _fragments.add(new HotContributorFragment());
-//        _fragments.add(new RecyclerImageFrament());
         _fragments.add(new ZuiMeiBestFragment());
-
-//        _fragments.add(new ImageSortFragment());
     }
 
     @Event(value = R.id.rl0, type = View.OnClickListener.class)
@@ -88,17 +88,21 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-            // 从相册返回的数据
+        // 从相册返回的数据
         if (requestCode == TO_CROP) {
 
             if (data != null) {
                 // 得到图片的全路径
                 Uri uri = data.getData();
                 CCLog.print("onActivityResult:" + uri.getPath());
-//                    Bitmap smallBitmap = CCPictureUtil.getSmallBitmap((BaseActivity) getActivity(), uri);
-//                    CCPictureUtil.saveBitmap(smallBitmap, MyContonts.smallImageCacheDir, MyContonts.smallImageName);
-//                    final BmobFile bigImageFile = new BmobFile(new File(MyHelp.getRealFilePath(getActivity(), uri)));
-//                    final BmobFile smallImageFile = new BmobFile(new File(MyContonts.smallImageCacheDir + "/" + MyContonts.smallImageName));
+//                    Bitmap smallBitmap = CCPictureUtil.getSmallBitmap((BaseActivity)
+// getActivity(), uri);
+//                    CCPictureUtil.saveBitmap(smallBitmap, MyContonts.smallImageCacheDir,
+// MyContonts.smallImageName);
+//                    final BmobFile bigImageFile = new BmobFile(new File(MyHelp.getRealFilePath
+// (getActivity(), uri)));
+//                    final BmobFile smallImageFile = new BmobFile(new File(MyContonts
+// .smallImageCacheDir + "/" + MyContonts.smallImageName));
 //                    uploadPicture(bigImageFile, smallImageFile);
             }
         }
@@ -198,7 +202,7 @@ public class MainFragment extends BaseFragment {
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
 //            super.destroyItem(container, position, object);
-            CCLog.print("perform to delete fragment"+position);
+            CCLog.print("perform to delete fragment" + position);
         }
 
     }

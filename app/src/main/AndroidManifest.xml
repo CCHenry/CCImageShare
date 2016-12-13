@@ -26,8 +26,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <!--<activity android:name=".C.main.MainPageActivity">-->
-        <activity android:name=".test.TestActivity">
+        <activity android:name=".C.main.MainPageActivity">
+        <!--<activity android:name=".test.TestActivity">-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

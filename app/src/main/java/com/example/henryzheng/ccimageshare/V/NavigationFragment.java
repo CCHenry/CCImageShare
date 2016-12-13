@@ -27,11 +27,11 @@ public class NavigationFragment extends BaseFragment {
     int titleWidth = 0;
     float instanceX = 0;
     public BaseViewPage viewPager;
-    //    @ViewInject(R.id.tv0)
+        @ViewInject(R.id.tv0)
     TextView tv0;
-    //    @ViewInject(R.id.tv1)
+        @ViewInject(R.id.tv1)
     TextView tv1;
-    //    @ViewInject(R.id.tv2)
+        @ViewInject(R.id.tv2)
     TextView tv2;
 
     float mPositionOffset = 0;
@@ -52,7 +52,6 @@ public class NavigationFragment extends BaseFragment {
         final int[] location = new int[2];
         lin0.getLocationOnScreen(location);
         instanceX = location[0];
-//        CCLog.print("titleWidth:" + titleWidth + " instanceX:" + instanceX);
 
     }
 
@@ -67,9 +66,7 @@ public class NavigationFragment extends BaseFragment {
      *
      * @param viewPager
      */
-    public void setMainPage(final MainActivityViewPage viewPager) {
-
-
+    public void setMainPage(final MainFragmentViewPage viewPager) {
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             Boolean isIni = false;
             LinearLayout bottomLin;
@@ -131,7 +128,6 @@ public class NavigationFragment extends BaseFragment {
                                 positionOffset);
                         bottomLin.setLayoutParams(linLayoutParams);
                         bottomLin.requestLayout();
-
                         break;
                 }
             }
@@ -164,18 +160,13 @@ public class NavigationFragment extends BaseFragment {
                     }
                 });
             }
-
-
         });
-
-
     }
 
 
     @Override
     public void OnHandlerListener(Message msg) {
         super.OnHandlerListener(msg);
-
     }
 
 

@@ -11,20 +11,19 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dip">
 
-        <fragment
-            android:id="@+id/fm"
-            android:name="com.example.henryzheng.ccimageshare.V.NavigationFragment"
+        <com.example.henryzheng.ccimageshare.V.NavigationView
+            android:id="@+id/nv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true" />
     </RelativeLayout>
 
 
-    <com.example.henryzheng.ccimageshare.V.MainActivityViewPage
+    <com.example.henryzheng.ccimageshare.V.MainFragmentViewPage
         android:id="@+id/mainPage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rl"></com.example.henryzheng.ccimageshare.V.MainActivityViewPage>
+        android:layout_below="@+id/rl"></com.example.henryzheng.ccimageshare.V.MainFragmentViewPage>
     <RelativeLayout
         android:id="@id/rl0"
         android:layout_width="wrap_content"

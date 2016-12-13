@@ -1,6 +1,5 @@
 package com.example.henryzheng.ccimageshare.V;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -12,55 +11,70 @@ import android.widget.TextView;
 
 import com.example.henryzheng.ccimageshare.R;
 
-import org.xutils.view.annotation.ViewInject;
-
 /**
  * Created by henryzheng on 2016/12/13.
  */
-public class NavigationView extends RelativeLayout{
-    Activity context;
-    @ViewInject(R.id.lin5)
-    LinearLayout lin;// 标签的layout
-    @ViewInject(R.id.lin0)
+public class NavigationView extends RelativeLayout implements View.OnClickListener {
+    Context context;
     LinearLayout lin0;// title的layout
+    LinearLayout bottomLin;//底部的线的布局
+    public BaseViewPage viewPager;
+    TextView tv0;
+    TextView tv1;
+    TextView tv2;
+    float mPositionOffset = 0;
     int titleWidth = 0;
     float instanceX = 0;
-    public BaseViewPage viewPager;
-    //    @ViewInject(R.id.tv0)
-    TextView tv0;
-    //    @ViewInject(R.id.tv1)
-    TextView tv1;
-    //    @ViewInject(R.id.tv2)
-    TextView tv2;
+    RelativeLayout.LayoutParams bottomLinLayoutParams;
 
-    float mPositionOffset = 0;
     public NavigationView(Context context) {
         super(context);
     }
 
     public NavigationView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         addView(context);
-        this.context= (Activity) context;
     }
-    private void addView(Context context){
+
+    private void addView(Context context) {
         LayoutInflater mInflater = LayoutInflater.from(context);
-        RelativeLayout tv=(RelativeLayout)mInflater.inflate(R.layout.relativelayout_navigation,null);
-        addView(tv);
+        RelativeLayout nv = (RelativeLayout) mInflater.inflate(R.layout
+                .relativelayout_navigation, null);
+        tv0 = (TextView) nv.findViewById(R.id.tv0);
+        tv1 = (TextView) nv.findViewById(R.id.tv1);
+        tv2 = (TextView) nv.findViewById(R.id.tv2);
+        lin0 = (LinearLayout) nv.findViewById(R.id.lin0);
+        bottomLin = (LinearLayout) nv.findViewById(R.id.lin5);
+        tv0.setOnClickListener(this);
+        tv1.setOnClickListener(this);
+        tv2.setOnClickListener(this);
+        int width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int height = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        lin0.measure(width, height);
+        height = lin0.getMeasuredHeight();
+        width = lin0.getMeasuredWidth();
+        titleWidth = width / 3;
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) bottomLin
+                .getLayoutParams();
+        layoutParams.width = titleWidth;
+        bottomLin.setLayoutParams(layoutParams);
+        final int[] location = new int[2];
+        lin0.getLocationOnScreen(location);
+        instanceX = location[0];
+        bottomLinLayoutParams = (RelativeLayout.LayoutParams) bottomLin.getLayoutParams();
+        addView(nv);
+
     }
+
     /**
      * 设置viewpager，监听viewpager，让标识移动
      *
      * @param viewPager
      */
-    public void setMainPage(final MainActivityViewPage viewPager) {
-
-
+    public void setMainPage(final MainFragmentViewPage viewPager) {
+        this.viewPager = viewPager;
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            Boolean isIni = false;
-            LinearLayout bottomLin;
-            RelativeLayout.LayoutParams linLayoutParams;
-
             @Override
             public void onPageSelected(int position) {
 
@@ -83,78 +97,44 @@ public class NavigationView extends RelativeLayout{
              * @param positionOffset
              */
             private void scrollOnListener(int position, float positionOffset) {
-                /**
-                 * 第一次会默认加载，此时这个fragment还没完全绘制好，故做初始化判断屏蔽
-                 */
-                if (!isIni) {
-                    isIni = true;
-                    setTitleListener();
-                    LinearLayout disPlayView = (LinearLayout) context.findViewById(R.id.lin0);
-//                    viewPager.setDisplayView(NavigationFragment.this);
-                    return;
-                } else {
-                    /**
-                     * 在其他fragment里面操作不能用注解
-                     */
-                    bottomLin = (LinearLayout) context.findViewById(R.id.lin5);
-                    linLayoutParams = (RelativeLayout.LayoutParams) lin.getLayoutParams();
-                }
+
+
                 mPositionOffset = positionOffset;
                 switch (position) {
                     case 0:
-                        linLayoutParams.leftMargin = (int) (titleWidth * positionOffset);
-                        bottomLin.setLayoutParams(linLayoutParams);
+                        bottomLinLayoutParams.leftMargin = (int) (titleWidth * positionOffset);
+                        bottomLin.setLayoutParams(bottomLinLayoutParams);
                         bottomLin.requestLayout();
                         break;
                     case 1:
-                        linLayoutParams.leftMargin = titleWidth + (int) (titleWidth *
+                        bottomLinLayoutParams.leftMargin = titleWidth + (int) (titleWidth *
                                 positionOffset);
-                        bottomLin.setLayoutParams(linLayoutParams);
+                        bottomLin.setLayoutParams(bottomLinLayoutParams);
                         bottomLin.requestLayout();
                         break;
                     case 2:
-                        linLayoutParams.leftMargin = titleWidth * 2 + (int) (titleWidth *
+                        bottomLinLayoutParams.leftMargin = titleWidth * 2 + (int) (titleWidth *
                                 positionOffset);
-                        bottomLin.setLayoutParams(linLayoutParams);
+                        bottomLin.setLayoutParams(bottomLinLayoutParams);
                         bottomLin.requestLayout();
-
                         break;
                 }
             }
-
-            /**
-             * 在其他fragment里面操作不能用注解
-             */
-            private void setTitleListener() {
-                tv0 = (TextView) context.findViewById(R.id.tv0);
-                tv1 = (TextView) context.findViewById(R.id.tv1);
-                tv2 = (TextView) context.findViewById(R.id.tv2);
-                tv0.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        viewPager.setCurrentItem(0);
-                    }
-                });
-                tv1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        viewPager.setCurrentItem(1);
-
-                    }
-                });
-                tv2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        viewPager.setCurrentItem(2);
-
-                    }
-                });
-            }
-
-
         });
-
-
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv0:
+                viewPager.setCurrentItem(0);
+                break;
+            case R.id.tv1:
+                viewPager.setCurrentItem(1);
+                break;
+            case R.id.tv2:
+                viewPager.setCurrentItem(2);
+                break;
+        }
+    }
 }

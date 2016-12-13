@@ -9,16 +9,16 @@ import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
 /**
  * Created by henryzheng on 2016/10/9.
  */
-public class MainActivityViewPage extends BaseViewPage {
+public class MainFragmentViewPage extends BaseViewPage {
     private boolean noScroll = false;
     private int startY = 0;
     private BaseFragment displayView;
 
-    public MainActivityViewPage(Context context, AttributeSet attrs) {
+    public MainFragmentViewPage(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public MainActivityViewPage(Context context) {
+    public MainFragmentViewPage(Context context) {
         super(context);
     }
 

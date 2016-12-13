@@ -1,4 +1,4 @@
-package com.example.henryzheng.ccimageshare.C.main;
+package com.example.henryzheng.ccimageshare.test;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,7 +13,7 @@ import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
 import com.example.henryzheng.ccimageshare.C.ImageShowRecycle.RecyclerImageFrament;
 import com.example.henryzheng.ccimageshare.C.ImageSortType.fragment.ImageSortFragment;
 import com.example.henryzheng.ccimageshare.R;
-import com.example.henryzheng.ccimageshare.V.MainActivityViewPage;
+import com.example.henryzheng.ccimageshare.V.MainFragmentViewPage;
 import com.example.henryzheng.ccimageshare.V.NavigationFragment;
 
 import org.xutils.view.annotation.ContentView;
@@ -28,7 +28,7 @@ public class MainActivity extends BaseActivity {
     @ViewInject(R.id.rl)
     private RelativeLayout rl;//menu按钮
     @ViewInject(R.id.mainViewPager)
-    private MainActivityViewPage mainViewPager;
+    private MainFragmentViewPage mainViewPager;
     @ViewInject(R.id.fm)
     private NavigationFragment navigationFragment;
 
