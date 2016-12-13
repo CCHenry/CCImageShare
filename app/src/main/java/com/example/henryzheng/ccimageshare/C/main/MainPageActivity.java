@@ -14,7 +14,7 @@ import com.example.henryzheng.ccimageshare.C.ImageSortType.fragment.ImageSortFra
 import com.example.henryzheng.ccimageshare.M.common.CCLog;
 import com.example.henryzheng.ccimageshare.R;
 import com.example.henryzheng.ccimageshare.V.MyScroll;
-import com.example.henryzheng.ccimageshare.V.MyViewPage;
+import com.example.henryzheng.ccimageshare.V.BaseViewPage;
 import com.example.henryzheng.ccimageshare.V.SwitchButtonFragment;
 
 import org.xutils.view.annotation.ContentView;
@@ -29,7 +29,7 @@ public class MainPageActivity extends BaseActivity{
     int viewSwitch = -1;
     private List<BaseFragment> _fragments;
     @ViewInject(R.id.mainViewPager)
-    private MyViewPage mainViewPager;
+    private BaseViewPage mainViewPager;
     @ViewInject(R.id.rl)
     private RelativeLayout rl;
     @ViewInject(R.id.switch_fg)

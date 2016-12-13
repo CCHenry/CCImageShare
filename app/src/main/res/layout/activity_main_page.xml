@@ -6,11 +6,11 @@
     tools:context=".C.main.MainPageActivity">
 
 
-    <com.example.henryzheng.ccimageshare.V.MyViewPage
+    <com.example.henryzheng.ccimageshare.V.BaseViewPage
     android:id="@+id/mainViewPager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    ></com.example.henryzheng.ccimageshare.V.MyViewPage>
+    ></com.example.henryzheng.ccimageshare.V.BaseViewPage>
 <fragment
     android:id="@+id/switch_fg"
     android:name="com.example.henryzheng.ccimageshare.V.SwitchButtonFragment"

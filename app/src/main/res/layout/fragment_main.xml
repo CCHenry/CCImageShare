@@ -20,11 +20,11 @@
     </RelativeLayout>
 
 
-    <com.example.henryzheng.ccimageshare.V.MyViewPage
+    <com.example.henryzheng.ccimageshare.V.MainActivityViewPage
         android:id="@+id/mainPage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rl"></com.example.henryzheng.ccimageshare.V.MyViewPage>
+        android:layout_below="@+id/rl"></com.example.henryzheng.ccimageshare.V.MainActivityViewPage>
     <RelativeLayout
         android:id="@id/rl0"
         android:layout_width="wrap_content"

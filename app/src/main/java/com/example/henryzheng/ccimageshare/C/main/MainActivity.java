@@ -4,17 +4,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.Display;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
 import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
-import com.example.henryzheng.ccimageshare.R;
-import com.example.henryzheng.ccimageshare.V.NavigationFragment;
-import com.example.henryzheng.ccimageshare.C.ImageSortType.fragment.ImageSortFragment;
 import com.example.henryzheng.ccimageshare.C.ImageShowRecycle.RecyclerImageFrament;
+import com.example.henryzheng.ccimageshare.C.ImageSortType.fragment.ImageSortFragment;
+import com.example.henryzheng.ccimageshare.R;
+import com.example.henryzheng.ccimageshare.V.MainActivityViewPage;
+import com.example.henryzheng.ccimageshare.V.NavigationFragment;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -28,7 +28,7 @@ public class MainActivity extends BaseActivity {
     @ViewInject(R.id.rl)
     private RelativeLayout rl;//menu按钮
     @ViewInject(R.id.mainViewPager)
-    private ViewPager mainViewPager;
+    private MainActivityViewPage mainViewPager;
     @ViewInject(R.id.fm)
     private NavigationFragment navigationFragment;
 

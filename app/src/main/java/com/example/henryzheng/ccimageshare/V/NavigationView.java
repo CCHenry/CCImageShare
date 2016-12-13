@@ -1,25 +1,24 @@
 package com.example.henryzheng.ccimageshare.V;
 
-
-import android.os.Bundle;
-import android.os.Message;
+import android.app.Activity;
+import android.content.Context;
 import android.support.v4.view.ViewPager;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
 import com.example.henryzheng.ccimageshare.R;
 
-import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
 /**
- * 自定义控件
+ * Created by henryzheng on 2016/12/13.
  */
-@ContentView(R.layout.relativelayout_navigation)
-public class NavigationFragment extends BaseFragment {
+public class NavigationView extends RelativeLayout{
+    Activity context;
     @ViewInject(R.id.lin5)
     LinearLayout lin;// 标签的layout
     @ViewInject(R.id.lin0)
@@ -35,33 +34,20 @@ public class NavigationFragment extends BaseFragment {
     TextView tv2;
 
     float mPositionOffset = 0;
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        int width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        int height = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        lin0.measure(width, height);
-        height = lin0.getMeasuredHeight();
-        width = lin0.getMeasuredWidth();
-        titleWidth = width / 3;
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) lin
-                .getLayoutParams();
-        layoutParams.width = titleWidth;
-        lin.setLayoutParams(layoutParams);
-        final int[] location = new int[2];
-        lin0.getLocationOnScreen(location);
-        instanceX = location[0];
-//        CCLog.print("titleWidth:" + titleWidth + " instanceX:" + instanceX);
-
+    public NavigationView(Context context) {
+        super(context);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
+    public NavigationView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        addView(context);
+        this.context= (Activity) context;
     }
-
+    private void addView(Context context){
+        LayoutInflater mInflater = LayoutInflater.from(context);
+        RelativeLayout tv=(RelativeLayout)mInflater.inflate(R.layout.relativelayout_navigation,null);
+        addView(tv);
+    }
     /**
      * 设置viewpager，监听viewpager，让标识移动
      *
@@ -103,14 +89,14 @@ public class NavigationFragment extends BaseFragment {
                 if (!isIni) {
                     isIni = true;
                     setTitleListener();
-                    LinearLayout disPlayView = (LinearLayout) getActivity().findViewById(R.id.lin0);
-                    viewPager.setDisplayView(NavigationFragment.this);
+                    LinearLayout disPlayView = (LinearLayout) context.findViewById(R.id.lin0);
+//                    viewPager.setDisplayView(NavigationFragment.this);
                     return;
                 } else {
                     /**
                      * 在其他fragment里面操作不能用注解
                      */
-                    bottomLin = (LinearLayout) getActivity().findViewById(R.id.lin5);
+                    bottomLin = (LinearLayout) context.findViewById(R.id.lin5);
                     linLayoutParams = (RelativeLayout.LayoutParams) lin.getLayoutParams();
                 }
                 mPositionOffset = positionOffset;
@@ -140,9 +126,9 @@ public class NavigationFragment extends BaseFragment {
              * 在其他fragment里面操作不能用注解
              */
             private void setTitleListener() {
-                tv0 = (TextView) getActivity().findViewById(R.id.tv0);
-                tv1 = (TextView) getActivity().findViewById(R.id.tv1);
-                tv2 = (TextView) getActivity().findViewById(R.id.tv2);
+                tv0 = (TextView) context.findViewById(R.id.tv0);
+                tv1 = (TextView) context.findViewById(R.id.tv1);
+                tv2 = (TextView) context.findViewById(R.id.tv2);
                 tv0.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -170,13 +156,5 @@ public class NavigationFragment extends BaseFragment {
 
 
     }
-
-
-    @Override
-    public void OnHandlerListener(Message msg) {
-        super.OnHandlerListener(msg);
-
-    }
-
 
 }

@@ -161,9 +161,9 @@ public class TodayZuiMeiFragment extends BaseFragment implements MyItemClickList
         }
     }
 
-    /**
-     * 测试url
-     */
+//    /**
+//     * 测试url
+//     */
 //    public void testRequest() {
 //
 //

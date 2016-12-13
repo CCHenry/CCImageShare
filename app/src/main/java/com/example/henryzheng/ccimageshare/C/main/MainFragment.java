@@ -16,13 +16,12 @@ import android.widget.RelativeLayout;
 import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
 import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
 import com.example.henryzheng.ccimageshare.C.mainfragments.HotContributorFragment;
-import com.example.henryzheng.ccimageshare.C.ImageSortType.fragment.ImageSortFragment;
 import com.example.henryzheng.ccimageshare.C.mainfragments.TodayZuiMeiFragment;
 import com.example.henryzheng.ccimageshare.C.mainfragments.ZuiMeiBestFragment;
 import com.example.henryzheng.ccimageshare.M.common.CCLog;
 import com.example.henryzheng.ccimageshare.M.data.ImageModel;
 import com.example.henryzheng.ccimageshare.R;
-import com.example.henryzheng.ccimageshare.V.MyViewPage;
+import com.example.henryzheng.ccimageshare.V.MainActivityViewPage;
 import com.example.henryzheng.ccimageshare.V.NavigationFragment;
 
 import org.xutils.view.annotation.ContentView;
@@ -43,7 +42,7 @@ public class MainFragment extends BaseFragment {
     private static final int TO_CROP = 0x01;
     BaseActivity context;
     @ViewInject(R.id.mainPage)
-    private MyViewPage mainPager;
+    private MainActivityViewPage mainPager;
     @ViewInject(R.id.rl0)
     private RelativeLayout rl0;
     private List<BaseFragment> _fragments;
