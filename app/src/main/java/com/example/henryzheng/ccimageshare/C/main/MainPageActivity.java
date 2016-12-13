@@ -66,12 +66,6 @@ public class MainPageActivity extends BaseActivity{
 //        MainFragment m=
         _fragments.add(new MainFragment());
 
-
-//        BaseFragment fragment0 = new ImageSortFragment();
-//        BaseFragment fragment1 = new MainFragment();
-//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//        ft.add(fragment1, "mainFragment");
-//        ft.commit();
     }
 
     private void setViewPagerScrollSpeed(ViewPager viewPager, int i) {
@@ -91,22 +85,7 @@ public class MainPageActivity extends BaseActivity{
         }
     }
 
-//    @Override
-//    public boolean onTouch(View v, MotionEvent event) {
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_MOVE:
-//                mainViewPager.requestDisallowInterceptTouchEvent(true);
-//                break;
-//            case MotionEvent.ACTION_UP:
-//                break;
-//            case MotionEvent.ACTION_CANCEL:
-//                mainViewPager.requestDisallowInterceptTouchEvent(false);
-//                break;
-//            default:
-//                break;
-//        }
-//        return super.onTouchEvent(event);
-//    }
+
 
     private class MainPageAdapt extends FragmentPagerAdapter {
         private List<BaseFragment> _fragments;

@@ -3,5 +3,5 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="h1">35dp</dimen>
-
+    <dimen name="main_fragment_first_head_height">50dip</dimen>
 </resources>

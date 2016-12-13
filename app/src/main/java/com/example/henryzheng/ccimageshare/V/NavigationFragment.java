@@ -101,7 +101,7 @@ public class NavigationFragment extends BaseFragment {
                     isIni = true;
                     setTitleListener();
                     LinearLayout disPlayView = (LinearLayout) getActivity().findViewById(R.id.lin0);
-                    viewPager.setDisplayView(NavigationFragment.this);
+//                    viewPager.setDisplayView(nv);
                     return;
                 } else {
                     /**

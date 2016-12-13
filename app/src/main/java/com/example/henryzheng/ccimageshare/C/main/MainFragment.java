@@ -45,6 +45,8 @@ public class MainFragment extends BaseFragment {
     private MainFragmentViewPage mainPager;
     @ViewInject(R.id.rl0)
     private RelativeLayout rl0;
+    @ViewInject(R.id.rl)
+    private RelativeLayout rl;
     @ViewInject(R.id.nv)
     private NavigationView nv;
     private List<BaseFragment> _fragments;
@@ -58,7 +60,7 @@ public class MainFragment extends BaseFragment {
                 _fragments));
         context = (BaseActivity) getActivity();
         nv.setMainPage(mainPager);
-
+        mainPager.setDisplayView(rl);
     }
 
     @Override

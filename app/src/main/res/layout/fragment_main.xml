@@ -4,26 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+                android:background="@drawable/list_bg2"
     tools:context=".C.Base.BaseActivity">
-    <RelativeLayout
-        android:id="@id/rl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dip">
 
-        <com.example.henryzheng.ccimageshare.V.NavigationView
-            android:id="@+id/nv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true" />
-    </RelativeLayout>
 
 
     <com.example.henryzheng.ccimageshare.V.MainFragmentViewPage
         android:id="@+id/mainPage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rl"></com.example.henryzheng.ccimageshare.V.MainFragmentViewPage>
+        ></com.example.henryzheng.ccimageshare.V.MainFragmentViewPage>
     <RelativeLayout
         android:id="@id/rl0"
         android:layout_width="wrap_content"
@@ -39,5 +29,17 @@
             android:background="@drawable/addition"
            />
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:background="@color/cor_white">
 
+        <com.example.henryzheng.ccimageshare.V.NavigationView
+            android:id="@+id/nv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
 </RelativeLayout>

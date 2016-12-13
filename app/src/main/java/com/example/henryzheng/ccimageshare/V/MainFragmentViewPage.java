@@ -1,10 +1,12 @@
 package com.example.henryzheng.ccimageshare.V;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 
-import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
+import com.example.henryzheng.ccimageshare.M.common.CCLog;
 
 /**
  * Created by henryzheng on 2016/10/9.
@@ -12,7 +14,8 @@ import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
 public class MainFragmentViewPage extends BaseViewPage {
     private boolean noScroll = false;
     private int startY = 0;
-    private BaseFragment displayView;
+    private View displayView;
+    private float curTranslationY;
 
     public MainFragmentViewPage(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -50,6 +53,7 @@ public class MainFragmentViewPage extends BaseViewPage {
             case MotionEvent.ACTION_DOWN:
                 startX = (int) ev.getX();
                 startY = (int) ev.getY();
+
                 break;
             case MotionEvent.ACTION_MOVE:
 
@@ -59,15 +63,19 @@ public class MainFragmentViewPage extends BaseViewPage {
                 if (Math.abs(dX) > Math.abs(dY)) {//左右滑动
 
                 } else {//上下滑动
-//                    if (dY<0){
-//                        CCLog.print("向下滑动");
-//                        float curTranslationY = displayView.getTranslationY();
-//                        ObjectAnimator animator = ObjectAnimator.ofFloat(displayView, "translationY", curTranslationY, -500f, curTranslationY);
-//                        animator.setDuration(5000);
-//                        animator.start();
-//
-//                    }else
-//                        displayView.setVisibility(View.VISIBLE);
+                    if (dY<-30){
+                        CCLog.print("向下滑动");
+                        ObjectAnimator animator = ObjectAnimator.ofFloat(displayView, "translationY", curTranslationY, -100f);
+                        animator.setDuration(900);
+                        animator.start();
+                    }
+
+                    else if(dY>30){
+                        ObjectAnimator animator = ObjectAnimator.ofFloat(displayView, "translationY",  -100f, curTranslationY);
+                        animator.setDuration(900);
+                        animator.start();
+                    }
+
                 }
             case MotionEvent.ACTION_UP:
                 break;
@@ -93,7 +101,9 @@ public class MainFragmentViewPage extends BaseViewPage {
         super.setCurrentItem(item);
     }
 
-    public void setDisplayView(BaseFragment view){
+    public void setDisplayView(View view){
         displayView=view;
+        curTranslationY = displayView.getTranslationY();
+
     }
 }
