@@ -53,7 +53,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
 //                .setPlaceholderScaleType(ImageView.ScaleType.MATRIX)
 //                .setCircular(true)
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-                .setLoadingDrawableId(R.drawable.list_bg2)
+//                .setLoadingDrawableId(R.drawable.list_bg2)
                 .setFailureDrawableId(R.mipmap.ic_launcher)
                 .setFadeIn(true)
                 .build();
