@@ -6,10 +6,11 @@
 android:background="#00F0F0"
     tools:context=".test.TestActivity"
     android:orientation="vertical">
-    <com.example.henryzheng.ccimageshare.V.NavigationView
-        android:layout_width="match_parent"
-        android:id="@+id/vl"
-        android:layout_height="wrap_content"></com.example.henryzheng.ccimageshare.V.NavigationView>
+   <ImageView
+       android:layout_width="100dip"
+       android:layout_height="100dip"
+       android:id="@id/iv"
+       android:background="@drawable/load"/>
 <fragment
     android:id="@+id/test"
     android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 package com.example.henryzheng.ccimageshare.C.mainfragments;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,6 +44,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
         _mLayoutInflater = LayoutInflater.from(context);
         urls = new ArrayList<>();
         //设置imageload的加载属性
+
         _imageOptions = new ImageOptions.Builder()
 //                .setSize(0,0)
 //                .setSize(DensityUtil.dip2px(DensityUtil.getScreenWidth()), DensityUtil.dip2px(DensityUtil.getScreenWidth()*2/3))
@@ -53,8 +55,9 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
 //                .setPlaceholderScaleType(ImageView.ScaleType.MATRIX)
 //                .setCircular(true)
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-//                .setLoadingDrawableId(R.drawable.list_bg2)
-                .setFailureDrawableId(R.mipmap.ic_launcher)
+//                .setLoadingDrawableId(R.drawable.load)
+//                .setLoadingDrawable()
+//                .setFailureDrawableId(R.mipmap.ic_launcher)
                 .setFadeIn(true)
                 .build();
     }
@@ -131,7 +134,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
         ImageView iv;
         ProgressBar pb;
         MyItemClickListener _mItemClickListener;
-
+        ImageView load;
         public MyViewHolder(int viewType, final View view, MyItemClickListener _mItemClickListener) {
             super(view);
             if (viewType == HEAD_TYPE) {
@@ -142,6 +145,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
                 iv = (ImageView) view.findViewById(R.id.iv);
                 pb = (ProgressBar) view.findViewById(R.id.pb);
                 view.setOnClickListener(this);
+                load= (ImageView) view.findViewById(R.id.load);
                 this._mItemClickListener = _mItemClickListener;
             }
 
@@ -206,7 +210,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
      */
     public class CustomBitmapLoadCallBack implements Callback.ProgressCallback<Drawable> {
         private final MyViewHolder holder;
-
+        AnimationDrawable mAnimate;
         public CustomBitmapLoadCallBack(MyViewHolder holder) {
             this.holder = holder;
         }
@@ -214,6 +218,12 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
         @Override
         public void onWaiting() {
             this.holder.pb.setProgress(0);
+            this.holder.pb.setVisibility(View.VISIBLE);
+            this.holder.load.setVisibility(View.VISIBLE);
+            mAnimate = (AnimationDrawable) this.holder.load.getBackground();
+            mAnimate.setOneShot(false);
+
+            mAnimate.start();
         }
 
         @Override
@@ -223,11 +233,16 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
         @Override
         public void onLoading(long total, long current, boolean isDownloading) {
             this.holder.pb.setProgress((int) (current * 100 / total));
+
         }
 
         @Override
         public void onSuccess(Drawable result) {
+            this.holder.pb.setVisibility(View.GONE);
+
             this.holder.pb.setProgress(100);
+            this.holder.load.setVisibility(View.GONE);
+            mAnimate.stop();
         }
 
         @Override
