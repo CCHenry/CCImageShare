@@ -33,13 +33,13 @@
         android:id="@id/rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dip"
         android:background="@color/cor_white">
 
         <com.example.henryzheng.ccimageshare.V.NavigationView
             android:id="@+id/nv"
+            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/main_fragment_first_head_height"
             android:layout_centerVertical="true" />
     </RelativeLayout>
 </RelativeLayout>

@@ -58,6 +58,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
 //                .setLoadingDrawableId(R.drawable.load)
 //                .setLoadingDrawable()
 //                .setFailureDrawableId(R.mipmap.ic_launcher)
+                .setUseMemCache(true)
                 .setFadeIn(true)
                 .build();
     }

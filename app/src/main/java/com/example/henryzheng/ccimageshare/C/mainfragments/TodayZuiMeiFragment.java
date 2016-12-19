@@ -57,6 +57,7 @@ public class TodayZuiMeiFragment extends BaseFragment implements MyItemClickList
 //        recyclerView.addItemDecoration(new RecycleItemDecoration(15));
         recyclerView.setAdapter(recycleAdapter); // 设置Adapter
         recyclerView.setIsFooterEnable(true);
+        swipeRefreshLayout.setProgressViewOffset(false,(int) getResources().getDimension(R.dimen.main_fragment_first_head_height)-90,(int) getResources().getDimension(R.dimen.main_fragment_first_head_height)+90);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -100,7 +101,7 @@ public class TodayZuiMeiFragment extends BaseFragment implements MyItemClickList
      * @param load_data_type
      */
     public void loadListData(final int load_data_type) {
-        String realRequestUrl = String.format(url,System.currentTimeMillis() / 1000-86400*30*page);
+        String realRequestUrl = String.format(url,System.currentTimeMillis() / 1000-86400*29*page);
         CCLog.print("loadurl:" + realRequestUrl);
         NetWorkUtil.Get(realRequestUrl, null, new MyCallBack<ZuiMeiTotayListResponse>() {
                     @Override
