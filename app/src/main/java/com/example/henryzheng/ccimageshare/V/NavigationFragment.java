@@ -18,7 +18,7 @@ import org.xutils.view.annotation.ViewInject;
 /**
  * 自定义控件
  */
-@ContentView(R.layout.relativelayout_navigation)
+@ContentView(R.layout.relativelayout_navigation1)
 public class NavigationFragment extends BaseFragment {
     @ViewInject(R.id.lin5)
     LinearLayout lin;// 标签的layout

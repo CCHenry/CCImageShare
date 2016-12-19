@@ -40,7 +40,7 @@ public class NavigationView extends RelativeLayout implements View.OnClickListen
     private void addView(Context context) {
         LayoutInflater mInflater = LayoutInflater.from(context);
         RelativeLayout nv = (RelativeLayout) mInflater.inflate(R.layout
-                .relativelayout_navigation, null);
+                .relativelayout_navigation1, null);
         tv0 = (TextView) nv.findViewById(R.id.tv0);
         tv1 = (TextView) nv.findViewById(R.id.tv1);
         tv2 = (TextView) nv.findViewById(R.id.tv2);
