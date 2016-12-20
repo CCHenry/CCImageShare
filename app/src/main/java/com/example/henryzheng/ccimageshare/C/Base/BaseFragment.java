@@ -60,4 +60,5 @@ public class BaseFragment extends Fragment implements IHandlerListener {
     public void setHandler(Handler mHandler) {
         this.handler = mHandler;
     }
+
 }

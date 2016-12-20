@@ -12,5 +12,7 @@ public class MyContonts {
     public static final String smallImageName = "smallImage.png";
     public static final String tempDir = MyPath.getCacheDir() + "/temp";
     public static final String tempSubmitFile = tempDir + "/temp.jpg";
+    public static final String dbDir = cacheDir + "/myDb.db";
+
 
 }

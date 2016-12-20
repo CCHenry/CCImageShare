@@ -111,6 +111,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
         //下载图片和展示
         if (getItemCount() > 0) {
             if (position > 0 &&position <getItemCount()-1) {
+
                 x.image().bind(holder.iv, urls.get(position - 1).getImageUrl(), _imageOptions, new CustomBitmapLoadCallBack(holder));
 //        if (holder.iv.getWidth() > holder.iv.getHeight())
                 int width = ((BaseActivity) _context).getWidth();
@@ -182,7 +183,6 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
             urls.add(0,images.get(i));
             notifyItemInserted(0);
         }
-
     }
 
 
@@ -223,7 +223,6 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
             this.holder.load.setVisibility(View.VISIBLE);
             mAnimate = (AnimationDrawable) this.holder.load.getBackground();
             mAnimate.setOneShot(false);
-
             mAnimate.start();
         }
 
@@ -239,8 +238,8 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
 
         @Override
         public void onSuccess(Drawable result) {
-            this.holder.pb.setVisibility(View.GONE);
 
+            this.holder.pb.setVisibility(View.GONE);
             this.holder.pb.setProgress(100);
             this.holder.load.setVisibility(View.GONE);
             mAnimate.stop();

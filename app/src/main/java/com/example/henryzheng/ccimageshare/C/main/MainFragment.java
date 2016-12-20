@@ -15,9 +15,10 @@ import android.widget.RelativeLayout;
 
 import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
 import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
-import com.example.henryzheng.ccimageshare.C.mainfragments.HotContributorFragment;
-import com.example.henryzheng.ccimageshare.C.mainfragments.TodayZuiMeiFragment;
-import com.example.henryzheng.ccimageshare.C.mainfragments.ZuiMeiBestFragment;
+import com.example.henryzheng.ccimageshare.C.mainfragments.ImageListBaseFragment;
+import com.example.henryzheng.ccimageshare.C.mainfragments.model.HotContributorModel;
+import com.example.henryzheng.ccimageshare.C.mainfragments.model.TodayZuiMeiModel;
+import com.example.henryzheng.ccimageshare.C.mainfragments.model.ZuiMeiBestModel;
 import com.example.henryzheng.ccimageshare.M.common.CCLog;
 import com.example.henryzheng.ccimageshare.M.data.ImageModel;
 import com.example.henryzheng.ccimageshare.R;
@@ -72,9 +73,9 @@ public class MainFragment extends BaseFragment {
 
     private void initFragment() {
         _fragments = new ArrayList<>();
-        _fragments.add(new TodayZuiMeiFragment());
-        _fragments.add(new HotContributorFragment());
-        _fragments.add(new ZuiMeiBestFragment());
+        _fragments.add(ImageListBaseFragment.newInstance(new TodayZuiMeiModel()));
+        _fragments.add(ImageListBaseFragment.newInstance(new HotContributorModel()));
+        _fragments.add(ImageListBaseFragment.newInstance(new ZuiMeiBestModel()));
     }
 
     @Event(value = R.id.rl0, type = View.OnClickListener.class)
