@@ -1,12 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     >
 
     <RelativeLayout
         android:id="@+id/rl"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <LinearLayout
@@ -24,11 +24,8 @@
 
                 <TextView
                     android:id="@id/tv0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dip"
-                    android:layout_marginRight="5dip"
-                    android:textSize="14sp"
+                    style="@style/navigation_title_text_style"
+
                     android:text="今日最美" />
 
             </RelativeLayout>
@@ -39,11 +36,8 @@
 
                 <TextView
                     android:id="@+id/tv1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dip"
-                    android:layout_marginRight="5dip"
-                    android:textSize="14sp"
+                    style="@style/navigation_title_text_style"
+
                     android:text="热门投稿" />
             </RelativeLayout>
 
@@ -53,11 +47,8 @@
 
                 <TextView
                     android:id="@id/tv2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dip"
-                    android:layout_marginRight="5dip"
-                    android:textSize="14sp"
+                    style="@style/navigation_title_text_style"
+
                     android:text="最美精品" />
             </RelativeLayout>
 
@@ -68,7 +59,7 @@
             android:layout_height="2dip"
             android:layout_alignLeft="@id/lin0"
             android:layout_below="@+id/lin0"
-            android:background="#00ff00"
+            android:background="@color/gray"
             android:orientation="horizontal" />
 
     </RelativeLayout>

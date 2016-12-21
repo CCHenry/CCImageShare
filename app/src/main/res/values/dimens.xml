@@ -3,5 +3,10 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="h1">35dp</dimen>
+    <dimen name="h2">16dp</dimen>
+    <dimen name="h3">30dp</dimen>
+
+    <dimen name="sp0">16sp</dimen>
+
     <dimen name="main_fragment_first_head_height">50dip</dimen>
 </resources>

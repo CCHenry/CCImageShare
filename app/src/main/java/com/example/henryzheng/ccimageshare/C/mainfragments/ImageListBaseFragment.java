@@ -14,18 +14,15 @@ import com.example.henryzheng.ccimageshare.C.mainfragments.i.MainFragmentInterfa
 import com.example.henryzheng.ccimageshare.C.mainfragments.model.ImageListBaseModel;
 import com.example.henryzheng.ccimageshare.C.mainfragments.p.MainFragmentsPresenter;
 import com.example.henryzheng.ccimageshare.M.Interface.MyItemClickListener;
-import com.example.henryzheng.ccimageshare.M.Sql.CCDatabaseOpenHelper;
 import com.example.henryzheng.ccimageshare.M.ZuiMeiModel.Image;
 import com.example.henryzheng.ccimageshare.M.common.CCLog;
 import com.example.henryzheng.ccimageshare.R;
 import com.example.henryzheng.ccimageshare.V.MyRecycleView;
 
-import org.xutils.DbManager;
-import org.xutils.ex.DbException;
+import org.xutils.common.util.DensityUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -62,9 +59,10 @@ public class ImageListBaseFragment extends BaseFragment implements MyItemClickLi
         recycleAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(recycleAdapter); // 设置Adapter
         recyclerView.setIsFooterEnable(true);
-        swipeRefreshLayout.setProgressViewOffset(false, (int) getResources().getDimension(R.dimen
-                .main_fragment_first_head_height) - 90, (int) getResources().getDimension(R.dimen
-                .main_fragment_first_head_height) + 90);
+//        swipeRefreshLayout.setColorSchemeColors(new int[]{R.color.hotpink,R.color.aliceblue});
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
+        swipeRefreshLayout.setProgressViewOffset(false, DensityUtil.dip2px(10), (int) getResources().getDimension(R.dimen
+                .main_fragment_first_head_height) + DensityUtil.dip2px(50));
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -77,6 +75,13 @@ public class ImageListBaseFragment extends BaseFragment implements MyItemClickLi
                 presenter.loadListData(presenter.LOAD_MORE_TYPE);
             }
         });
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        });
+        presenter.loadListData(presenter.REFRESH_DATA_TYPE);
     }
 
 
@@ -116,7 +121,6 @@ public class ImageListBaseFragment extends BaseFragment implements MyItemClickLi
     public void refreshImages(List<Image> images1) {
         swipeRefreshLayout.setRefreshing(false);
         recycleAdapter.refreshData(images1);
-
     }
 
 

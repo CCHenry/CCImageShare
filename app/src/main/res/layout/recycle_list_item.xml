@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="#00000000"
     >
 
@@ -13,12 +12,47 @@
 
         />
 
-    <TextView
-        android:id="@id/tv"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-         />
+        android:layout_margin="@dimen/h2"
+        >
+        <TextView
+
+            android:id="@+id/tv"
+           style="@style/TextViewStyle1"
+            android:text="Dec"
+            android:fontFamily="sans-serif"
+            android:gravity="bottom"
+            android:layout_margin="0dp"
+            android:textSize="50sp"
+
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toRightOf="@id/tv"
+            android:layout_alignBottom="@id/tv"
+            >
+            <TextView
+                android:id="@id/tv1"
+                style="@style/TextViewStyle1"
+                android:text="Dec"
+                android:textSize="11sp"
+                />
+            <TextView
+                android:id="@id/tv2"
+                style="@style/TextViewStyle1"
+
+                android:text="Wednesday"
+                android:textSize="11sp"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
 
     <ProgressBar
         android:id="@id/pb"
@@ -33,4 +67,25 @@
         android:layout_centerInParent="true"
         android:id="@+id/load"
         android:background="@drawable/load"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:padding="@dimen/h2"
+        >
+        <ImageView
+            android:id="@id/iv0"
+            android:layout_marginRight="5dp"
+            android:layout_width="@dimen/h3"
+            android:layout_height="@dimen/h3"
+            android:src="@drawable/icon_flower"/>
+        <TextView
+            style="@style/TextViewStyle1"
+            android:layout_alignBottom="@id/iv0"
+            android:text="34"
+            android:textSize="32dip"
+            android:layout_toRightOf="@id/iv0"
+            />
+    </RelativeLayout>
 </RelativeLayout>

@@ -47,7 +47,6 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
 
         _imageOptions = new ImageOptions.Builder()
 //                .setSize(0,0)
-//                .setSize(DensityUtil.dip2px(DensityUtil.getScreenWidth()), DensityUtil.dip2px(DensityUtil.getScreenWidth()*2/3))
                 .setRadius(DensityUtil.dip2px(5))
                 // 如果ImageView的大小不是定义为wrap_content, 不要crop.
                 .setCrop(true) // 很多时候设置了合适的scaleType也不需要它.
