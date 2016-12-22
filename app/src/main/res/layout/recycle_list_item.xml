@@ -15,17 +15,15 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/h2"
+        android:layout_margin="7dip"
         >
-        <TextView
+        <com.example.henryzheng.ccimageshare.test.TestTextView
 
             android:id="@+id/tv"
            style="@style/TextViewStyle1"
             android:text="Dec"
             android:fontFamily="sans-serif"
-            android:gravity="bottom"
-            android:layout_margin="0dp"
-            android:textSize="50sp"
+            android:textSize="40sp"
 
             />
 
@@ -36,13 +34,13 @@
             android:layout_toRightOf="@id/tv"
             android:layout_alignBottom="@id/tv"
             >
-            <TextView
+            <com.example.henryzheng.ccimageshare.test.TestTextView
                 android:id="@id/tv1"
                 style="@style/TextViewStyle1"
                 android:text="Dec"
                 android:textSize="11sp"
                 />
-            <TextView
+            <com.example.henryzheng.ccimageshare.test.TestTextView
                 android:id="@id/tv2"
                 style="@style/TextViewStyle1"
 
@@ -72,20 +70,23 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:padding="@dimen/h2"
+        android:padding="7dip"
         >
         <ImageView
             android:id="@id/iv0"
-            android:layout_marginRight="5dp"
-            android:layout_width="@dimen/h3"
-            android:layout_height="@dimen/h3"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/h4"
+            android:layout_height="@dimen/h4"
+            android:layout_toLeftOf="@id/tv3"
             android:src="@drawable/icon_flower"/>
         <TextView
+            android:gravity="center"
             style="@style/TextViewStyle1"
-            android:layout_alignBottom="@id/iv0"
-            android:text="34"
-            android:textSize="32dip"
-            android:layout_toRightOf="@id/iv0"
+            android:id="@id/tv3"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:text="34213"
+            android:textSize="16sp"
             />
     </RelativeLayout>
 </RelativeLayout>
