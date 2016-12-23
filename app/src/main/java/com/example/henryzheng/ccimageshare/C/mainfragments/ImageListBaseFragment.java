@@ -88,7 +88,7 @@ public class ImageListBaseFragment extends BaseFragment implements MyItemClickLi
     @Override
     public void onItemClick(View view, int postion) {
         Intent intent = new Intent(getActivity(), BigImageShowActivity.class);
-        intent.putExtra("url", recycleAdapter.getImages().get(postion - 1).getImage_url());
+        intent.putExtra("image", recycleAdapter.getImages().get(postion - 1));
         startActivity(intent);
     }
 

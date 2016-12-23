@@ -4,22 +4,28 @@ import android.app.WallpaperManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
 import com.example.henryzheng.ccimageshare.M.Contants.MyContonts;
+import com.example.henryzheng.ccimageshare.M.ZuiMeiModel.Image;
+import com.example.henryzheng.ccimageshare.M.utils.StringUtil;
 import com.example.henryzheng.ccimageshare.R;
 
+import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -37,9 +43,14 @@ public class BigImageShowActivity extends BaseActivity {
     private ImageView iv;
     @ViewInject(R.id.btn1)
     private Button btn1;
+    @ViewInject(R.id.load)
+    private ImageView load;
+    @ViewInject(R.id.hsv)
+    private HorizontalScrollView hsv;
     private static final String IMAGE_UNSPECIFIED = "image/*";
     private int TO_CROP = 0;
     private ImageOptions imageOptions;
+    Image bigImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +60,33 @@ public class BigImageShowActivity extends BaseActivity {
                 // 加载中或错误图片的ScaleType
                 //.setPlaceholderScaleType(ImageView.ScaleType.MATRIX)
                 // 默认自动适应大小
-//                 .setSize(100,)
+                .setSize(getWidth(), getHight())
                 .setIgnoreGif(false)
-                .setCrop(true)
                 // 如果使用本地文件url, 添加这个设置可以在本地文件更新后刷新立即生效.
-                .setImageScaleType(ImageView.ScaleType.CENTER_CROP).build();
-        x.image().bind(iv, getIntent().getStringExtra("url"), imageOptions);
-        registerReceiver(_receiver, new IntentFilter(Intent.ACTION_WALLPAPER_CHANGED));
+                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                .setFadeIn(true)
+                .build();
+        bigImage = (Image) getIntent().getSerializableExtra("image");
+        setBigImageLayoutParm();
+        x.image().bind(iv, bigImage.getOrigin_image_url(), imageOptions, new CustomBitmapLoadCallBack());
+//        registerReceiver(_receiver, new IntentFilter(Intent.ACTION_WALLPAPER_CHANGED));
         btn1.setText("设置壁纸123");
+        hsv.setSmoothScrollingEnabled(true);
+
+    }
+
+    private void setBigImageLayoutParm() {
+        int width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int height = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        iv.measure(width, height);
+        height = iv.getMeasuredHeight();
+        width = iv.getMeasuredWidth();
+        ViewGroup.LayoutParams parms = iv.getLayoutParams();
+        parms.height = getHight();
+        parms.width = (int) (getHight() / StringUtil.toDouble(bigImage.getHeight(),0) * StringUtil.toDouble
+                        (bigImage.getWidth(),0 ));
+        iv.setLayoutParams(parms);
+        iv.requestLayout();
     }
 
     @Event(value = {R.id.btn1, R.id.btn0}, type = View.OnClickListener.class)
@@ -98,7 +128,8 @@ public class BigImageShowActivity extends BaseActivity {
      */
     public File saveBitmapFile(Bitmap bitmap) {
         try {
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(getSelectFile()));
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream
+                    (getSelectFile()));
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
             bos.flush();
             bos.close();
@@ -232,5 +263,40 @@ public class BigImageShowActivity extends BaseActivity {
         }
     }
 
+    public class CustomBitmapLoadCallBack implements Callback.ProgressCallback<Drawable> {
+        AnimationDrawable mAnimate;
 
+        @Override
+        public void onWaiting() {
+            load.setVisibility(View.VISIBLE);
+            mAnimate = (AnimationDrawable) load.getBackground();
+            mAnimate.setOneShot(false);
+            mAnimate.start();
+        }
+        @Override
+        public void onStarted() {
+        }
+
+        @Override
+        public void onLoading(long total, long current, boolean isDownloading) {
+        }
+        @Override
+        public void onSuccess(Drawable result) {
+            mAnimate.stop();
+            load.setVisibility(View.GONE);
+
+        }
+
+        @Override
+        public void onError(Throwable ex, boolean isOnCallback) {
+        }
+
+        @Override
+        public void onCancelled(CancelledException cex) {
+        }
+
+        @Override
+        public void onFinished() {
+        }
+    }
 }

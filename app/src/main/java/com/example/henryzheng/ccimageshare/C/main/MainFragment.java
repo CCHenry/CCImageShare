@@ -62,6 +62,7 @@ public class MainFragment extends BaseFragment {
         context = (BaseActivity) getActivity();
         nv.setMainPage(mainPager);
         mainPager.setDisplayView(rl);
+
     }
 
     @Override

@@ -6,6 +6,7 @@ package com.example.henryzheng.ccimageshare.M.ZuiMeiModel;
 import org.xutils.db.annotation.Column;
 import org.xutils.db.annotation.Table;
 
+import java.io.Serializable;
 import java.util.List;
 /**
  * Auto-generated: 2016-12-06 16:26:42
@@ -14,7 +15,7 @@ import java.util.List;
  * @website http://www.atool.org/json2javabean.php
  */
 @Table(name = "Image")
-public class Image {
+public class Image implements Serializable{
     @Column(name = "type" )
     private String type;
     @Column(name = "image_url")

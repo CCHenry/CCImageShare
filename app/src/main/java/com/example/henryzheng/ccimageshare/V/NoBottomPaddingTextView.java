@@ -1,4 +1,4 @@
-package com.example.henryzheng.ccimageshare.test;
+package com.example.henryzheng.ccimageshare.V;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -12,7 +12,7 @@ import com.example.henryzheng.ccimageshare.M.utils.CCLog;
 /**
  * Created by henryzheng on 2016/12/22.
  */
-public class TestTextView extends TextView {
+public class NoBottomPaddingTextView extends TextView {
     /**
      * 需要绘制的文字
      */
@@ -31,19 +31,19 @@ public class TestTextView extends TextView {
     private Rect mBound;
     private Paint mPaint;
     Paint.FontMetricsInt fontMetricsInt;
-    public TestTextView(Context context) {
+    public NoBottomPaddingTextView(Context context) {
         this(context, null);
         initView();
 
     }
 
-    public TestTextView(Context context, AttributeSet attrs) {
+    public NoBottomPaddingTextView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
         initView();
 
     }
 
-    public TestTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public NoBottomPaddingTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         //初始化
         initView();

@@ -114,9 +114,10 @@ public class MainFragmentsPresenter {
         Iterator<Image> iterator = response.getData().getImages().iterator();
         while (iterator.hasNext()) {
             Image image = iterator.next();
+            image.setOrigin_image_url(baseurl + image.getImage_url());
+
             image.setImage_url(baseurl + image.getImage_url() +
                     "?imageMogr/v2/auto-orient/thumbnail/800x600/quality/80");
-            image.setOrigin_image_url(baseurl + image.getOrigin_image_url());
             this.images = response.getData().getImages();
             image.setType(type);
         }
