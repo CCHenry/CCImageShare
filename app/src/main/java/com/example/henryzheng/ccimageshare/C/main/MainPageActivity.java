@@ -15,6 +15,7 @@ import com.example.henryzheng.ccimageshare.R;
 import com.example.henryzheng.ccimageshare.V.BaseViewPage;
 import com.example.henryzheng.ccimageshare.V.MyScroll;
 import com.example.henryzheng.ccimageshare.V.SwitchButtonFragment;
+import com.example.henryzheng.ccimageshare.test.DepthPageTransformer;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -40,6 +41,8 @@ public class MainPageActivity extends BaseActivity{
 
         initFragment();
         MainPageAdapt mainPageAdapt = new MainPageAdapt(getSupportFragmentManager(), _fragments);
+        mainViewPager.setPageTransformer(true,new DepthPageTransformer());
+
         mainViewPager.setAdapter(mainPageAdapt);
         mainViewPager.setCurrentItem(0);
         SwitchButtonFragment.setOnSwitchClickListener(new SwitchButtonFragment.OnSwitchClickListner() {

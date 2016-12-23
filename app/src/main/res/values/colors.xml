@@ -199,5 +199,7 @@
         <color name="navy">#000080</color><!--海军色 -->
         <color name="black">#000000</color><!--黑色 -->
         <color name="gray2">#222222</color><!--黑色 -->
+    <color name="main_page_bg">#191919</color><!--黑色 -->
+
 
 </resources>
