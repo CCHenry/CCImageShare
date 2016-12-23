@@ -15,11 +15,12 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@id/rl"
         android:layout_margin="7dip"
         >
         <com.example.henryzheng.ccimageshare.test.TestTextView
 
-            android:id="@+id/tv"
+            android:id="@+id/tv0"
            style="@style/TextViewStyle1"
             android:text="Dec"
             android:fontFamily="sans-serif"
@@ -31,8 +32,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_toRightOf="@id/tv"
-            android:layout_alignBottom="@id/tv"
+            android:layout_toRightOf="@id/tv0"
+            android:layout_alignBottom="@id/tv0"
+            android:layout_marginLeft="4dip"
             >
             <com.example.henryzheng.ccimageshare.test.TestTextView
                 android:id="@id/tv1"
@@ -50,7 +52,15 @@
         </LinearLayout>
 
     </RelativeLayout>
-
+    <TextView
+        style="@style/TextViewStyle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl"
+        android:id="@+id/tv3"
+        android:textSize="15sp"
+        android:layout_marginLeft="7dip"
+        android:text="只是那天阳光正好"/>
 
     <ProgressBar
         android:id="@id/pb"
@@ -77,12 +87,12 @@
             android:layout_centerVertical="true"
             android:layout_width="@dimen/h4"
             android:layout_height="@dimen/h4"
-            android:layout_toLeftOf="@id/tv3"
+            android:layout_toLeftOf="@id/tv4"
             android:src="@drawable/icon_flower"/>
         <TextView
             android:gravity="center"
             style="@style/TextViewStyle1"
-            android:id="@id/tv3"
+            android:id="@id/tv4"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:text="34213"

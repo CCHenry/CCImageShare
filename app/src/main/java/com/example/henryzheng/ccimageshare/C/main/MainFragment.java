@@ -19,7 +19,7 @@ import com.example.henryzheng.ccimageshare.C.mainfragments.ImageListBaseFragment
 import com.example.henryzheng.ccimageshare.C.mainfragments.model.HotContributorModel;
 import com.example.henryzheng.ccimageshare.C.mainfragments.model.TodayZuiMeiModel;
 import com.example.henryzheng.ccimageshare.C.mainfragments.model.ZuiMeiBestModel;
-import com.example.henryzheng.ccimageshare.M.common.CCLog;
+import com.example.henryzheng.ccimageshare.M.utils.CCLog;
 import com.example.henryzheng.ccimageshare.M.data.ImageModel;
 import com.example.henryzheng.ccimageshare.R;
 import com.example.henryzheng.ccimageshare.V.MainFragmentViewPage;

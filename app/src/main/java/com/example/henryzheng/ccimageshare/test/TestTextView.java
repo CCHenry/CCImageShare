@@ -7,7 +7,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.example.henryzheng.ccimageshare.M.common.CCLog;
+import com.example.henryzheng.ccimageshare.M.utils.CCLog;
 
 /**
  * Created by henryzheng on 2016/12/22.

@@ -1,7 +1,7 @@
 package com.example.henryzheng.ccimageshare.M.Sql;
 
 import com.example.henryzheng.ccimageshare.M.Contants.MyContonts;
-import com.example.henryzheng.ccimageshare.M.common.CCFileUtil;
+import com.example.henryzheng.ccimageshare.M.utils.CCFileUtil;
 
 import org.xutils.DbManager;
 import org.xutils.x;

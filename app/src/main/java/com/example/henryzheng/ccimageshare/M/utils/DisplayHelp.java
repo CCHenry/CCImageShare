@@ -1,4 +1,4 @@
-package com.example.henryzheng.ccimageshare.M.common;
+package com.example.henryzheng.ccimageshare.M.utils;
 
 /**
  * Created by henryzheng on 2016/9/27.

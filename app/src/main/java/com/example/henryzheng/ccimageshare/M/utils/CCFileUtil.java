@@ -1,4 +1,4 @@
-package com.example.henryzheng.ccimageshare.M.common;
+package com.example.henryzheng.ccimageshare.M.utils;
 
 import android.app.Activity;
 import android.database.Cursor;

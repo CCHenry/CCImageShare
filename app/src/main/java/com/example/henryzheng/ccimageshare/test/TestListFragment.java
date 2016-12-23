@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
 import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
-import com.example.henryzheng.ccimageshare.M.common.CCLog;
+import com.example.henryzheng.ccimageshare.M.utils.CCLog;
 import com.example.henryzheng.ccimageshare.R;
 
 import org.xutils.view.annotation.ContentView;

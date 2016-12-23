@@ -4,13 +4,12 @@ import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
 import com.example.henryzheng.ccimageshare.R;
-import com.example.henryzheng.ccimageshare.M.common.CCLog;
+import com.example.henryzheng.ccimageshare.M.utils.CCLog;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;

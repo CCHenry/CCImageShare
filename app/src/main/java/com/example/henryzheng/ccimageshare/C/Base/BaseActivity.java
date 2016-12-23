@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.view.Display;
-
+import android.view.WindowManager;
 
 import com.example.henryzheng.ccimageshare.M.Interface.IHandlerListener;
 
@@ -39,6 +39,7 @@ public class BaseActivity extends FragmentActivity implements IHandlerListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         x.view().inject(this);
         mDisplay = getWindowManager().getDefaultDisplay();

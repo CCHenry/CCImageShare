@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
 import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
 import com.example.henryzheng.ccimageshare.C.ImageSortType.fragment.ImageSortFragment;
-import com.example.henryzheng.ccimageshare.M.common.CCLog;
+import com.example.henryzheng.ccimageshare.M.utils.CCLog;
 import com.example.henryzheng.ccimageshare.R;
 import com.example.henryzheng.ccimageshare.V.BaseViewPage;
 import com.example.henryzheng.ccimageshare.V.MyScroll;

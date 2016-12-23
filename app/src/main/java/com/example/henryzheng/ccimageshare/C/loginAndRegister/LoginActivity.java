@@ -10,7 +10,7 @@ import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
 import com.example.henryzheng.ccimageshare.C.main.MainPageActivity;
 import com.example.henryzheng.ccimageshare.C.Base.MyApplication;
 import com.example.henryzheng.ccimageshare.R;
-import com.example.henryzheng.ccimageshare.M.common.CCLog;
+import com.example.henryzheng.ccimageshare.M.utils.CCLog;
 import com.example.henryzheng.ccimageshare.M.data.MyUser;
 
 import org.xutils.view.annotation.ContentView;

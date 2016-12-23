@@ -10,11 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
 import com.example.henryzheng.ccimageshare.M.Interface.MyItemClickListener;
 import com.example.henryzheng.ccimageshare.M.ZuiMeiModel.Image;
-import com.example.henryzheng.ccimageshare.M.common.CCLog;
+import com.example.henryzheng.ccimageshare.M.utils.CCLog;
+import com.example.henryzheng.ccimageshare.M.utils.DateUtil;
 import com.example.henryzheng.ccimageshare.R;
 
 import org.xutils.common.Callback;
@@ -35,14 +37,14 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
 
     private final ImageOptions _imageOptions;
     Context _context;
-    List<Image> urls;
+    List<Image> images;
     LayoutInflater _mLayoutInflater;
     MyItemClickListener myItemClickListener;
 
     public MyRecycleAdapt(Context context) {
         _context = context;
         _mLayoutInflater = LayoutInflater.from(context);
-        urls = new ArrayList<>();
+        images = new ArrayList<>();
         //设置imageload的加载属性
 
         _imageOptions = new ImageOptions.Builder()
@@ -68,9 +70,8 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
      * @param images
      */
     public void addSrc(List<Image> images) {
-//        this.urls.addAll(images);
         for (int i = 0; i < images.size(); i++) {
-            urls.add(images.get(i));
+            this.images.add(images.get(i));
         }
 
     }
@@ -98,36 +99,6 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
             return holder;
         }
     }
-
-    /**
-     * 数据绑定
-     *
-     * @param holder
-     * @param position
-     */
-    @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
-        //下载图片和展示
-        if (getItemCount() > 0) {
-            if (position > 0 &&position <getItemCount()-1) {
-
-                x.image().bind(holder.iv, urls.get(position - 1).getImageUrl(), _imageOptions, new CustomBitmapLoadCallBack(holder));
-//        if (holder.iv.getWidth() > holder.iv.getHeight())
-                int width = ((BaseActivity) _context).getWidth();
-//        int height=(int)(width*3/4+Math.random()*(width*7/4-width*3/4+1));
-                holder.iv.setLayoutParams(new RelativeLayout.LayoutParams(width, width * 3 / 4));
-            }
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        if (urls.size()>0){
-        return urls.size() + 2;}
-        else
-            return 0;
-    }
-
     /**
      * 数据服用Handler
      */
@@ -136,6 +107,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
         ProgressBar pb;
         MyItemClickListener _mItemClickListener;
         ImageView load;
+        TextView tv0,tv1,tv2,tv3,tv4;
         public MyViewHolder(int viewType, final View view, MyItemClickListener _mItemClickListener) {
             super(view);
             if (viewType == HEAD_TYPE) {
@@ -147,6 +119,12 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
                 pb = (ProgressBar) view.findViewById(R.id.pb);
                 view.setOnClickListener(this);
                 load= (ImageView) view.findViewById(R.id.load);
+                tv0=(TextView) view.findViewById(R.id.tv0);
+                tv1=(TextView) view.findViewById(R.id.tv1);
+                tv2=(TextView) view.findViewById(R.id.tv2);
+                tv3=(TextView) view.findViewById(R.id.tv3);
+                tv4=(TextView) view.findViewById(R.id.tv4);
+
                 this._mItemClickListener = _mItemClickListener;
             }
 
@@ -157,6 +135,52 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
             _mItemClickListener.onItemClick(v, getPosition());
         }
     }
+    /**
+     * 数据绑定
+     *
+     * @param holder
+     * @param position
+     */
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
+        //下载图片和展示
+        if (getItemCount() > 0) {
+            if (position > 0 &&position <getItemCount()-1) {
+                x.image().bind(holder.iv, images.get(position - 1).getImage_url(), _imageOptions, new CustomBitmapLoadCallBack(holder));
+                int width = ((BaseActivity) _context).getWidth();
+                holder.iv.setLayoutParams(new RelativeLayout.LayoutParams(width, width * 3 / 4));
+
+                Image image=images.get(position-1);
+                holder.tv3.setText(image.getDescription());
+                holder.tv4.setText(image.getUp_times()+"");
+
+                if (image.getPub_time()!=null) {
+                    if (image.getPub_time().contains("-")) {
+                        String[] arr = DateUtil.getFormDateFromDate(image.getPub_time());
+                        holder.tv0.setText(arr[1]);
+                        holder.tv1.setText(arr[0]);
+                        holder.tv2.setText(arr[2]);
+                    }
+//                holder.tv3.setText(image.getUp_times());
+                }else{
+                    holder.tv0.setVisibility(View.GONE);
+                    holder.tv1.setVisibility(View.GONE);
+                    holder.tv2.setVisibility(View.GONE);
+                }
+
+            }
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        if (images.size()>0){
+        return images.size() + 2;}
+        else
+            return 0;
+    }
+
+
 
 
     /**
@@ -167,7 +191,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
     public void loadMoreData(List<Image> images) {
         addSrc(images);
         notifyDataSetChanged();
-        CCLog.print("loadMoreData:" + urls.size());
+        CCLog.print("loadMoreData:" + this.images.size());
     }
 
     /**
@@ -176,10 +200,10 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
      * @param images 图片url的集合
      */
     public void refreshData(List<Image> images) {
-        urls.clear();
+        this.images.clear();
         notifyDataSetChanged();
         for (int i=images.size()-1;i>=0;i--){
-            urls.add(0,images.get(i));
+            this.images.add(0,images.get(i));
             notifyItemInserted(0);
         }
     }
@@ -193,7 +217,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
      * 清除url的缓存
      */
     public void clear() {
-        urls.clear();
+        images.clear();
     }
 
     /**
@@ -201,8 +225,8 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
      *
      * @return
      */
-    public List<Image> getUrls() {
-        return urls;
+    public List<Image> getImages() {
+        return images;
     }
 
     /**
@@ -265,7 +289,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if (urls.size() > 0) {
+        if (images.size() > 0) {
             if (position == 0) {
                 return HEAD_TYPE;
             } else if (position == getItemCount()-1) {

@@ -7,7 +7,7 @@ import com.example.henryzheng.ccimageshare.M.NetWork.NetWorkUtil;
 import com.example.henryzheng.ccimageshare.M.Sql.CCDatabaseOpenHelper;
 import com.example.henryzheng.ccimageshare.M.ZuiMeiModel.Image;
 import com.example.henryzheng.ccimageshare.M.ZuiMeiModel.ZuiMeiTotayListResponse;
-import com.example.henryzheng.ccimageshare.M.common.CCLog;
+import com.example.henryzheng.ccimageshare.M.utils.CCLog;
 
 import org.xutils.DbManager;
 
@@ -114,9 +114,9 @@ public class MainFragmentsPresenter {
         Iterator<Image> iterator = response.getData().getImages().iterator();
         while (iterator.hasNext()) {
             Image image = iterator.next();
-            image.setImageUrl(baseurl + image.getImageUrl() +
+            image.setImage_url(baseurl + image.getImage_url() +
                     "?imageMogr/v2/auto-orient/thumbnail/800x600/quality/80");
-            image.setOriginImageUrl(baseurl + image.getOriginImageUrl());
+            image.setOrigin_image_url(baseurl + image.getOrigin_image_url());
             this.images = response.getData().getImages();
             image.setType(type);
         }
