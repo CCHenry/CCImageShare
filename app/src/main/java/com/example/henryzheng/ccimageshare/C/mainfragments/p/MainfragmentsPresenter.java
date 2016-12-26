@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class MainFragmentsPresenter {
     String realRequestUrl;
-    int page = 0;
+     int page = 0;
     String url;
     public static int LOAD_MORE_TYPE = 0;
     public static int REFRESH_DATA_TYPE = 1;
@@ -33,6 +33,7 @@ public class MainFragmentsPresenter {
      * @param url                   加载url
      * @param type                  类型，用加载的fragment的类名表示
      */
+
     public MainFragmentsPresenter(MainFragmentInterface mainFragmentInterface, String url, String
             type) {
         this.mainFragmentInterface = mainFragmentInterface;
@@ -121,5 +122,9 @@ public class MainFragmentsPresenter {
             this.images = response.getData().getImages();
             image.setType(type);
         }
+    }
+
+    public void setPage(int page) {
+        this.page = page;
     }
 }

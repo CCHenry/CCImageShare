@@ -23,6 +23,7 @@ import org.xutils.common.util.DensityUtil;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -88,7 +89,10 @@ public class ImageListBaseFragment extends BaseFragment implements MyItemClickLi
     @Override
     public void onItemClick(View view, int postion) {
         Intent intent = new Intent(getActivity(), BigImageShowActivity.class);
-        intent.putExtra("image", recycleAdapter.getImages().get(postion - 1));
+        intent.putExtra("images", (Serializable) recycleAdapter.getImages());
+        intent.putExtra("imageListBaseModel", imageListBaseModel);
+        intent.putExtra("position", postion-1);
+
         startActivity(intent);
     }
 
