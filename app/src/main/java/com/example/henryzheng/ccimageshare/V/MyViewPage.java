@@ -1,4 +1,4 @@
-package com.example.henryzheng.ccimageshare.test;
+package com.example.henryzheng.ccimageshare.V;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

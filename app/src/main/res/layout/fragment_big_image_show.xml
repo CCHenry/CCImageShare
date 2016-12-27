@@ -4,11 +4,11 @@
              android:layout_height="match_parent"
              tools:context="com.example.henryzheng.ccimageshare.C.BigImageShow.BigImageShowFragment">
 
-    <com.example.henryzheng.ccimageshare.test.MyViewPage
+    <com.example.henryzheng.ccimageshare.V.MyViewPage2
         android:id="@id/viewPage0"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.example.henryzheng.ccimageshare.test.MyViewPage>
+    </com.example.henryzheng.ccimageshare.V.MyViewPage2>
 
 </FrameLayout>

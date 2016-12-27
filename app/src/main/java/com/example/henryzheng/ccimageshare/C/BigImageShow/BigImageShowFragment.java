@@ -13,7 +13,7 @@ import com.example.henryzheng.ccimageshare.C.mainfragments.model.ImageListBaseMo
 import com.example.henryzheng.ccimageshare.C.mainfragments.p.MainFragmentsPresenter;
 import com.example.henryzheng.ccimageshare.M.ZuiMeiModel.Image;
 import com.example.henryzheng.ccimageshare.R;
-import com.example.henryzheng.ccimageshare.test.MyViewPage;
+import com.example.henryzheng.ccimageshare.V.MyViewPage2;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -23,17 +23,16 @@ import java.util.List;
 
 @ContentView(R.layout.fragment_big_image_show)
 public class BigImageShowFragment extends BaseFragment implements MainFragmentInterface {
-    private static int position=0;
+    private static int position = 0;
     @ViewInject(R.id.viewPage0)
-    private MyViewPage viewPager;
+    private MyViewPage2 viewPager;
     static List<Image> images = new ArrayList<>();
     static int imageAmout = 1000;
     static List<BigImageFragment> bigImageFragments;
     private static MainFragmentsPresenter presenter;
     static ImageListBaseModel imageListBaseModel;
-    static List<Image> existImages=new ArrayList<>();
-    
-
+    static List<Image> existImages = new ArrayList<>();
+    boolean isFirstEnter=true;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -42,9 +41,9 @@ public class BigImageShowFragment extends BaseFragment implements MainFragmentIn
     }
 
     public static void setImagesAndModel(List<Image> loadImages, ImageListBaseModel
-            imageListBaseModel,int loadPosition) {
+            imageListBaseModel, int loadPosition) {
         images = loadImages;
-        position=loadPosition;
+        position = loadPosition;
         initFragments();
         BigImageShowFragment.imageListBaseModel = imageListBaseModel;
     }
@@ -53,16 +52,19 @@ public class BigImageShowFragment extends BaseFragment implements MainFragmentIn
     @Override
     public void onResume() {
         super.onResume();
-        presenter=new MainFragmentsPresenter(this,imageListBaseModel.getUrl(),imageListBaseModel.getType());
-        presenter.setPage(images.size()/30);
+        if (isFirstEnter){
+        presenter = new MainFragmentsPresenter(this, imageListBaseModel.getUrl(),
+                imageListBaseModel.getType());
+        presenter.setPage(images.size() / 30);
         if (bigImageFragments != null)
             viewPager.setAdapter(new MyViewPageAdapt(getActivity().getSupportFragmentManager()));
         viewPager.setCurrentItem(position);
-    }
+            isFirstEnter=false;
+        }}
 
     private static void initFragments() {
         bigImageFragments = new ArrayList<>();
-        for (int i =0; i < imageAmout; i++) {
+        for (int i = 0; i < imageAmout; i++) {
             BigImageFragment bigImageFragment = new BigImageFragment();
             bigImageFragments.add(bigImageFragment);
             if (i < images.size()) {
@@ -73,11 +75,12 @@ public class BigImageShowFragment extends BaseFragment implements MainFragmentIn
 
     /**
      * 增加图片信息到fragments中
+     *
      * @param addImages
      */
-    private synchronized static void addImageToFragment(List<Image> addImages){
-        for (int i=0;i<30;i++){
-            bigImageFragments.get(images.size()+i).setBigImage(addImages.get(i));
+    private synchronized static void addImageToFragment(List<Image> addImages) {
+        for (int i = 0; i < 30; i++) {
+            bigImageFragments.get(images.size() + i).setBigImage(addImages.get(i));
         }
         images.addAll(addImages);
     }
@@ -92,7 +95,7 @@ public class BigImageShowFragment extends BaseFragment implements MainFragmentIn
         @Override
         public Fragment getItem(int position) {
             if (position > images.size()) {
-                synchronized (presenter.getClass()){
+                synchronized (presenter.getClass()) {
                     presenter.loadListData(presenter.LOAD_MORE_TYPE);
 
                 }

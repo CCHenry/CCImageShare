@@ -15,7 +15,7 @@ import com.example.henryzheng.ccimageshare.R;
 import com.example.henryzheng.ccimageshare.V.BaseViewPage;
 import com.example.henryzheng.ccimageshare.V.MyScroll;
 import com.example.henryzheng.ccimageshare.V.SwitchButtonFragment;
-import com.example.henryzheng.ccimageshare.test.DepthPageTransformer;
+import com.example.henryzheng.ccimageshare.V.DepthPageTransformer;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
