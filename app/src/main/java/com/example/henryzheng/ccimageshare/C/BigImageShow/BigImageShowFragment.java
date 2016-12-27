@@ -4,8 +4,9 @@ package com.example.henryzheng.ccimageshare.C.BigImageShow;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
 import com.example.henryzheng.ccimageshare.C.mainfragments.i.MainFragmentInterface;
@@ -86,7 +87,7 @@ public class BigImageShowFragment extends BaseFragment implements MainFragmentIn
     }
 
 
-    class MyViewPageAdapt extends FragmentStatePagerAdapter {
+    class MyViewPageAdapt extends FragmentPagerAdapter {
 
         public MyViewPageAdapt(FragmentManager fm) {
             super(fm);
@@ -103,6 +104,13 @@ public class BigImageShowFragment extends BaseFragment implements MainFragmentIn
             return bigImageFragments.get(position);
 
         }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+//            super.destroyItem(container, position, object);
+        }
+
+
 
         @Override
         public int getCount() {

@@ -16,7 +16,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@id/rl"
-        android:layout_margin="7dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="-10dp"
         >
         <com.example.henryzheng.ccimageshare.V.NoBottomPaddingTextView
 
@@ -59,7 +60,8 @@
         android:layout_below="@id/rl"
         android:id="@+id/tv3"
         android:textSize="15sp"
-        android:layout_marginLeft="7dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="4dip"
         android:text="只是那天阳光正好"/>
 
     <ProgressBar

@@ -4,30 +4,41 @@
                 android:layout_height="match_parent"
                 tools:context="com.example.henryzheng.ccimageshare.C.BigImageShow.BigImageFragment">
 
-    <LinearLayout
-        android:id="@id/lin0"
+
+
+    <RelativeLayout
+        android:id="@id/rl0"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <LinearLayout
-            android:id="@id/lin1"
+            android:id="@id/lin0"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginBottom="30dip"
             >
-
             <ImageView
                 android:id="@id/iv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-
         </LinearLayout>
 
+        <RelativeLayout
+            android:id="@+id/rl1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
 
+            android:layout_alignParentBottom="true"
+            android:background="@color/white">
 
-    </LinearLayout>
+            <TextView
+                android:id="@id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="上拉\n松开设置壁纸"/>
+        </RelativeLayout>
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/load"
@@ -36,17 +47,73 @@
         android:layout_centerInParent="true"
         android:background="@drawable/load"/>
 
-    <TextView
-        android:id="@id/tv0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="asdasd"
-        />
+    <!--<TextView-->
+        <!--android:id="@id/tv0"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:text="asdasd"-->
+        <!--/>-->
     <!--<Button-->
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="wrap_content"-->
     <!--android:text="设置壁纸"-->
     <!--android:id="@id/btn0"-->
     <!--android:layout_alignParentBottom="true"/>-->
+    <RelativeLayout
+        android:id="@id/rl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="-10dp"
+        >
+
+        <com.example.henryzheng.ccimageshare.V.NoBottomPaddingTextView
+
+            android:id="@+id/tv2"
+            style="@style/TextViewStyle1"
+            android:fontFamily="sans-serif"
+            android:text="Dec"
+            android:textSize="65sp"
+
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/tv2"
+            android:layout_marginLeft="10dip"
+            android:layout_toRightOf="@id/tv2"
+            android:orientation="vertical"
+            >
+
+            <com.example.henryzheng.ccimageshare.V.NoBottomPaddingTextView
+                android:id="@id/tv3"
+                style="@style/TextViewStyle1"
+                android:text="Dec"
+                android:textSize="16sp"
+                />
+
+            <com.example.henryzheng.ccimageshare.V.NoBottomPaddingTextView
+                android:id="@id/tv4"
+                style="@style/TextViewStyle1"
+
+                android:text="Wednesday"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv5"
+        style="@style/TextViewStyle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="8dip"
+        android:layout_marginRight="15dip"
+        android:text="只是那天阳光正好"
+        android:textSize="15sp"/>
 </RelativeLayout>

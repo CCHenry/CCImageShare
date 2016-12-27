@@ -29,21 +29,22 @@ public class BigImageShowActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         List<Image> images = (List<Image>) getIntent().getSerializableExtra("images");
-       ImageListBaseModel imageListBaseModel = (ImageListBaseModel) getIntent().getSerializableExtra("imageListBaseModel");
-        int position=getIntent().getIntExtra("position",0);
-        BigImageShowFragment.setImagesAndModel(images,imageListBaseModel,position);
+        ImageListBaseModel imageListBaseModel = (ImageListBaseModel) getIntent()
+                .getSerializableExtra("imageListBaseModel");
+        int position = getIntent().getIntExtra("position", 0);
+        BigImageShowFragment.setImagesAndModel(images, imageListBaseModel, position);
         registerReceiver(_receiver, new IntentFilter(Intent
                 .ACTION_WALLPAPER_CHANGED));
+
     }
+
     private BroadcastReceiver _receiver = new BroadcastReceiver() {
-        boolean test = true;
 
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(Intent.ACTION_WALLPAPER_CHANGED)) {
-                    Toast.makeText(BigImageShowActivity.this, "已更改墙纸", Toast.LENGTH_SHORT).show();
-
-
+                Toast.makeText(BigImageShowActivity.this, "已更改墙纸", Toast.LENGTH_SHORT).show();
+                _cCdialog.hide();
             }
         }
     };

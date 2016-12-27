@@ -44,14 +44,18 @@ public class ImageListBaseFragment extends BaseFragment implements MyItemClickLi
     LinearLayoutManager lin;
     MainFragmentsPresenter presenter;
 
+
     public static BaseFragment newInstance(ImageListBaseModel imageListBaseModel) {
         ImageListBaseFragment f=new ImageListBaseFragment();
         f.imageListBaseModel=imageListBaseModel;
         return f;
     }
+
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         presenter = new MainFragmentsPresenter(this, imageListBaseModel.getUrl(), imageListBaseModel.getType());
         recycleAdapter = new MyRecycleAdapt(getActivity());
         lin = new LinearLayoutManager(getActivity());
@@ -83,6 +87,7 @@ public class ImageListBaseFragment extends BaseFragment implements MyItemClickLi
             }
         });
         presenter.loadListData(presenter.REFRESH_DATA_TYPE);
+
     }
 
 

@@ -9,6 +9,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.example.henryzheng.ccimageshare.M.Interface.IHandlerListener;
+import com.example.henryzheng.ccimageshare.V.CCDialog;
 
 import org.xutils.x;
 
@@ -29,6 +30,8 @@ public class BaseActivity extends FragmentActivity implements IHandlerListener {
     };
     public Context context;
 
+    public CCDialog _cCdialog;
+
     public static  BmobUser getBmobUser() {
         return bmobUser;
     }
@@ -44,6 +47,7 @@ public class BaseActivity extends FragmentActivity implements IHandlerListener {
         x.view().inject(this);
         mDisplay = getWindowManager().getDefaultDisplay();
         context=this;
+        _cCdialog = new CCDialog(this);
     }
 
     public int getWidth() {

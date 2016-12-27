@@ -20,11 +20,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
 import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
 import com.example.henryzheng.ccimageshare.M.ZuiMeiModel.Image;
+import com.example.henryzheng.ccimageshare.M.utils.DateUtil;
 import com.example.henryzheng.ccimageshare.R;
 
 import org.xutils.common.Callback;
+import org.xutils.common.util.DensityUtil;
 import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -44,15 +47,36 @@ public class BigImageFragment extends BaseFragment {
     private ImageView load;
     @ViewInject(R.id.tv0)
     private TextView tv0;
+    @ViewInject(R.id.rl0)
+    private RelativeLayout rl0;
     @ViewInject(R.id.lin0)
     private LinearLayout lin0;
-    @ViewInject(R.id.lin1)
-    private LinearLayout lin1;
-    @ViewInject(R.id.rl)
-    private RelativeLayout rl;
+    @ViewInject(R.id.rl1)
+    private RelativeLayout rl1;
+    @ViewInject(R.id.tv1)
+    private TextView tv1;
+
+
+    //日期text
+    @ViewInject(R.id.tv2)
+    private TextView tv2;
+    @ViewInject(R.id.tv3)
+    private TextView tv3;
+    @ViewInject(R.id.tv4)
+    private TextView tv4;
+    @ViewInject(R.id.tv5)
+    private TextView tv5;
+//    @ViewInject(R.id.tv1)
+//    private TextView tv1;
+//    @ViewInject(R.id.tv1)
+//    private TextView tv1;
+//    @ViewInject(R.id.tv1)
+//    private TextView tv1;
+//    @ViewInject(R.id.tv1)
+//    private TextView tv1;
     private ImageOptions imageOptions;
     private Bitmap bitmap;
-
+    private BaseActivity context;
     public void setBigImage(Image bigImage) {
         this.bigImage = bigImage;
     }
@@ -60,6 +84,8 @@ public class BigImageFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        context= (BaseActivity) getActivity();
+
         SensorManager sm = (SensorManager) (getActivity()).getSystemService(Context.SENSOR_SERVICE);
         Sensor sensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         //添加重力感应侦听，并实现其方法，
@@ -78,8 +104,8 @@ public class BigImageFragment extends BaseFragment {
         };
         //注册Listener，SENSOR_DELAY_GAME为检测的精确度，
         sm.registerListener(sel, sensor, SensorManager.SENSOR_DELAY_GAME);
-        lin0.setOnTouchListener(new View.OnTouchListener() {
-            public LinearLayout.LayoutParams parms;
+        rl0.setOnTouchListener(new View.OnTouchListener() {
+            public RelativeLayout.LayoutParams parms;
             public float moveY;
             public float startY = 0;
 
@@ -89,33 +115,39 @@ public class BigImageFragment extends BaseFragment {
                     startY = event.getY();
                 } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                     moveY = event.getY();
-                    parms = (LinearLayout.LayoutParams) lin1.getLayoutParams();
-                    parms.bottomMargin = (int) ((startY - moveY) * 0.3f);
-                    lin1.requestLayout();
-//                    rl.requestLayout();
-//                    lin0.requestLayout();
+                    parms = (RelativeLayout.LayoutParams) lin0.getLayoutParams();
+                    if (startY - moveY > 0) {
+                        parms.bottomMargin = (int) ((startY - moveY) * 0.3f);
+                        lin0.requestLayout();
+                        rl1.getLayoutParams().height = parms.bottomMargin;
+                        rl1.requestLayout();
+                        if (parms.bottomMargin > DensityUtil.dip2px(70)) {
+                            tv1.setText("松开设置壁纸");
+                        } else {
+                            tv1.setText("上拉设置壁纸");
+                        }
+                    }
+
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     int temp = parms.bottomMargin;
-//                    for (int i = 0; i < temp; i++) {
-//
-//                        parms.bottomMargin = (int) (parms.bottomMargin -1f);
-//                        lin1.requestLayout();
-//
-//
-//                    }
-                    ValueAnimator valueAnimator = ValueAnimator.ofInt(temp, 0);
-                    valueAnimator.setTarget(lin1);
-                    valueAnimator.setDuration(200).start();
-                    valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animation) {
-                            parms = (LinearLayout.LayoutParams) lin1.getLayoutParams();
-                            parms.bottomMargin = (int) animation.getAnimatedValue();
-                            lin1.requestLayout();
-                            rl.requestLayout();
+                    if (temp != 0) {
+                        if (parms.bottomMargin > DensityUtil.dip2px(70)) {
+                            setWallpaper();
                         }
-                    });
-
+                        ValueAnimator valueAnimator = ValueAnimator.ofInt(temp, 0);
+                        valueAnimator.setTarget(lin0);
+                        valueAnimator.setDuration(200).start();
+                        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator animation) {
+                                parms = (RelativeLayout.LayoutParams) lin0.getLayoutParams();
+                                parms.bottomMargin = (int) animation.getAnimatedValue();
+                                lin0.requestLayout();
+                                rl1.getLayoutParams().height = parms.bottomMargin;
+                                rl1.requestLayout();
+                            }
+                        });
+                    }
                 }
                 return true;
             }
@@ -125,31 +157,29 @@ public class BigImageFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
-
         if (bigImage.getPub_time() != null) {
-            tv0.setText(bigImage.getPub_time());}
-//            ViewGroup.LayoutParams parms = iv.getLayoutParams();
-//            parms.height = ((BaseActivity) (getActivity())).getHight();
-//            parms.width = (int) (((BaseActivity) (getActivity())).getHight() / StringUtil
-//                    .toDouble(bigImage.getHeight(), 0) * StringUtil.toDouble
-//
-//                    (bigImage.getWidth(), 0));
-//            iv.setLayoutParams(parms);
-//            iv.requestLayout();
+                if (bigImage.getPub_time().contains("-")) {
+                    String[] arr = DateUtil.getFormDateFromDate(bigImage.getPub_time());
+                    tv2.setText(arr[1]);
+                    tv3.setText(arr[0]);
+                    tv4.setText(arr[2]);
+                }
+            }else {
+            tv2.setVisibility(View.GONE);
+            tv3.setVisibility(View.GONE);
+            tv4.setVisibility(View.GONE);
+        }
 
-            imageOptions = new ImageOptions.Builder ()
+        tv5.setText(bigImage.getDescription()!=null?bigImage.getDescription():"");
+        imageOptions = new ImageOptions.Builder()
 //                .setSize(((BaseActivity) getActivity()).getWidth(), ((BaseActivity) getActivity()
-                    .setIgnoreGif(false)
-                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-                    .setUseMemCache(true)
-                    .setFadeIn(true)
-                    .build();
-            x.image().bind(iv, bigImage.getOrigin_image_url(), imageOptions, new
-                    CustomBitmapLoadCallBack());
-
-
-
+                .setIgnoreGif(false)
+                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                .setUseMemCache(true)
+                .setFadeIn(true)
+                .build();
+        x.image().bind(iv, bigImage.getOrigin_image_url(), imageOptions, new
+                CustomBitmapLoadCallBack());
     }
 
 
@@ -176,7 +206,7 @@ public class BigImageFragment extends BaseFragment {
         public void onSuccess(Drawable result) {
             mAnimate.stop();
             load.setVisibility(View.GONE);
-            drawableToBitamp(result);
+            drawableToBitmap(result);
         }
 
         @Override
@@ -194,27 +224,34 @@ public class BigImageFragment extends BaseFragment {
 
     @Event(value = R.id.btn0, type = View.OnClickListener.class)
     private void btnOnClick(View view) {
-//        iv.setDrawingCacheEnabled(true);
-//        Bitmap bm = iv.getDrawingCache();
-//        WallpaperManager wallpaperManager = WallpaperManager.getInstance(getActivity());
-//        try {
-//            wallpaperManager.setBitmap(bm);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        wallpaperManager.suggestDesiredDimensions(((BaseActivity) getActivity()).getWidth(), (
-//                (BaseActivity) getActivity()).getHight());
-//        iv.setDrawingCacheEnabled(false);
-        WallpaperManager manager = WallpaperManager.getInstance(getActivity());
 
-        try {
-            manager.setBitmap(bitmap);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        setWallpaper();
     }
 
-    private void drawableToBitamp(Drawable drawable) {
+    private void setWallpaper() {
+        getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                context._cCdialog.show();
+
+            }
+        });
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WallpaperManager manager = WallpaperManager.getInstance(context);
+                try {
+                    manager.setBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+    }
+
+    private void drawableToBitmap(Drawable drawable) {
         int w = drawable.getIntrinsicWidth();
         int h = drawable.getIntrinsicHeight();
         System.out.println("Drawable转Bitmap");
