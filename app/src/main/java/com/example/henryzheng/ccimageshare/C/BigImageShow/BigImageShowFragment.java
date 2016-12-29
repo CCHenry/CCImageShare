@@ -28,7 +28,7 @@ public class BigImageShowFragment extends BaseFragment implements MainFragmentIn
     @ViewInject(R.id.viewPage0)
     private MyViewPage2 viewPager;
     static List<Image> images = new ArrayList<>();
-    static int imageAmout = 300;
+    static int imageAmout = 1200;
     static List<BigImageFragment> bigImageFragments;
     private static MainFragmentsPresenter presenter;
     static ImageListBaseModel imageListBaseModel;
