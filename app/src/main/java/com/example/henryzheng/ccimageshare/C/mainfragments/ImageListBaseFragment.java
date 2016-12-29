@@ -97,7 +97,7 @@ public class ImageListBaseFragment extends BaseFragment implements MyItemClickLi
         intent.putExtra("images", (Serializable) recycleAdapter.getImages());
         intent.putExtra("imageListBaseModel", imageListBaseModel);
         intent.putExtra("position", postion-1);
-
+        presenter.loadImageToCacheForBG(postion,recycleAdapter.getImages().get(postion-1).getImage_url());
         startActivity(intent);
     }
 
@@ -110,6 +110,7 @@ public class ImageListBaseFragment extends BaseFragment implements MyItemClickLi
     public void onResume() {
         super.onResume();
         CCLog.print("onResume");
+
     }
 
 
@@ -135,6 +136,6 @@ public class ImageListBaseFragment extends BaseFragment implements MyItemClickLi
     @Override
     public void onDestroy() {
         super.onDestroy();
-
     }
+
 }

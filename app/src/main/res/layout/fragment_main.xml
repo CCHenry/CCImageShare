@@ -4,11 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-                android:background="@drawable/list_bg2"
+                android:id="@id/rl2"
     tools:context=".C.Base.BaseActivity">
 
-
-
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blue"
+    android:id="@id/iv"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"
+        />
     <com.example.henryzheng.ccimageshare.V.MainFragmentViewPage
         android:id="@+id/mainPage"
         android:layout_width="match_parent"

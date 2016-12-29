@@ -28,18 +28,16 @@
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         <activity android:name=".C.main.MainPageActivity">
 
-            <!-- <activity android:name=".test.TestActivity"> -->
+             <!--<activity android:name=".test.TestActivity">-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".C.loginAndRegister.LoginActivity"/>
-        <activity android:name=".C.loginAndRegister.RegisterActivity"/>
+
         <activity android:name=".C.BigImageShow.BigImageShowActivity"/>
         <activity android:name=".test.ImageTypeActivity"/>
-        <activity android:name=".C.loginAndRegister.LoadActivity"/>
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"

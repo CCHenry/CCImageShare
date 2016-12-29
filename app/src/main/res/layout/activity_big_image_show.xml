@@ -3,9 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/list_bg2"
     android:id="@id/rl0"
     tools:context=".C.BigImageShow.BigImageShowActivity">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@id/iv"/>
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"

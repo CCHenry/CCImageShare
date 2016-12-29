@@ -24,17 +24,17 @@ public class CCPictureUtil {
     // 根据路径获得图片并压缩，返回bitmap用于显示
     public static Bitmap getSmallBitmap(BaseActivity activity, Uri uri) {
         BitmapFactory.Options newOpts = new BitmapFactory.Options();
-        String srcPath=CCFileUtil.getPathFromUrl(activity,uri);
+        String srcPath = CCFileUtil.getPathFromUrl(activity, uri);
         //开始读入图片，此时把options.inJustDecodeBounds 设回true了
         newOpts.inJustDecodeBounds = true;
-        Bitmap bitmap = BitmapFactory.decodeFile(srcPath,newOpts);//此时返回bm为空
+        Bitmap bitmap = BitmapFactory.decodeFile(srcPath, newOpts);//此时返回bm为空
 
         newOpts.inJustDecodeBounds = false;
         int w = newOpts.outWidth;
         int h = newOpts.outHeight;
         //现在主流手机比较多是800*480分辨率，所以高和宽我们设置为
-        float hh = activity.getHight()/2;//这里设置高度为800f
-        float ww = activity.getWidth()/2;//这里设置宽度为480f
+        float hh = activity.getHight() / 2;//这里设置高度为800f
+        float ww = activity.getWidth() / 2;//这里设置宽度为480f
         //缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可
         int be = 1;//be=1表示不缩放
         if (w > h && w > ww) {//如果宽度大的话根据宽度固定大小缩放
@@ -50,21 +50,51 @@ public class CCPictureUtil {
         return compressImage(bitmap);//压缩好比例大小后再进行质量压缩
 
     }
+
     //计算图片的缩放值
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int
+            reqHeight) {
         final int height = options.outHeight;
         final int width = options.outWidth;
         int inSampleSize = 1;
         if (height > reqHeight || width > reqWidth) {
             final int heightRatio = height / reqHeight;
-            final int widthRatio = width /  reqWidth;
+            final int widthRatio = width / reqWidth;
             inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
         }
         return inSampleSize;
     }
-    /**
-     * 保存bitmap到本地方法
-     */
+    public static void saveBitmap(Bitmap bitmap, File f) {
+
+        if (f.exists()) {
+            f.delete();
+        } else {
+            if (!f.getParentFile().exists()) {
+                f.mkdirs();
+            }
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            FileOutputStream out = new FileOutputStream(f);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 30, out);
+            out.flush();
+            out.close();
+            CCLog.print("已经保存");
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+        /**
+         * 保存bitmap到本地方法
+         */
     public static void saveBitmap(Bitmap bitmap, String path, String name) {
         CCLog.print("保存图片");
         File f = new File(path, name);
@@ -96,23 +126,40 @@ public class CCPictureUtil {
             e.printStackTrace();
         }
     }
+
     private static Bitmap compressImage(Bitmap image) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
         int options = 100;
-        while ( baos.toByteArray().length / 1024>100) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+        while (baos.toByteArray().length / 1024 > 100) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
             baos.reset();//重置baos即清空baos
             image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
             options -= 10;//每次都减少10
         }
-        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
+        //把压缩后的数据baos存放到ByteArrayInputStream中
         Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
         return bitmap;
     }
-    public  Bitmap getGaoSiBitmap(Bitmap bitmap){
-        Bitmap newBitmap = StackBlur.blurNativelyPixels(bitmap, (int) 20, false);
+
+    public static Bitmap getGSBitmap(Bitmap bitmap) {
+        Bitmap newBitmap = StackBlur.blurNativelyPixels(bitmap, (int) 10, false);
         return newBitmap;
     }
 
+    public static Bitmap getBitmapFromFile(File file) {
+        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), getBitmapOption(2));
+        //将图片的长和宽缩小味原来的1/2
+        return bitmap;
+
+    }
+
+    private static BitmapFactory.Options getBitmapOption(int inSampleSize) {
+        System.gc();
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPurgeable = true;
+        options.inSampleSize = inSampleSize;
+        return options;
+    }
 }

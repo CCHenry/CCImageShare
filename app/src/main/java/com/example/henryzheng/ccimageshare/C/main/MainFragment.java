@@ -3,6 +3,8 @@ package com.example.henryzheng.ccimageshare.C.main;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
@@ -19,24 +22,21 @@ import com.example.henryzheng.ccimageshare.C.mainfragments.ImageListBaseFragment
 import com.example.henryzheng.ccimageshare.C.mainfragments.model.HotContributorModel;
 import com.example.henryzheng.ccimageshare.C.mainfragments.model.TodayZuiMeiModel;
 import com.example.henryzheng.ccimageshare.C.mainfragments.model.ZuiMeiBestModel;
-import com.example.henryzheng.ccimageshare.M.data.ImageModel;
+import com.example.henryzheng.ccimageshare.M.Contants.MyContonts;
 import com.example.henryzheng.ccimageshare.M.utils.CCLog;
 import com.example.henryzheng.ccimageshare.R;
 import com.example.henryzheng.ccimageshare.V.MainFragmentViewPage;
 import com.example.henryzheng.ccimageshare.V.NavigationView;
 
+import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+import org.xutils.x;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
-import cn.bmob.v3.listener.UploadFileListener;
 
 @ContentView(R.layout.fragment_main)
 public class MainFragment extends BaseFragment {
@@ -50,6 +50,9 @@ public class MainFragment extends BaseFragment {
     private RelativeLayout rl;
     @ViewInject(R.id.nv)
     private NavigationView nv;
+    @ViewInject(R.id.iv)
+    private ImageView iv;
+
     private List<BaseFragment> _fragments;
     int currentIndex = 0;//当前的fragment Index
 
@@ -67,7 +70,16 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        if (new File(MyContonts.bgCahe).exists()){
+            ImageOptions imageOptions = new ImageOptions.Builder()
+                    .setCrop(true) // 很多时候设置了合适的scaleType也不需要它.
+                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                    .setFadeIn(true)
+                    .setUseMemCache(false)
+                    .build();
+            x.image().bind(iv,MyContonts.bgCahe,imageOptions);
+            iv.getDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        }
 
     }
 
@@ -113,53 +125,7 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    /**
-     * 上传大图片和缩略图
-     *
-     * @param bigImageFile
-     * @param smallImageFile
-     */
-    private void uploadPicture(final BmobFile bigImageFile, final BmobFile smallImageFile) {
-        smallImageFile.upload(new UploadFileListener() {
-            @Override
-            public void done(BmobException e) {
-                if (e == null) {
-                    bigImageFile.upload(new UploadFileListener() {
-                        @Override
-                        public void done(BmobException e) {
-                            if (e == null) {
-                                CCLog.print(bigImageFile.getFileUrl());
-                                savePictureToServer(bigImageFile, smallImageFile);
-                            }
-                        }
-                    });
-                }
-            }
-        });
 
-    }
-
-    /**
-     * /保存图片到服务端的表
-     *
-     * @param bigImageFile
-     * @param smallImageFile
-     */
-    private void savePictureToServer(BmobFile bigImageFile, BmobFile smallImageFile) {
-        ImageModel imageModel = new ImageModel();
-        imageModel.setUsername(getBmobUser().getUsername());
-        imageModel.setBigPicUrl(bigImageFile.getFileUrl());
-        imageModel.setSmallPicUrl(smallImageFile.getFileUrl());
-        imageModel.save(new SaveListener<String>() {
-            @Override
-            public void done(String s, BmobException e) {
-                if (e == null)
-                    CCLog.print("cause:" + e.getCause() + ",errorcode" + e.getErrorCode());
-                else
-                    CCLog.print("submit Success:" + s);
-            }
-        });
-    }
 
     /**
      * 裁剪图片

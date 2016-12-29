@@ -48,7 +48,7 @@ public class CCFileUtil {
         if (file.exists()) {
 
         } else {
-            file.mkdirs();
+            file.getParentFile().mkdirs();
         }
         return path;
     }
