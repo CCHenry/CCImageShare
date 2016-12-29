@@ -1,16 +1,25 @@
 package com.example.henryzheng.ccimageshare.C.mainfragments.p;
 
+import android.graphics.Bitmap;
+import android.widget.ImageView;
+
 import com.example.henryzheng.ccimageshare.C.mainfragments.i.MainFragmentInterface;
 import com.example.henryzheng.ccimageshare.C.mainfragments.model.TodayZuiMeiModel;
 import com.example.henryzheng.ccimageshare.M.CallBack.MyCallBack;
+import com.example.henryzheng.ccimageshare.M.Contants.MyContonts;
 import com.example.henryzheng.ccimageshare.M.NetWork.NetWorkUtil;
 import com.example.henryzheng.ccimageshare.M.Sql.CCDatabaseOpenHelper;
 import com.example.henryzheng.ccimageshare.M.ZuiMeiModel.Image;
 import com.example.henryzheng.ccimageshare.M.ZuiMeiModel.ZuiMeiTotayListResponse;
 import com.example.henryzheng.ccimageshare.M.utils.CCLog;
+import com.example.henryzheng.ccimageshare.M.utils.CCPictureUtil;
 
 import org.xutils.DbManager;
+import org.xutils.common.Callback;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,14 +28,14 @@ import java.util.List;
  */
 public class MainFragmentsPresenter {
     String realRequestUrl;
-     int page = 0;
+    int page = 0;
     String url;
     public static int LOAD_MORE_TYPE = 0;
     public static int REFRESH_DATA_TYPE = 1;
     MainFragmentInterface mainFragmentInterface;
     private List<Image> images;
     String type;
-    DbManager db= CCDatabaseOpenHelper.getInstance();
+    DbManager db = CCDatabaseOpenHelper.getInstance();
 
     /**
      * @param mainFragmentInterface
@@ -39,7 +48,7 @@ public class MainFragmentsPresenter {
         this.mainFragmentInterface = mainFragmentInterface;
         this.url = url;
         this.type = type;
-         }
+    }
 
     /**
      * 网络请求数据
@@ -55,7 +64,7 @@ public class MainFragmentsPresenter {
                         super.onSuccess(result);
                         if (result.getData().getImages().size() > 0) {
                             transImageUrl(result);
-                            handlerAndShowImages( load_data_type,result);
+                            handlerAndShowImages(load_data_type, result);
                         }
                     }
 
@@ -71,10 +80,11 @@ public class MainFragmentsPresenter {
 
     /**
      * 处理图片和展示
+     *
      * @param load_data_type
      * @param result
      */
-    private void handlerAndShowImages( final int load_data_type,ZuiMeiTotayListResponse result) {
+    private void handlerAndShowImages(final int load_data_type, ZuiMeiTotayListResponse result) {
         if (load_data_type == LOAD_MORE_TYPE) {
             mainFragmentInterface.loadNewImages(result.getData().getImages());
 
@@ -84,12 +94,13 @@ public class MainFragmentsPresenter {
 
     /**
      * 根据刷新和加载处理page
+     *
      * @param load_data_type
      */
     private void handlerPage(int load_data_type) {
-        if (load_data_type==REFRESH_DATA_TYPE){
-            page=1;
-        }else
+        if (load_data_type == REFRESH_DATA_TYPE) {
+            page = 1;
+        } else
             page++;
     }
 
@@ -116,7 +127,6 @@ public class MainFragmentsPresenter {
         while (iterator.hasNext()) {
             Image image = iterator.next();
             image.setOrigin_image_url(baseurl + image.getImage_url());
-
             image.setImage_url(baseurl + image.getImage_url() +
                     "?imageMogr/v2/auto-orient/thumbnail/800x600/quality/80");
             this.images = response.getData().getImages();
@@ -127,4 +137,61 @@ public class MainFragmentsPresenter {
     public void setPage(int page) {
         this.page = page;
     }
+
+    public void loadImageToCacheForBG(int position,String url) {
+        ImageOptions imageOptions = new ImageOptions.Builder()
+//                .setCrop(true) // 很多时候设置了合适的scaleType也不需要它.
+                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                .setUseMemCache(true)
+                .setFadeIn(true)
+                .build();
+        final File file = new File(MyContonts.bgCahe);
+        x.image().loadFile(url, imageOptions, new Callback
+                .CacheCallback<File>() {
+            @Override
+            public boolean onCache(File result) {
+                Bitmap handlerBitmap=CCPictureUtil.getGSBitmap(CCPictureUtil.getBitmapFromFile(result));
+             CCPictureUtil.saveBitmap( handlerBitmap,file);
+
+//                try {
+//                    int bytesum = 0;
+//                    int byteread = 0;
+//                    if (result.exists()) { //文件存在时
+//
+//                        InputStream inStream = new FileInputStream(result); //读入原文件
+//                        FileOutputStream fs = new FileOutputStream(file);
+//                        byte[] buffer = new byte[1024];
+//                        int length;
+//                        while ( (byteread = inStream.read(buffer)) != -1) {
+//                            bytesum += byteread; //字节数 文件大小
+//                            System.out.println(bytesum);
+//                            fs.write(buffer, 0, byteread);
+//                        }
+//                        inStream.close();
+//
+//                    }
+//                }
+//                catch (Exception e) {
+//                    System.out.println("复制单个文件操作出错");
+//                    e.printStackTrace();
+//
+//                }
+                return true;
+            }
+            @Override
+            public void onSuccess(File result) {
+
+            }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+            }
+            @Override
+            public void onCancelled(CancelledException cex) {
+            }
+            @Override
+            public void onFinished() {
+            }
+        });
+    }
+
 }
