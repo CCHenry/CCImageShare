@@ -74,10 +74,29 @@ public class NavigationView extends RelativeLayout implements View.OnClickListen
      */
     public void setMainPage(final MainFragmentViewPage viewPager) {
         this.viewPager = viewPager;
+        final int selectColor = getResources().getColor(R.color.gray2);
+        final int nomalColor = getResources().getColor(R.color.gray);
+
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-
+                switch (position) {
+                    case 0:
+                        tv0.setTextColor(selectColor);
+                        tv1.setTextColor(nomalColor);
+                        tv2.setTextColor(nomalColor);
+                        break;
+                    case 1:
+                        tv1.setTextColor(selectColor);
+                        tv0.setTextColor(nomalColor);
+                        tv2.setTextColor(nomalColor);
+                        break;
+                    case 2:
+                        tv2.setTextColor(selectColor);
+                        tv0.setTextColor(nomalColor);
+                        tv1.setTextColor(nomalColor);
+                        break;
+                }
             }
 
             @Override

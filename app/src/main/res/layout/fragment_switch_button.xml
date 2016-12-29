@@ -9,8 +9,8 @@
         android:id="@id/btn"
         android:layout_width="19dip"
         android:layout_height="19dip"
-        android:background="@drawable/set"
-        android:layout_margin="6dp"
+        android:background="@drawable/icon_category"
+        android:layout_margin  ="6dp"
         android:layout_centerInParent="true"
         />
 </RelativeLayout>

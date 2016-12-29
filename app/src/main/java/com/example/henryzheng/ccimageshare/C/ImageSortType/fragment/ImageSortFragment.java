@@ -8,8 +8,8 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
+import com.example.henryzheng.ccimageshare.C.ImageSortType.ImageSortInfoListActivity;
 import com.example.henryzheng.ccimageshare.C.ImageSortType.adapt.ImageSortTypeAdapt;
-import com.example.henryzheng.ccimageshare.test.ImageTypeActivity;
 import com.example.henryzheng.ccimageshare.M.Interface.MyItemClickListener;
 import com.example.henryzheng.ccimageshare.R;
 
@@ -30,32 +30,61 @@ public class ImageSortFragment extends BaseFragment {
     private RecyclerView _recyclerView;
     private ImageSortTypeAdapt _adapt;
     private List<Map<String, String>> _list;
+    String waitFormatUrl = "http://lab.zuimeia.com/wallpaper/category/1/tag/%d/list/?appVersion=2" +
+            ".6.3&channel=wallpaper&imsi=460012202301362&systemVersion=23&resolution=1080x1920" +
+            "&platform=android&package_name=com.brixd" +
+            ".wallpager&page=1&lang=zh-cn&openUDID=862258036210848&page_size=30&timestamp" +
+            "=1482979226514";
     private String[] titles = new String[]{
-            "风景",
-            "美食",
-            "动物",
-            "动漫",
-            "小清新",
-            "科幻",
+            "热血运动",
+            "素雅",
             "唯美",
             "美女",
+            "二次元",
+            "文艺范",
+            "美食",
+            "风景",
+            "插画",
+            "植物",
+            "建筑",
+
     };
     private String[] urls = new String[]{
-            "http://bbs.crsky.com/1236983883/Mon_1209/25_187069_54464ce0c7d1c2d.jpg",
-            "http://imgstore.cdn.sogou.com/app/a/100540002/786019.jpg",
-            "http://img0.imgtn.bdimg.com/it/u=1469756649,1649042265&fm=21&gp=0.jpg",
-            "http://img2.imgtn.bdimg.com/it/u=3527562083,3958196011&fm=21&gp=0.jpg",
-            "http://t-1.tuzhan.com/86ace0afc48f/c-2/l/2013/08/26/01/a28777d739b74b128f644e5eb136df88.jpg",
-            "http://img2.imgtn.bdimg.com/it/u=2194727581,2431101215&fm=21&gp=0.jpg",
-            "http://img2.imgtn.bdimg.com/it/u=3234292358,3812132590&fm=21&gp=0.jpg",
-            "http://c.hiphotos.baidu.com/image/h%3D200/sign=4410fdbdab773912db268261c8198675/730e0cf3d7ca7bcbb8557c2fbc096b63f624a880.jpg",
+            "http://img.pconline.com" +
+                    ".cn/images/upload/upc/tx/wallpaper/1307/10/c2/23152106_1373425282143.jpg",
+            "http://i2.sinaimg.cn/travel/2013/1220/U8822P704DT20131220105515.jpg",
+            "http://tupian.enterdesk.com/2014/lxy/2014/05/24/2/11.jpg",
+            "http://c.hiphotos.baidu.com/image/pic/item/b7003af33a87e95097d47eac14385343faf2b42b" +
+                    ".jpg",
+            "http://i0.hdslb.com/bfs/archive/decf3cc64149dde20a6b6b6ca2933d22bffce6dd.jpg",
+            "http://h.jiaju.sina.com.cn/images/2013/0312/U4093P897DT20130312091940.jpg",
+            "http://img1.imgtn.bdimg.com/it/u=2977549189,1146316290&fm=21&gp=0.jpg",
+            "http://tupian.enterdesk.com/2013/mxy/12/10/15/3.jpg",
+            "http://img5q.duitang.com/uploads/item/201505/22/20150522003153_S2kQU.thumb.700_0.jpeg",
+            "http://img0.imgtn.bdimg.com/it/u=3023602300,2118512604&fm=21&gp=0.jpg",
+            "http://pic.58pic.com/58pic/13/84/50/27f58PICrWk_1024.jpg"
+    };
+    private int[] tags = new int[]{
+            5004,
+            37,
+            40,
+            38,
+            1071,
+            34,
+            19,
+            18,
+            24,
+            26,
+            23
+
     };
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        _adapt = new ImageSortTypeAdapt(getActivity(),2);
-        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, RecyclerView.VERTICAL);
+        _adapt = new ImageSortTypeAdapt(getActivity(), 2);
+        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, RecyclerView
+                .VERTICAL);
         _recyclerView.setLayoutManager(manager);
         _recyclerView.setAdapter(_adapt);
         _recyclerView.setItemAnimator(new DefaultItemAnimator());// 设置增加或删除条目的动画
@@ -63,7 +92,10 @@ public class ImageSortFragment extends BaseFragment {
         _adapt.setOnItemClickListener(new MyItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
-                Intent intent=new Intent(getActivity(), ImageTypeActivity.class);
+                Intent intent = new Intent(getActivity(), ImageSortInfoListActivity.class);
+                intent.putExtra("loadListUrl",String.format(waitFormatUrl,tags[postion]));
+                intent.putExtra("title",titles[postion]);
+
                 startActivity(intent);
             }
         });
@@ -71,6 +103,7 @@ public class ImageSortFragment extends BaseFragment {
 
     /**
      * 返回图片的url和title列表
+     *
      * @return
      */
     private List<Map<String, String>> getImageInfoList() {
@@ -79,6 +112,7 @@ public class ImageSortFragment extends BaseFragment {
             Map<String, String> map = new HashMap<>();
             map.put("url", urls[i]);
             map.put("title", titles[i]);
+            map.put("imageUrl",String.format(waitFormatUrl,tags[i]));
             _list.add(map);
         }
         return _list;

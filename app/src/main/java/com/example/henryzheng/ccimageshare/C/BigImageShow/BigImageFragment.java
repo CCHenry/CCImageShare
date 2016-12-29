@@ -2,17 +2,12 @@ package com.example.henryzheng.ccimageshare.C.BigImageShow;
 
 import android.animation.ValueAnimator;
 import android.app.WallpaperManager;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.PixelFormat;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -45,8 +40,7 @@ public class BigImageFragment extends BaseFragment {
     private ImageView iv;
     @ViewInject(R.id.load)
     private ImageView load;
-    @ViewInject(R.id.tv0)
-    private TextView tv0;
+
     @ViewInject(R.id.rl0)
     private RelativeLayout rl0;
     @ViewInject(R.id.lin0)
@@ -86,24 +80,24 @@ public class BigImageFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         context= (BaseActivity) getActivity();
 
-        SensorManager sm = (SensorManager) (getActivity()).getSystemService(Context.SENSOR_SERVICE);
-        Sensor sensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        //添加重力感应侦听，并实现其方法，
-        SensorEventListener sel = new SensorEventListener() {
-            public void onSensorChanged(final SensorEvent se) {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                });
-            }
-
-            public void onAccuracyChanged(Sensor arg0, int arg1) {
-            }
-        };
+//        SensorManager sm = (SensorManager) (getActivity()).getSystemService(Context.SENSOR_SERVICE);
+//        Sensor sensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+//        //添加重力感应侦听，并实现其方法，
+//        SensorEventListener sel = new SensorEventListener() {
+//            public void onSensorChanged(final SensorEvent se) {
+//                handler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                    }
+//                });
+//            }
+//
+//            public void onAccuracyChanged(Sensor arg0, int arg1) {
+//            }
+//        };
         //注册Listener，SENSOR_DELAY_GAME为检测的精确度，
-        sm.registerListener(sel, sensor, SensorManager.SENSOR_DELAY_GAME);
+//        sm.registerListener(sel, sensor, SensorManager.SENSOR_DELAY_GAME);
         rl0.setOnTouchListener(new View.OnTouchListener() {
             public RelativeLayout.LayoutParams parms;
             public float moveY;
@@ -117,7 +111,7 @@ public class BigImageFragment extends BaseFragment {
                     moveY = event.getY();
                     parms = (RelativeLayout.LayoutParams) lin0.getLayoutParams();
                     if (startY - moveY > 0) {
-                        parms.bottomMargin = (int) ((startY - moveY) * 0.3f);
+                        parms.bottomMargin = (int) ((startY - moveY) * 0.6f);
                         lin0.requestLayout();
                         rl1.getLayoutParams().height = parms.bottomMargin;
                         rl1.requestLayout();
@@ -157,6 +151,7 @@ public class BigImageFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (bigImage!=null){
         if (bigImage.getPub_time() != null) {
                 if (bigImage.getPub_time().contains("-")) {
                     String[] arr = DateUtil.getFormDateFromDate(bigImage.getPub_time());
@@ -172,7 +167,7 @@ public class BigImageFragment extends BaseFragment {
 
         tv5.setText(bigImage.getDescription()!=null?bigImage.getDescription():"");
         imageOptions = new ImageOptions.Builder()
-//                .setSize(((BaseActivity) getActivity()).getWidth(), ((BaseActivity) getActivity()
+                .setSize(((BaseActivity) getActivity()).getWidth()*1/2, ((BaseActivity) getActivity()).getHight()*1/2)
                 .setIgnoreGif(false)
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .setUseMemCache(true)
@@ -180,8 +175,20 @@ public class BigImageFragment extends BaseFragment {
                 .build();
         x.image().bind(iv, bigImage.getOrigin_image_url(), imageOptions, new
                 CustomBitmapLoadCallBack());
+    }}
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable("bigImage",bigImage);
+        super.onSaveInstanceState(outState);
     }
 
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if(savedInstanceState != null){
+        bigImage= (Image) savedInstanceState.get("bigImage");
+    }}
 
     public class CustomBitmapLoadCallBack implements Callback.ProgressCallback<Drawable> {
         AnimationDrawable mAnimate;
@@ -233,7 +240,6 @@ public class BigImageFragment extends BaseFragment {
             @Override
             public void run() {
                 context._cCdialog.show();
-
             }
         });
 
@@ -252,16 +258,24 @@ public class BigImageFragment extends BaseFragment {
     }
 
     private void drawableToBitmap(Drawable drawable) {
-        int w = drawable.getIntrinsicWidth();
-        int h = drawable.getIntrinsicHeight();
-        System.out.println("Drawable转Bitmap");
-        Bitmap.Config config =
-                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
-                        : Bitmap.Config.RGB_565;
-        bitmap = Bitmap.createBitmap(w, h, config);
-        //注意，下面三行代码要用到，否在在View或者surfaceview里的canvas.drawBitmap会看不到图
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, w, h);
-        drawable.draw(canvas);
+//        int w = drawable.getIntrinsicWidth();
+//        int h = drawable.getIntrinsicHeight();
+//
+////        System.out.println("Drawable转Bitmap");
+//        Bitmap.Config config =
+//                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+//                        : Bitmap.Config.RGB_565;
+//        bitmap = Bitmap.createBitmap(w, h, config);
+//        //注意，下面三行代码要用到，否在在View或者surfaceview里的canvas.drawBitmap会看不到图
+//        Canvas canvas = new Canvas(bitmap);
+//        drawable.setBounds(0, 0, w, h);
+//        drawable.draw(canvas);
+        BitmapDrawable bd = (BitmapDrawable) drawable;
+                 bitmap = bd.getBitmap();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

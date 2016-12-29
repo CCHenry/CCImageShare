@@ -1,6 +1,7 @@
 package com.example.henryzheng.ccimageshare.C.ImageSortType.adapt;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,7 +43,7 @@ public class ImageSortTypeAdapt extends RecyclerView.Adapter<ImageSortTypeAdapt.
         dataList=new ArrayList<>();
         _imageOptions = new ImageOptions.Builder()
                 .setSize(DensityUtil.dip2px(200), DensityUtil.dip2px(200))
-                .setRadius(DensityUtil.dip2px(5))
+//                .setRadius(DensityUtil.dip2px(5))
                 // 如果ImageView的大小不是定义为wrap_content, 不要crop.
                 .setCrop(true) // 很多时候设置了合适的scaleType也不需要它.
                 // 加载中或错误图片的ScaleType
@@ -73,18 +73,24 @@ public class ImageSortTypeAdapt extends RecyclerView.Adapter<ImageSortTypeAdapt.
 
         x.image().bind(holder.iv, dataList.get(position).get("url"), _imageOptions, new CustomBitmapLoadCallBack(holder));
         holder.tv.setText( dataList.get(position).get("title"));
-//        if (holder.iv.getWidth() > holder.iv.getHeight())
         int width = ((BaseActivity) _context).getWidth() /spanCount;
-//        int height=(int)(width*3/4+Math.random()*(width*7/4-width*3/4+1));
         holder.iv.setLayoutParams(new RelativeLayout.LayoutParams(width, width));
         ViewTreeObserver vto = holder.iv.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 holder.iv.getHeight();
+                if (position==1){
+                    holder.iv.setLayoutParams(new RelativeLayout.LayoutParams(holder.iv.getWidth(), holder.iv.getWidth()/2));
+                }else if (position==getItemCount()-1){
+                    holder.iv.setLayoutParams(new RelativeLayout.LayoutParams(holder.iv.getWidth(), holder.iv.getWidth()/2));
+
+                }
+                else
                 holder.iv.setLayoutParams(new RelativeLayout.LayoutParams(holder.iv.getWidth(), holder.iv.getWidth()));
             }
         });
+
     }
 
     @Override
@@ -95,14 +101,14 @@ public class ImageSortTypeAdapt extends RecyclerView.Adapter<ImageSortTypeAdapt.
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView iv;
-        ProgressBar pb;
+        ImageView load;
         TextView tv;
         MyItemClickListener _mItemClickListener;
 
         public MyViewHolder(final View view, MyItemClickListener _mItemClickListener) {
             super(view);
             iv = (ImageView) view.findViewById(R.id.iv);
-            pb = (ProgressBar) view.findViewById(R.id.pb);
+            load = (ImageView) view.findViewById(R.id.load);
             tv=(TextView )view.findViewById(R.id.tv);
 
             view.setOnClickListener(this);
@@ -115,53 +121,53 @@ public class ImageSortTypeAdapt extends RecyclerView.Adapter<ImageSortTypeAdapt.
         }
     }
 
+    /**
+     * 图片加载时的回调
+     */
     public class CustomBitmapLoadCallBack implements Callback.ProgressCallback<Drawable> {
         private final MyViewHolder holder;
-
+        AnimationDrawable mAnimate;
         public CustomBitmapLoadCallBack(MyViewHolder holder) {
             this.holder = holder;
-
         }
 
         @Override
         public void onWaiting() {
-            this.holder.pb.setProgress(0);
-
+            this.holder.load.setVisibility(View.VISIBLE);
+            mAnimate = (AnimationDrawable) this.holder.load.getBackground();
+            mAnimate.setOneShot(false);
+            mAnimate.start();
         }
-
 
         @Override
         public void onStarted() {
-
         }
 
         @Override
         public void onLoading(long total, long current, boolean isDownloading) {
-            this.holder.pb.setProgress((int) (current * 100 / total));
 
         }
 
         @Override
         public void onSuccess(Drawable result) {
-            this.holder.pb.setProgress(100);
-
+            this.holder.load.setVisibility(View.GONE);
+            mAnimate.stop();
         }
 
         @Override
         public void onError(Throwable ex, boolean isOnCallback) {
-
         }
 
         @Override
         public void onCancelled(CancelledException cex) {
-
         }
 
         @Override
         public void onFinished() {
-
         }
     }
+
+
 
     public void loadImgList(List<Map<String,String>> dataList) {
 

@@ -4,6 +4,8 @@ package com.example.henryzheng.ccimageshare.C.mainfragments.model;
  * Created by henryzheng on 2016/12/20.
  */
 public class HotContributorModel extends  ImageListBaseModel{
+
+
     @Override
     public String getUrl() {
         return    "http://lab.zuimeia.com/photo/userpicture/list/?appVersion=2.6" +

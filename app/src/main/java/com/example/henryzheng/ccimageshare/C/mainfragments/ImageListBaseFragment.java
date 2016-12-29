@@ -132,5 +132,9 @@ public class ImageListBaseFragment extends BaseFragment implements MyItemClickLi
         recycleAdapter.refreshData(images1);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
+    }
 }

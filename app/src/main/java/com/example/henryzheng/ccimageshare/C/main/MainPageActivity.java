@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.widget.RelativeLayout;
 
 import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
 import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
@@ -13,9 +12,9 @@ import com.example.henryzheng.ccimageshare.C.ImageSortType.fragment.ImageSortFra
 import com.example.henryzheng.ccimageshare.M.utils.CCLog;
 import com.example.henryzheng.ccimageshare.R;
 import com.example.henryzheng.ccimageshare.V.BaseViewPage;
+import com.example.henryzheng.ccimageshare.V.DepthPageTransformer;
 import com.example.henryzheng.ccimageshare.V.MyScroll;
 import com.example.henryzheng.ccimageshare.V.SwitchButtonFragment;
-import com.example.henryzheng.ccimageshare.V.DepthPageTransformer;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -30,8 +29,7 @@ public class MainPageActivity extends BaseActivity{
     private List<BaseFragment> _fragments;
     @ViewInject(R.id.mainViewPager)
     private BaseViewPage mainViewPager;
-    @ViewInject(R.id.rl)
-    private RelativeLayout rl;
+
     @ViewInject(R.id.switch_fg)
     private SwitchButtonFragment switchButtonFragment;
 
@@ -44,18 +42,18 @@ public class MainPageActivity extends BaseActivity{
         mainViewPager.setPageTransformer(true,new DepthPageTransformer());
 
         mainViewPager.setAdapter(mainPageAdapt);
-        mainViewPager.setCurrentItem(0);
+        mainViewPager.setCurrentItem(1);
         SwitchButtonFragment.setOnSwitchClickListener(new SwitchButtonFragment.OnSwitchClickListner() {
-            int change = -1;
 
             @Override
             public void onClick() {
-                change = -change;
-                if (change == -1)
-                    mainViewPager.setCurrentItem(0);
-                else
+                int position=mainViewPager.getCurrentItem();
+
+                if (position == 0)
                     mainViewPager.setCurrentItem(1);
-                CCLog.print("change" + change);
+                else
+                    mainViewPager.setCurrentItem(0);
+                CCLog.print("position" + position);
             }
         });
     }

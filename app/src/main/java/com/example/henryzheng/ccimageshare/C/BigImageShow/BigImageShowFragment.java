@@ -4,7 +4,7 @@ package com.example.henryzheng.ccimageshare.C.BigImageShow;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -28,7 +28,7 @@ public class BigImageShowFragment extends BaseFragment implements MainFragmentIn
     @ViewInject(R.id.viewPage0)
     private MyViewPage2 viewPager;
     static List<Image> images = new ArrayList<>();
-    static int imageAmout = 1000;
+    static int imageAmout = 100;
     static List<BigImageFragment> bigImageFragments;
     private static MainFragmentsPresenter presenter;
     static ImageListBaseModel imageListBaseModel;
@@ -87,7 +87,7 @@ public class BigImageShowFragment extends BaseFragment implements MainFragmentIn
     }
 
 
-    class MyViewPageAdapt extends FragmentPagerAdapter {
+    class MyViewPageAdapt extends FragmentStatePagerAdapter {
 
         public MyViewPageAdapt(FragmentManager fm) {
             super(fm);
@@ -96,10 +96,7 @@ public class BigImageShowFragment extends BaseFragment implements MainFragmentIn
         @Override
         public Fragment getItem(int position) {
             if (position > images.size()) {
-                synchronized (presenter.getClass()) {
                     presenter.loadListData(presenter.LOAD_MORE_TYPE);
-
-                }
             }
             return bigImageFragments.get(position);
 
@@ -107,7 +104,7 @@ public class BigImageShowFragment extends BaseFragment implements MainFragmentIn
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-//            super.destroyItem(container, position, object);
+            super.destroyItem(container, position, object);
         }
 
 

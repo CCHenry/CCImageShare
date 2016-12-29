@@ -7,14 +7,18 @@
     <RelativeLayout
         android:id="@id/rl"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/h1"
+        android:layout_height="@dimen/h5"
         android:background="@color/white">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Sort Picture" />
+            android:layout_centerVertical="true"
+            android:text="分类"
+            android:textColor="@color/gray2"
+            android:textSize="@dimen/sp0"
+            android:layout_marginLeft="60dip"
+            />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

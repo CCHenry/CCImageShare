@@ -7,8 +7,6 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.example.henryzheng.ccimageshare.M.utils.CCLog;
-
 /**
  * Created by henryzheng on 2016/12/22.
  */
@@ -60,9 +58,9 @@ public class NoBottomPaddingTextView extends TextView {
             fontMetricsInt = new Paint.FontMetricsInt();
             getPaint().getFontMetricsInt(fontMetricsInt);
         }
-        CCLog.print("fontMetricsInt.top:"+fontMetricsInt.top);
-        CCLog.print(" fontMetricsInt.ascent:"+ fontMetricsInt.ascent);
-        CCLog.print(" result"+ (fontMetricsInt.top - fontMetricsInt.ascent));
+//        CCLog.print("fontMetricsInt.top:"+fontMetricsInt.top);
+//        CCLog.print(" fontMetricsInt.ascent:"+ fontMetricsInt.ascent);
+//        CCLog.print(" result"+ (fontMetricsInt.top - fontMetricsInt.ascent));
 
         canvas.translate(0, -(fontMetricsInt.top - fontMetricsInt.ascent)*2);
 //        canvas.translate(0, fontMetricsInt.bottom + fontMetricsInt.ascent);

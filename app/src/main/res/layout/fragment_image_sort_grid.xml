@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.example.henryzheng.ccimageshare.C.ImageSort.ImageSortGridFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_margin="20dip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="分类"
+        android:layout_marginLeft="100dip"
+        android:id="@id/tv0"/>
+<android.support.v7.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@id/recycleView"
+    android:layout_below="@id/tv0">
+
+</android.support.v7.widget.RecyclerView>
+</RelativeLayout>

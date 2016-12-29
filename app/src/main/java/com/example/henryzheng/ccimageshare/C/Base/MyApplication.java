@@ -22,8 +22,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         x.Ext.init(this);
-        x.image().clearMemCache();
-        x.image().clearCacheFiles();
+        x.Ext.setDebug(true);
 //        x.Ext.setDebug(BuildConfig.);
         Bmob.initialize(this, "e17abe6223cb8a16d02b559e972724f4");
         _context = getApplicationContext();
