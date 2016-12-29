@@ -17,12 +17,12 @@
         android:layout_height="wrap_content"
         android:id="@id/rl"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="-10dp"
         >
         <com.example.henryzheng.ccimageshare.V.NoBottomPaddingTextView
 
             android:id="@+id/tv0"
            style="@style/TextViewStyle1"
+            android:layout_marginTop="-10dp"
             android:text="Dec"
             android:fontFamily="sans-serif"
             android:textSize="40sp"
@@ -30,6 +30,8 @@
             />
 
         <LinearLayout
+            android:layout_marginTop="-10dp"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -61,7 +63,7 @@
         android:id="@+id/tv3"
         android:textSize="15sp"
         android:layout_marginLeft="10dip"
-        android:layout_marginTop="4dip"
+        android:layout_marginTop="8dip"
         android:text="只是那天阳光正好"/>
 
     <ProgressBar

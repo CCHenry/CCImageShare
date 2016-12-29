@@ -57,12 +57,10 @@ public class MainFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initFragment();
-
         mainPager.setAdapter(new MainPageAdapt(getActivity().getSupportFragmentManager(),
                 _fragments));
         context = (BaseActivity) getActivity();
         nv.setMainPage(mainPager);
-
         mainPager.setDisplayView(rl);
     }
 

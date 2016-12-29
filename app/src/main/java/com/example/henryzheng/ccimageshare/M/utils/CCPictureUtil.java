@@ -6,6 +6,8 @@ import android.net.Uri;
 
 import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
 
+import net.qiujuer.genius.blur.StackBlur;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -108,4 +110,9 @@ public class CCPictureUtil {
         Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
         return bitmap;
     }
+    public  Bitmap getGaoSiBitmap(Bitmap bitmap){
+        Bitmap newBitmap = StackBlur.blurNativelyPixels(bitmap, (int) 20, false);
+        return newBitmap;
+    }
+
 }
