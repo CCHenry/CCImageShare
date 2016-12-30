@@ -108,6 +108,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
         MyItemClickListener _mItemClickListener;
         ImageView load;
         TextView tv0,tv1,tv2,tv3,tv4;
+        ImageView iv1;
         public MyViewHolder(int viewType, final View view, MyItemClickListener _mItemClickListener) {
             super(view);
             if (viewType == HEAD_TYPE) {
@@ -124,7 +125,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
                 tv2=(TextView) view.findViewById(R.id.tv2);
                 tv3=(TextView) view.findViewById(R.id.tv3);
                 tv4=(TextView) view.findViewById(R.id.tv4);
-
+                iv1=(ImageView)view.findViewById(R.id.iv1);
                 this._mItemClickListener = _mItemClickListener;
             }
 
@@ -148,8 +149,9 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
             if (position > 0 &&position <getItemCount()-1) {
                 x.image().bind(holder.iv, images.get(position - 1).getImage_url(), _imageOptions, new CustomBitmapLoadCallBack(holder));
                 int width = ((BaseActivity) _context).getWidth();
-                holder.iv.setLayoutParams(new RelativeLayout.LayoutParams(width, width * 3 / 4));
-
+                RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(width, width * 3 / 4);
+                holder.iv.setLayoutParams(params);
+                holder.iv1.setLayoutParams(params);
                 Image image=images.get(position-1);
                 holder.tv3.setText(image.getDescription());
                 holder.tv4.setText(image.getUp_times()+"");
@@ -242,7 +244,7 @@ public class MyRecycleAdapt extends RecyclerView.Adapter<MyRecycleAdapt.MyViewHo
         @Override
         public void onWaiting() {
             this.holder.pb.setProgress(0);
-            this.holder.pb.setVisibility(View.VISIBLE);
+            this.holder.pb.setVisibility(View.INVISIBLE);
             this.holder.load.setVisibility(View.VISIBLE);
             mAnimate = (AnimationDrawable) this.holder.load.getBackground();
             mAnimate.setOneShot(false);

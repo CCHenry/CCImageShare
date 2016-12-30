@@ -144,7 +144,8 @@ public class CCPictureUtil {
     }
 
     public static Bitmap getGSBitmap(Bitmap bitmap) {
-        Bitmap newBitmap = StackBlur.blurNativelyPixels(bitmap, (int) 10, false);
+        Bitmap newBitmap = StackBlur.blurNativelyPixels(bitmap, (int)5, false);
+
         return newBitmap;
     }
 

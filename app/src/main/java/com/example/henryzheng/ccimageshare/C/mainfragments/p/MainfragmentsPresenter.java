@@ -138,11 +138,11 @@ public class MainFragmentsPresenter {
         this.page = page;
     }
 
-    public void loadImageToCacheForBG(int position,String url) {
+    public void loadImageToCacheForBG(int position, String url) {
         ImageOptions imageOptions = new ImageOptions.Builder()
 //                .setCrop(true) // 很多时候设置了合适的scaleType也不需要它.
                 .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-                .setUseMemCache(true)
+                .setUseMemCache(false)
                 .setFadeIn(true)
                 .build();
         final File file = new File(MyContonts.bgCahe);
@@ -150,44 +150,30 @@ public class MainFragmentsPresenter {
                 .CacheCallback<File>() {
             @Override
             public boolean onCache(File result) {
-                Bitmap handlerBitmap=CCPictureUtil.getGSBitmap(CCPictureUtil.getBitmapFromFile(result));
-             CCPictureUtil.saveBitmap( handlerBitmap,file);
+                try {
+                    Bitmap bitmap=CCPictureUtil.getBitmapFromFile(result);
+                    Bitmap handlerBitmap=  CCPictureUtil.getGSBitmap(bitmap) ;
+                    CCPictureUtil.saveBitmap(handlerBitmap, file);
+                }catch (Exception e){
+                    CCLog.print(e.getCause().toString());
+                }
 
-//                try {
-//                    int bytesum = 0;
-//                    int byteread = 0;
-//                    if (result.exists()) { //文件存在时
-//
-//                        InputStream inStream = new FileInputStream(result); //读入原文件
-//                        FileOutputStream fs = new FileOutputStream(file);
-//                        byte[] buffer = new byte[1024];
-//                        int length;
-//                        while ( (byteread = inStream.read(buffer)) != -1) {
-//                            bytesum += byteread; //字节数 文件大小
-//                            System.out.println(bytesum);
-//                            fs.write(buffer, 0, byteread);
-//                        }
-//                        inStream.close();
-//
-//                    }
-//                }
-//                catch (Exception e) {
-//                    System.out.println("复制单个文件操作出错");
-//                    e.printStackTrace();
-//
-//                }
-                return true;
+                return false;
             }
+
             @Override
             public void onSuccess(File result) {
 
             }
+
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
             }
+
             @Override
             public void onCancelled(CancelledException cex) {
             }
+
             @Override
             public void onFinished() {
             }

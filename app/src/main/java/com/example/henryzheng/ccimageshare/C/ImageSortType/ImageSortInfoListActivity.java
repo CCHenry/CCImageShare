@@ -1,7 +1,5 @@
 package com.example.henryzheng.ccimageshare.C.ImageSortType;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -36,8 +34,6 @@ public class ImageSortInfoListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FragmentManager manager = getFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
         Intent intent = getIntent();
         String url = intent.getStringExtra("loadListUrl");
         String title = intent.getStringExtra("title");

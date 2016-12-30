@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#00000000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
     >
+
 
     <ImageView
         android:id="@id/iv"
@@ -11,40 +12,50 @@
         android:layout_height="wrap_content"
 
         />
+    <include
+        android:id="@id/iv1"
+        layout="@layout/iv_gray_alpha_bg"
+        />
+
+
+
 
     <RelativeLayout
+        android:id="@id/rl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@id/rl"
         android:layout_marginLeft="10dp"
         >
+
         <com.example.henryzheng.ccimageshare.V.NoBottomPaddingTextView
 
             android:id="@+id/tv0"
-           style="@style/TextViewStyle1"
+            style="@style/TextViewStyle1"
             android:layout_marginTop="-10dp"
-            android:text="Dec"
             android:fontFamily="sans-serif"
+            android:text="Dec"
             android:textSize="40sp"
 
             />
 
         <LinearLayout
-            android:layout_marginTop="-10dp"
-
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_toRightOf="@id/tv0"
             android:layout_alignBottom="@id/tv0"
             android:layout_marginLeft="4dip"
+            android:layout_marginTop="-10dp"
+            android:layout_toRightOf="@id/tv0"
+            android:orientation="vertical"
             >
+
             <com.example.henryzheng.ccimageshare.V.NoBottomPaddingTextView
                 android:id="@id/tv1"
                 style="@style/TextViewStyle1"
                 android:text="Dec"
                 android:textSize="11sp"
                 />
+
             <com.example.henryzheng.ccimageshare.V.NoBottomPaddingTextView
                 android:id="@id/tv2"
                 style="@style/TextViewStyle1"
@@ -55,16 +66,17 @@
         </LinearLayout>
 
     </RelativeLayout>
+
     <TextView
+        android:id="@+id/tv3"
         style="@style/TextViewStyle1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/rl"
-        android:id="@+id/tv3"
-        android:textSize="15sp"
         android:layout_marginLeft="10dip"
         android:layout_marginTop="8dip"
-        android:text="只是那天阳光正好"/>
+        android:text="只是那天阳光正好"
+        android:textSize="15sp"/>
 
     <ProgressBar
         android:id="@id/pb"
@@ -72,13 +84,15 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_above="@+id/iv"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"/>
+
     <ImageView
+        android:id="@+id/load"
         android:layout_width="30dip"
         android:layout_height="30dip"
         android:layout_centerInParent="true"
-        android:id="@+id/load"
         android:background="@drawable/load"/>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -86,21 +100,25 @@
         android:layout_alignParentRight="true"
         android:padding="7dip"
         >
+
         <ImageView
             android:id="@id/iv0"
-            android:layout_centerVertical="true"
             android:layout_width="@dimen/h4"
             android:layout_height="@dimen/h4"
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/tv4"
             android:src="@drawable/icon_flower"/>
+
         <TextView
-            android:gravity="center"
-            style="@style/TextViewStyle1"
             android:id="@id/tv4"
-            android:layout_centerVertical="true"
+            style="@style/TextViewStyle1"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
             android:text="34213"
             android:textSize="16sp"
             />
     </RelativeLayout>
+
+
 </RelativeLayout>
