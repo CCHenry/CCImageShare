@@ -33,7 +33,6 @@ public class LoadFragment extends BaseFragment {
     }
 
     private void setBgScale() {
-
         PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat("scaleX", 1f,
                 1.5f);
         PropertyValuesHolder pvhY = PropertyValuesHolder.ofFloat("scaleY", 1f,
