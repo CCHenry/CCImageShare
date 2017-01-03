@@ -5,9 +5,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
+import android.widget.Toast;
 
 import com.example.henryzheng.ccimageshare.C.Base.BaseActivity;
 import com.example.henryzheng.ccimageshare.C.Base.BaseFragment;
+import com.example.henryzheng.ccimageshare.C.Base.MyApplication;
 import com.example.henryzheng.ccimageshare.C.ImageSortType.fragment.ImageSortFragment;
 import com.example.henryzheng.ccimageshare.M.utils.CCLog;
 import com.example.henryzheng.ccimageshare.R;
@@ -24,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ContentView(R.layout.activity_main_page)
-public class MainPageActivity extends BaseActivity{
+public class MainPageActivity extends BaseActivity {
     int viewSwitch = -1;
     private List<BaseFragment> _fragments;
     @ViewInject(R.id.mainViewPager)
@@ -32,6 +35,7 @@ public class MainPageActivity extends BaseActivity{
 
     @ViewInject(R.id.switch_fg)
     private SwitchButtonFragment switchButtonFragment;
+    private long exitTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +43,16 @@ public class MainPageActivity extends BaseActivity{
 
         initFragment();
         MainPageAdapt mainPageAdapt = new MainPageAdapt(getSupportFragmentManager(), _fragments);
-        mainViewPager.setPageTransformer(true,new DepthPageTransformer());
+        mainViewPager.setPageTransformer(true, new DepthPageTransformer());
 
         mainViewPager.setAdapter(mainPageAdapt);
         mainViewPager.setCurrentItem(1);
-        SwitchButtonFragment.setOnSwitchClickListener(new SwitchButtonFragment.OnSwitchClickListner() {
+        SwitchButtonFragment.setOnSwitchClickListener(new SwitchButtonFragment
+                .OnSwitchClickListner() {
 
             @Override
             public void onClick() {
-                int position=mainViewPager.getCurrentItem();
+                int position = mainViewPager.getCurrentItem();
 
                 if (position == 0)
                     mainViewPager.setCurrentItem(1);
@@ -87,7 +92,6 @@ public class MainPageActivity extends BaseActivity{
     }
 
 
-
     private class MainPageAdapt extends FragmentPagerAdapter {
         private List<BaseFragment> _fragments;
         private boolean isCanScroll = true;
@@ -111,4 +115,33 @@ public class MainPageActivity extends BaseActivity{
             this.isCanScroll = isCanScroll;
         }
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+
+            if ((System.currentTimeMillis() - exitTime) > 2000)  //System.currentTimeMillis()
+            // 无论何时调用，肯定大于2000
+            {
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                exitOtherActivity();
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void exitOtherActivity() {
+        if (MyApplication.activitys != null) {
+            for (int i = 0; i < MyApplication.activitys.size(); i++) {
+                MyApplication.activitys.get(i).finish();
+            }
+        }
+    }
+
+
 }

@@ -5,18 +5,10 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               tools:context=".test.TestActivity">
-<ImageView
+<fragment
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scaleType="centerCrop"
-    android:id="@id/iv0"
-    android:src="@drawable/blue"
-    android:layout_above="@id/btn0"
-    />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@id/btn0"
-        android:text="set"
-        android:layout_alignParentBottom="true"/>
+    android:name="com.example.henryzheng.ccimageshare.C.Load.LoadFragment"
+    android:id="@+id/frag_load"
+    tools:layout="@layout/fragment_load"/>
 </RelativeLayout>
