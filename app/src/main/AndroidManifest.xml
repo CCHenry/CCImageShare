@@ -29,16 +29,20 @@
 
         <!-- <activity android:name=".C.main.MainPageActivity"> -->
 
-        <activity android:name=".C.Load.LoadActivity">
+        <activity android:name=".C.Load.LoadActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".C.main.MainPageActivity"/>
-        <activity android:name=".C.BigImageShow.BigImageShowActivity"/>
-        <activity android:name=".test.ImageTypeActivity"/>
+        <activity android:name=".C.main.MainPageActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".C.BigImageShow.BigImageShowActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".test.ImageTypeActivity"
+                  android:screenOrientation="portrait"/>
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -53,6 +57,7 @@
             </intent-filter>
         </activity>
         <activity
+
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>

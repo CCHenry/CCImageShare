@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.example.henryzheng.ccimageshare.M.Interface.IHandlerListener;
 
 import org.xutils.x;
@@ -30,6 +29,7 @@ public class BaseFragment extends Fragment implements IHandlerListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         injected = true;
+
         return x.view().inject(this, inflater, container);
     }
 
@@ -55,4 +55,10 @@ public class BaseFragment extends Fragment implements IHandlerListener {
         this.handler = mHandler;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+//        RefWatcher refWatcher = MyApplication.getRefWatcher(getActivity());
+//        refWatcher.watch(this);
+    }
 }

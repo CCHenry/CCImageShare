@@ -95,7 +95,6 @@ public class ImageSortFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(), ImageSortInfoListActivity.class);
                 intent.putExtra("loadListUrl",String.format(waitFormatUrl,tags[postion]));
                 intent.putExtra("title",titles[postion]);
-
                 startActivity(intent);
             }
         });
